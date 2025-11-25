@@ -1,0 +1,38 @@
+document.body.style.backgroundImage = "url('alpha.png')";
+document.body.style.backgroundSize = "cover";
+document.body.style.backgroundPosition = "center";
+document.body.style.backgroundRepeat = "no-repeat";
+
+const loginBtn = document.getElementById("loginBtn");
+const loginModal = document.getElementById("loginModal");
+const closeBtn = document.getElementById("closeBtn");
+const submitLogin = document.getElementById("submitLogin");
+
+// Open login form
+loginBtn.onclick = function () {
+  loginModal.style.display = "block";
+};
+
+// Close login form
+closeBtn.onclick = function () {
+  loginModal.style.display = "none";
+};
+
+// Close when clicking outside the box
+window.onclick = function (event) {
+  if (event.target == loginModal) {
+    loginModal.style.display = "none";
+  }
+};
+
+// Validate username & password
+submitLogin.onclick = function () {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  if (username === "" || password === "") {
+    alert("Please fill in all fields.");
+  } else {
+    alert("Login successful!");
+  }
+};
