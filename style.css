@@ -2,18 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Advent+Pro&display=swap'):
 
 
- 
-      
-.loginBtn {
+ #loginBtn {
       position: absolute;
-      bottom: 20px;
       height: 20%/* distance from bottom */
       left: 50%;              /* horizontal center */
       transform: translateX(-50%);
-      padding-top: 80%;
-      padding-right: 40%;
-      padding-bottom: 20%;
-      padding-left: 40%;
+      padding: 12px 25px)
       font-size: 18px;
       border: none;
       border-radius: 10px;
