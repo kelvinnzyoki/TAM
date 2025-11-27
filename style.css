@@ -5,7 +5,7 @@
  
       
 .loginBtn {
-      position: absolute;
+      position: bottom;
       bottom: 20px;           /* distance from bottom */
       left: 50%;              /* horizontal center */
       transform: translateX(-50%);
