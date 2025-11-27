@@ -7,7 +7,6 @@
       <style>
       /* Make the whole page fill the screen */
         html, body {
-            margin-bottom:-5;
             padding: 0;
             height: 100%;
             background-image: url("alpha1.png");
@@ -29,7 +28,6 @@
             flex-direction: column;
             margin: 0;
             padding: 0;
-            height: 100vh;
             position: fixed;
 
             /* Luminous (Neon) Green Background */
@@ -49,19 +47,21 @@
 <body>
       
       <div class="frame">
-            <!--<h1>Welcome To Alpha Man</h1>-->
-            <!--Login Button -->
-            <button id="loginBtn">Login</button>
-      
-            <!-- Login Form (Hidden by default) -->
-            <div id="loginModal" class="modal">
-                  <div class="modal-content">
-                        <span id="closeBtn">&times;</span>
-                        <h2>Login</h2>
-                        <input type="text" id="username" placeholder="Enter username">
-                        <input type="password" id="password" placeholder="Enter password">
-                        
-                        <button id="submitLogin">Submit</button>
+            <div class="body">
+                  <!--<h1>Welcome To Alpha Man</h1>-->
+                  <!--Login Button -->
+                  <button id="loginBtn">Login</button>
+                  
+                  
+                  <!-- Login Form (Hidden by default) -->
+                  <div id="loginModal" class="modal">
+                        <div class="modal-content">
+                              <span id="closeBtn">&times;</span>
+                              <h2>Login</h2>
+                              <input type="text" id="username" placeholder="Enter username">
+                              <input type="password" id="password" placeholder="Enter password">
+                              <button id="submitLogin">Submit</button>
+                        </div>
                   </div>
             </div>
       </div>
