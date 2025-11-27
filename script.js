@@ -1,3 +1,11 @@
+
+// Change background image using JavaScript
+document.body.style.backgroundImage = 'url("tAM/alpha.png")';
+document.body.style.backgroundSize = 'cover';
+document.body.style.backgroundPosition = 'center';
+document.body.style.backgroundRepeat = 'no-repeat';
+
+
 const loginBtn = document.getElementById("loginBtn");
 const loginModal = document.getElementById("loginModal");
 const closeBtn = document.getElementById("closeBtn");
