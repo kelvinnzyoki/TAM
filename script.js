@@ -1,41 +1,34 @@
-
-// Change background image using JavaScript
-document.body.style.backgroundImage = 'url("alpha1.png")';
-document.body.style.backgroundSize = 'cover';
-document.body.style.backgroundPosition = 'center';
-document.body.style.backgroundRepeat = 'no-repeat';
-
-
+// Elements
 const loginBtn = document.getElementById("loginBtn");
 const loginModal = document.getElementById("loginModal");
 const closeBtn = document.getElementById("closeBtn");
 const submitLogin = document.getElementById("submitLogin");
 
-// Open login form
-loginBtn.onclick = function () {
-  loginModal.style.display = "block";
+// Open modal
+loginBtn.onclick = () => {
+    loginModal.style.display = "flex";
 };
 
-// Close login form
-closeBtn.onclick = function () {
-  loginModal.style.display = "none";
-};
-
-// Close when clicking outside the box
-window.onclick = function (event) {
-  if (event.target == loginModal) {
+// Close modal
+closeBtn.onclick = () => {
     loginModal.style.display = "none";
-  }
 };
 
-// Validate username & password
-submitLogin.onclick = function () {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+// Close when clicking outside modal box
+window.onclick = (event) => {
+    if (event.target === loginModal) {
+        loginModal.style.display = "none";
+    }
+};
 
-  if (username === "" || password === "") {
-    alert("Please fill in all fields.");
-  } else {
-    alert("Login successful!");
-  }
+// Validate login
+submitLogin.onclick = () => {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    if (username === "" || password === "") {
+        alert("Please fill in all fields.");
+    } else {
+        alert("Login successful!");
+    }
 };
