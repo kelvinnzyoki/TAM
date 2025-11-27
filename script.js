@@ -1,6 +1,6 @@
 
 // Change background image using JavaScript
-document.body.style.backgroundImage = 'url("alpha.png")';
+document.body.style.backgroundImage = 'url("alpha1.png")';
 document.body.style.backgroundSize = 'cover';
 document.body.style.backgroundPosition = 'center';
 document.body.style.backgroundRepeat = 'no-repeat';
