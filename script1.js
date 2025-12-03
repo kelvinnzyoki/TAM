@@ -77,4 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // CREATE INSTANCE
     new SignupForm();
+}
+    document.getElementById("signupBtn").addEventListener("click", function () {
+    // Redirect to signup page
+    window.location.href = "index.html";
 });
+);
