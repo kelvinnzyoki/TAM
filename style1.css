@@ -79,7 +79,7 @@ input, select {
 }
 
 /* Sign Up Button */
-.signupBtn {
+#signupBtn2 {
     width: 100%;
     padding: 18px;
     background: #b6ac7a;
@@ -91,6 +91,6 @@ input, select {
     cursor: pointer;
 }
 
-.signupBtn:hover {
+.signupBtn2:hover {
     background: #a39a6b;
 }
