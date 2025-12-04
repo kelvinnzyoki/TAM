@@ -4,6 +4,10 @@ const loginModal = document.getElementById("loginModal");
 const closeBtn = document.getElementById("closeBtn");
 const submitLogin = document.getElementById("submitLogin");
 
+document.getElementById("signupBtn").addEventListener("click", function() {
+    window.location.href = "index1.html"; // redirect to the sign-up page
+});
+
 // Open modal
 loginBtn.onclick = () => {
     loginModal.style.display = "flex";
