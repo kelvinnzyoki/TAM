@@ -19,19 +19,20 @@ html, body {
     height: 100%;
     width: 100%;
     position: relative;
+}
 
     
 #signupBtn {
-  padding: 14px 30px;
-  font-size: 18px;
-  background: linear-gradient(45deg, #1abc9c, #16a085);
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: 0.3s;
-  top: 20px;     /* distance from top */
-  right: 20px;   /* distance from right */
+    padding: 14px 30px;
+    font-size: 18px;
+    background: linear-gradient(45deg, #1abc9c, #16a085);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    top: 20px;     /* distance from top */
+    right: 20px;   /* distance from right */
     
 }
 
