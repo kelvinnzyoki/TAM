@@ -31,6 +31,9 @@ html, body {
   border-radius: 25px;
   cursor: pointer;
   transition: 0.3s;
+  top: 20px;     /* distance from top */
+  right: 20px;   /* distance from right */
+    
 }
 
 #signupBtn:hover {
