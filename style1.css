@@ -91,6 +91,6 @@ input, select {
     cursor: pointer;
 }
 
-.signupBtn2:hover {
+#signupBtn2:hover {
     background: #a39a6b;
 }
