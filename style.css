@@ -21,6 +21,23 @@ html, body {
     position: relative;
 }
 
+
+#signupBtn {
+  padding: 14px 30px;
+  font-size: 18px;
+  background: linear-gradient(45deg, #1abc9c, #16a085);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#signupBtn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(45deg, #16a085, #1abc9c);
+}
+
 /* LOGIN BUTTON (Bottom Center) */
 #loginBtn {
     position: absolute;
