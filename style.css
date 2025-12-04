@@ -23,14 +23,15 @@ html, body {
 
     
 #signupBtn {
-  padding: 12px 25px;
-  font-size: 18px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  
+    position: absolute;
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
 }
 
 #signupBtn:hover {
