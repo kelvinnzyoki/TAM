@@ -36,3 +36,20 @@ submitLogin.onclick = () => {
         alert("Login successful!");
     }
 };
+
+
+document.getElementById("submitLogin").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let savedEmail = localStorage.getItem("userEmail");
+    let savedPassword = localStorage.getItem("userPassword");
+
+    let inputEmail = document.getElementById("loginEmail").value;
+    let inputPassword = document.getElementById("loginPassword").value;
+
+    if (inputEmail === savedEmail && inputPassword === savedPassword) {
+        window.location.href = "index2.html"; // Move to menu page
+    } else {
+        alert("Wrong email or password");
+    }
+});
