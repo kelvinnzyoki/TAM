@@ -69,8 +69,21 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("User registered:", userData);
 
             alert("🎉 Account created successfully!");
+            
+            
+            
+document.getElementById("SignupForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-            // Reset inputs after success
+    // Save signup values to localStorage
+    localStorage.setItem("userEmail", document.getElementById("email").value);
+    localStorage.setItem("userPassword", document.getElementById("password").value);
+
+    // Navigate to login page
+    window.location.href = "index.html";
+});
+
+            // Reset inputs after success //
             this.form.reset();
         }
     }
