@@ -19,12 +19,8 @@ html, body {
     height: 100%;
     width: 100%;
     position: relative;
-    body {
-  position: relative;
-    }
-}
 
-
+    
 #signupBtn {
   padding: 14px 30px;
   font-size: 18px;
