@@ -23,17 +23,17 @@ html, body {
 
     
 #signupBtn {
-    padding: 14px 30px;
-    font-size: 18px;
-    background: linear-gradient(45deg, #1abc9c, #16a085);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: 0.3s;
-    top: 20px;     /* distance from top */
-    left: 20px;   /* distance from right */
-    
+  padding: 12px 25px;
+  font-size: 18px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#signupBtn:hover {
+  background-color: #218838;
 }
 
 #signupBtn:hover {
