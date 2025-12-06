@@ -53,6 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             return true;
         }
+     // Helper function for email validation (assuming you had one)
+        isValidEmail(email) {
+            // Simple regex for demonstration
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
         
         // SAVE USER + REDIRECT
         submitForm() {
