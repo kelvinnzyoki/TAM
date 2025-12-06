@@ -33,7 +33,7 @@ submitLogin.onclick = () => {
     if (username === "" || password === "") {
         alert("Please fill in all fields.");
     } else {
-        window.location.href = "index2.html"; // redirect to the sign-up page
         alert("Login successful!");
+        window.location.href = "index2.html"; // redirect to the sign-up page
     }
 };
