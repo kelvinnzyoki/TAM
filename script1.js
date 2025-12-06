@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const userData = {
             fullName: this.nameInput.value.trim(),
             email: this.emailInput.value.trim(),
-            password: this.passwordInput.value.trim(),
+            //password: this.passwordInput.value.trim(),
             dob: this.dobSelect.value
             };
             localStorage.setItem("userData", JSON.stringify(userData));
