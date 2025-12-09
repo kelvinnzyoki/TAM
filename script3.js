@@ -14,13 +14,13 @@ relapseCheck.addEventListener("change", () => {
 let currentScore = null; // Variable to store the selected score
 
 const recordBtn = document.getElementById('recordBtn');
-const clickableBoxes = document.querySelectorAll('.clickable-box');
+const customBoxes = document.querySelectorAll('.custom-box');
 
 // --- A. Handle Box Selection and Hidden Score Assignment ---
-custom-box.forEach(box => {
+customBoxes.forEach(box => {
     box.addEventListener('click', function() {
         // 1. Deselect all boxes (removes the checkmark visual)
-        custom-box.forEach(b => b.classList.remove('selected'));
+        customBoxes.forEach(b => b.classList.remove('selected'));
         
         // 2. Select the clicked box
         this.classList.add('selected');
