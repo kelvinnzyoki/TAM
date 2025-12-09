@@ -9,3 +9,66 @@ avoidCheck.addEventListener("change", () => {
 relapseCheck.addEventListener("change", () => {
     console.log("Relapsed ticked:", relapseCheck.checked);
 });
+
+
+let currentScore = null; // Variable to store the selected score
+
+const recordBtn = document.getElementById('recordBtn');
+const clickableBoxes = document.querySelectorAll('.clickable-box');
+
+// --- A. Handle Box Selection and Hidden Score Assignment ---
+clickableBoxes.forEach(box => {
+    box.addEventListener('click', function() {
+        // 1. Deselect all boxes (removes the checkmark visual)
+        clickableBoxes.forEach(b => b.classList.remove('selected'));
+        
+        // 2. Select the clicked box
+        this.classList.add('selected');
+        
+        // 3. Get the score from the HIDDEN data attribute and save it
+        // The score is extracted from the 'data-score' attribute (e.g., "90" or "5")
+        currentScore = parseInt(this.getAttribute('data-score'));
+        console.log('Score selected (User does not see this):', currentScore);
+        
+        // 4. Enable the record button
+        recordBtn.disabled = false;
+    });
+});
+
+// --- B. Handle the Record Button Click ---
+recordBtn.addEventListener('click', function() {
+    if (currentScore === null) {
+        alert("Please select a box before recording.");
+        return;
+    }
+
+    const dataToRecord = {
+        date: new Date().toISOString(), 
+        score: currentScore // This is the hidden score (90 or 5)
+    };
+
+    // Send the data to your server endpoint
+    fetch('/api/record-score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToRecord),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server response failed');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Score recorded successfully.');
+        
+        // Navigate to a new webpage after success
+        window.location.href = 'index2.html'; 
+    })
+    .catch((error) => {
+        console.error('Error recording data:', error);
+        alert('Could not record score. Please try again.');
+    });
+});
