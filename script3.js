@@ -24,13 +24,18 @@ customBoxes.forEach(box => {
         
         // 2. Select the clicked box
         this.classList.add('selected');
+
+        // 3. Get the score from the checkbox INPUT that is INSIDE the parent <label>
+        // Use 'closest' to find the parent 'row', then use 'querySelector' to find the input within it.
+        const input = this.closest('.row').querySelector('input[type="checkbox"]');
+    
         
-        // 3. Get the score from the HIDDEN data attribute and save it
+        // 4. Get the score from the HIDDEN data attribute and save it
         // The score is extracted from the 'data-score' attribute (e.g., "90" or "5")
         currentScore = parseInt(this.getAttribute('data-score'));
         console.log('Score selected (User does not see this):', currentScore);
         
-        // 4. Enable the record button
+        // 5. Enable the record button
         recordBtn.disabled = false;
     });
 });
