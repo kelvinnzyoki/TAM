@@ -17,10 +17,10 @@ const recordBtn = document.getElementById('recordBtn');
 const clickableBoxes = document.querySelectorAll('.clickable-box');
 
 // --- A. Handle Box Selection and Hidden Score Assignment ---
-clickableBoxes.forEach(box => {
+custom-box.forEach(box => {
     box.addEventListener('click', function() {
         // 1. Deselect all boxes (removes the checkmark visual)
-        clickableBoxes.forEach(b => b.classList.remove('selected'));
+        custom-box.forEach(b => b.classList.remove('selected'));
         
         // 2. Select the clicked box
         this.classList.add('selected');
