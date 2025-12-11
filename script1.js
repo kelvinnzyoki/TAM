@@ -60,16 +60,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         // SAVE USER + REDIRECT
-        submitForm() {
-          const userData = {
-            fullName: this.nameInput.value.trim(),
+document.getElementById("signupBtn").addEventListener("click", () => {
+ const userData = {
+  fullName: this.nameInput.value.trim(),
             email: this.emailInput.value.trim(),
             //password: this.passwordInput.value.trim(),
             dob: this.dobSelect.value
             };
-            localStorage.setItem("userData", JSON.stringify(userData));
-            alert("🎉 Account created successfully!");
-            window.location.href = "index.html";
+ 
+ fetch("http://localhost:5000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        alert(data.message);
+    });
+ window.location.href = "index.html";
+ 
+});
+          
+            
   
   // Reset inputs after success
   this.form.reset();
