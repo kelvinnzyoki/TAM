@@ -48,6 +48,7 @@ recordBtn.addEventListener('click', function() {
     }
 
     const dataToRecord = {
+        username
         date: new Date().toISOString(), 
         score: currentScore // This is the hidden score (90 or 5)
     };
