@@ -30,10 +30,24 @@ submitLogin.onclick = () => {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    if (username === "" || password === "") {
-        alert("Please fill in all fields.");
-    } else {
-        alert("Login successful!");
-        window.location.href = "index2.html"; // redirect to the sign-up page
-    }
-};
+
+fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+
+        if (data.username) {
+            alert("Login successful! Welcome " + data.username);
+            // Example: redirect to your main workout page
+            window.location.href = "index2.html";
+        } else {
+            alert(data.message);
+        }
+    });
+});
+
+
