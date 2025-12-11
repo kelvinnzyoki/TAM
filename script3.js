@@ -54,7 +54,7 @@ recordBtn.addEventListener('click', function() {
     };
 
     // Send the data to your server endpoint
-    fetch('/api/record-score', {
+    fetch("/api/record", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
