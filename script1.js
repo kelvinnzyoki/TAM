@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
  class SignupForm {
   constructor() {
    this.form = document.querySelector("form");
-   this.nameInput = document.querySelector("input[type='text']");
+   this.usernameInput = document.querySelector("input[type='text']");
    this.emailInput = document.querySelector("input[type='email']");
    this.passwordInput = document.querySelector("input[type='password']");
    this.dobSelect = document.querySelector("select");
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // VALIDATION LOGIC
   
   validateForm() {
-   const name = this.nameInput.value.trim();
+   const name = this.usernameInput.value.trim();
    const email = this.emailInput.value.trim();
    const password = this.passwordInput.value.trim();
    const dob = this.dobSelect.value;
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
         async submitForm() {
             // 1. Collect all required data
             const userData = {
-                fullName: this.nameInput.value.trim(),
+                fullName: this.usernameInput.value.trim(),
                 email: this.emailInput.value.trim(),
                 // Include password if your server needs it for hashing
                 password: this.passwordInput.value.trim(), 
