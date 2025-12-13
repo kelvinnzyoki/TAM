@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   initialize() {
-   this.SignupForm.addEventListener("submit", (e) => {
+   this.form.addEventListener("submit", (e) => {
     e.preventDefault();  // prevent page reload
     
     if (this.validateForm()) {
