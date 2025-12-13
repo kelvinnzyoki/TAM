@@ -68,7 +68,7 @@ document.getElementById("signupBtn").addEventListener("click", () => {
             dob: this.dobSelect.value
             };
  
- fetch("http://localhost:5000/signup", {
+ fetch("http://"mybackend-production-b618.up.railway.app/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, email, password })
