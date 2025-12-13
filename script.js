@@ -31,7 +31,7 @@ submitLogin.onclick = () => {
     const password = document.getElementById("password").value;
 
 
-fetch("mybackend-production-b618.up.railway.app/login", {
+fetch("https://mybackend-production-b618.up.railway.app//login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
