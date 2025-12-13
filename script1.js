@@ -1,6 +1,8 @@
 // SIGN UP PAGE FUNCTIONALITY
 document.addEventListener("DOMContentLoaded", () => {
  
+ const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
+ 
  
  class SignupForm {
   constructor() {
