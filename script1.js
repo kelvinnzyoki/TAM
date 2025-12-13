@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
         async submitForm() {
             // 1. Collect all required data
             const userData = {
-                fullName: this.usernameInput.value.trim(),
+                username: this.usernameInput.value.trim(),
                 email: this.emailInput.value.trim(),
                 // Include password if your server needs it for hashing
                 password: this.passwordInput.value.trim(), 
