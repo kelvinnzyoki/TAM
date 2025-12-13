@@ -1,7 +1,7 @@
 // SIGN UP PAGE FUNCTIONALITY
 document.addEventListener("DOMContentLoaded", () => {
  
- const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
+ //const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
  
  
  class SignupForm {
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             
             try {
                 // 2. Send data to the server and AWAIT the response
-                const response = await fetch(SERVER_URL, {
+                const response = await fetch("https://mybackend-production-b618.up.railway.app/signup", {
                     method: "POST",
                     headers: { 
                         "Content-Type": "application/json" 
