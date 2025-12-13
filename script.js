@@ -26,28 +26,30 @@ window.onclick = (event) => {
 };
 
 // Validate login
-submitLogin.onclick = () => {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
 
+document.getElementById("submitLogin").addEventListener("click", () => {
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-fetch("https://mybackend-production-b618.up.railway.app/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-    })
+  fetch("https://mybackend-production-b618.up.railway.app/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ username, password })
+  })
     .then(res => res.json())
     .then(data => {
-        console.log(data);
-
-        if (data.username) {
-            alert("Login successful! Welcome " + data.username);
-            // Example: redirect to your main workout page
-            window.location.href = "index2.html";
-        } else {
-            alert(data.message);
-        }
+      if (data.username) {
+        alert("Login successful");
+        window.location.href = "index2.html";
+      } else {
+        alert(data.message);
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Server error");
     });
 });
-
 
