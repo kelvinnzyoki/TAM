@@ -61,43 +61,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---------------- SAVE USER + REDIRECT ----------------
     async submitForm() {
-      const userData = {
-        username: this.usernameInput.value.trim(),
-        email: this.emailInput.value.trim(),
-        password: this.passwordInput.value.trim(),
-        dob: this.dobSelect.value,
-      };
+  const userData = {
+    username: this.usernameInput.value.trim(),
+    email: this.emailInput.value.trim(),
+    password: this.passwordInput.value.trim(),
+    dob: this.dobSelect.value,
+  };
 
-      try {
-        const response = await fetch(SERVER_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        });
+  // Disable submit button to prevent double clicks
+  const submitBtn = this.form.querySelector("button[type='submit']");
+  if (submitBtn) submitBtn.disabled = true;
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.message || `HTTP error! Status: ${response.status}`
-          );
-        }
+  // Abort request if it takes too long
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-        const data = await response.json();
+  try {
+    const response = await fetch(SERVER_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: JSON.stringify(userData),
+      signal: controller.signal,
+    });
 
-        console.log("Server Response:", data);
-        alert(data.message || "🎉 Account created successfully!");
+    clearTimeout(timeoutId);
 
-        // Redirect after success
-        window.location.href = "index.html";
-      } catch (error) {
-        console.error("Signup failed:", error);
-        alert(`Error: ${error.message}. Please try again.`);
-      } finally {
-        this.form.reset();
-      }
+    let data;
+    const contentType = response.headers.get("content-type");
+
+    // Safely parse response
+    if (contentType && contentType.includes("application/json")) {
+      data = await response.json();
+    } else {
+      throw new Error("Server returned an invalid response");
     }
+
+    if (!response.ok) {
+      throw new Error(data.message || "Signup failed");
+    }
+
+    console.log("Signup success:", data);
+    alert(data.message || "🎉 Account created successfully!");
+
+    // Reset form ONLY after success
+    this.form.reset();
+    window.location.href = "index.html";
+
+  } catch (error) {
+    if (error.name === "AbortError") {
+      alert("Request timed out. Please check your internet connection.");
+    } else {
+      console.error("Signup error:", error);
+      alert(error.message || "Something went wrong. Try again.");
+    }
+  } finally {
+    if (submitBtn) submitBtn.disabled = false;
+  }
+    }
+    
   }
 
   // ---------------- CREATE INSTANCE ----------------
