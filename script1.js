@@ -76,7 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-  try {
+  const handleSubmit = async (event) => {
+  event.preventDefault();
+    try {
     const response = await fetch(SERVER_URL, {
       method: "POST",
       headers: {
