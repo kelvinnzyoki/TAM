@@ -1,7 +1,7 @@
 // SIGN UP PAGE FUNCTIONALITY
 document.addEventListener("DOMContentLoaded", () => {
-  const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
-
+  
+  
   class SignupForm {
     constructor() {
       this.form = document.getElementById("signupForm");
@@ -73,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 30000);
-      
       try {
-    const response = await fetch(SERVER_URL, {
+        const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
+        const response = await fetch(SERVER_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
