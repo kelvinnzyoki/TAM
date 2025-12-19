@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       this.emailInput = document.getElementById("email");
       this.passwordInput = document.getElementById("password");
       this.dobSelect = document.getElementById("dob");
-      //this.submitBtn = document.getElementById("submitBtn");
+      this.signupBtn = document.getElementById("signupBtn");
       
       this.initialize();
     }
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Check for empty string or "Select"
-      if (!dob === "Select") {
+      if (!dob || dob === "Select") {
         alert("Please choose your year of birth.");
         return false;
       }
@@ -76,8 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
         dob: this.dobSelect.value,
       };
 
-      const submitBtn = document.getElementById("submitBtn");
-      if (this.submitBtn) this.submitBtn.disabled = true;
+      
+      if (this.signupBtn) this.signupBtn.disabled = true;
 
       const controller = new AbortController();
       // Increased to 30 seconds to prevent "Signal Aborted" on slow Railway wake-ups
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert(error.message || "Signup failed. Please try again.");
         }
       } finally {
-        if (this.submitBtn) this.submitBtn.disabled = false;
+        if (this.signupBtn) this.signupBtn.disabled = false;
       }
     }
   }
