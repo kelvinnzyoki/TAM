@@ -68,17 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
     dob: this.dobSelect.value,
   };
 
-  // Disable submit button to prevent double clicks
   const submitBtn = this.form.querySelector("button[type='submit']");
   if (submitBtn) submitBtn.disabled = true;
 
-  // Abort request if it takes too long
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
 
-  const handleSubmit = async (event) => {
-  event.preventDefault();
-    try {
+  try {
     const response = await fetch(SERVER_URL, {
       method: "POST",
       headers: {
@@ -91,33 +87,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     clearTimeout(timeoutId);
 
-    let data;
-    const contentType = response.headers.get("content-type");
-
-    // Safely parse response
-    if (contentType && contentType.includes("application/json")) {
-      data = await response.json();
-    } else {
-      throw new Error("Server returned an invalid response");
-    }
+    const data = await response.json(); // Most backends return JSON
 
     if (!response.ok) {
       throw new Error(data.message || "Signup failed");
     }
 
-    console.log("Signup success:", data);
     alert(data.message || "🎉 Account created successfully!");
-
-    // Reset form ONLY after success
     this.form.reset();
     window.location.href = "index.html";
 
   } catch (error) {
     if (error.name === "AbortError") {
-      alert("Request timed out. Please check your internet connection.");
+      alert("Request timed out. Please try again.");
     } else {
       console.error("Signup error:", error);
-      alert(error.message || "Something went wrong. Try again.");
+      alert(error.message || "Signup failed. Please try again.");
     }
   } finally {
     if (submitBtn) submitBtn.disabled = false;
