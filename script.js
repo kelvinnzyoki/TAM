@@ -42,9 +42,10 @@ document.getElementById("submitLogin").addEventListener("click", () => {
     .then(data => {
       if (data.email) {
         alert("Login successful");
-          window.location.href = "index2.html";
+          
       } else {
         alert(data.message);
+          window.location.href = "index2.html";
       }
     })
     .catch(err => {
