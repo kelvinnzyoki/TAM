@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginModal = document.getElementById("loginModal");
     const closeBtn = document.getElementById("closeBtn");
     const loginForm = document.getElementById("loginForm");
-    const submitBtn = document.getElementById("submitLogin");
+    const submitLogin = document.getElementById("submitLogin");
     const signupBtn = document.getElementById("signupBtn");
 
     // Signup button
@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("Server error. Please try again.");
             } finally {
                 // Re-enable button (only runs if redirect didn't happen)
-                submitBtn.disabled = false;
-                submitBtn.innerText = "Login";
+                submitLogin.disabled = false;
+                submitLogin.innerText = "Login";
             }
         });
     }
