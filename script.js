@@ -28,7 +28,7 @@ window.onclick = (event) => {
 // Validate login
 
 document.getElementById("submitLogin").addEventListener("click", () => {
-  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   fetch("https://mybackend-production-b618.up.railway.app/login", {
@@ -36,11 +36,11 @@ document.getElementById("submitLogin").addEventListener("click", () => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ email, password })
   })
     .then(res => res.json())
     .then(data => {
-      if (data.username) {
+      if (data.email) {
         alert("Login successful");
         window.location.href = "index2.html";
       } else {
