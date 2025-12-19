@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       this.emailInput = document.getElementById("email");
       this.passwordInput = document.getElementById("password");
       this.dobSelect = document.getElementById("dob");
-      this.submitBtn = document.getElementById("submitBtn");
+      //this.submitBtn = document.getElementById("submitBtn");
       
       this.initialize();
     }
