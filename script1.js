@@ -1,22 +1,30 @@
 // SIGN UP PAGE FUNCTIONALITY
 document.addEventListener("DOMContentLoaded", () => {
   
-  
+  // Define URL once at the top
+  const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
+
   class SignupForm {
     constructor() {
+      // Ensure these IDs match your HTML exactly
       this.form = document.getElementById("signupForm");
       this.usernameInput = document.getElementById("username");
       this.emailInput = document.getElementById("email");
       this.passwordInput = document.getElementById("password");
       this.dobSelect = document.getElementById("dob");
-      
+      this.submitBtn = document.getElementById("submitBtn");
       
       this.initialize();
     }
 
     initialize() {
+      if (!this.form) {
+        console.error("Form not found! Check your HTML ID.");
+        return;
+      }
+
       this.form.addEventListener("submit", (e) => {
-        e.preventDefault(); // prevent page reload
+        e.preventDefault(); 
 
         if (this.validateForm()) {
           this.submitForm();
@@ -31,8 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const password = this.passwordInput.value.trim();
       const dob = this.dobSelect.value;
 
-      if (username === "") {
-        alert("Please enter your full name.");
+      if (!username) {
+        alert("Please enter a username.");
         return false;
       }
 
@@ -41,12 +49,13 @@ document.addEventListener("DOMContentLoaded", () => {
         return false;
       }
 
-      if (password.length < 6) {
-        alert("Password must be at least 6 characters long.");
+      if (password.length < 8) {
+        alert("Password must be at least 8 characters long for better security.");
         return false;
       }
 
-      if (dob === "Select") {
+      // Check for empty string or "Select"
+      if (!dob || dob === "Select") {
         alert("Please choose your year of birth.");
         return false;
       }
@@ -54,61 +63,61 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     }
 
-    // Helper function for email validation
     isValidEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
     // ---------------- SAVE USER + REDIRECT ----------------
     async submitForm() {
-  const userData = {
-    username: this.usernameInput.value.trim(),
-    email: this.emailInput.value.trim(),
-    password: this.passwordInput.value.trim(),
-    dob: this.dobSelect.value,
-  };
+      const userData = {
+        username: this.usernameInput.value.trim(),
+        email: this.emailInput.value.trim(),
+        password: this.passwordInput.value.trim(),
+        dob: this.dobSelect.value,
+      };
 
-  const submitBtn = document.getElementById("submitBtn");
-      if (submitBtn) submitBtn.disabled = true;
+      if (this.submitBtn) this.submitBtn.disabled = true;
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000);
+      const controller = new AbortController();
+      // Increased to 30 seconds to prevent "Signal Aborted" on slow Railway wake-ups
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+
       try {
-        const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
         const response = await fetch(SERVER_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-      body: JSON.stringify(userData),
-      signal: controller.signal,
-    });
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify(userData),
+          signal: controller.signal,
+        });
 
-    clearTimeout(timeoutId);
+        clearTimeout(timeoutId);
 
-    const data = await response.json(); // Most backends return JSON
+        const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || "Signup failed");
+        if (!response.ok) {
+          // This catches 400, 409, and 500 errors from your backend
+          throw new Error(data.message || "Signup failed");
+        }
+
+        alert(data.message || "🎉 Account created successfully!");
+        this.form.reset();
+        window.location.href = "index.html";
+
+      } catch (error) {
+        // FIXED: Changed error.username to error.name
+        if (error.name === "AbortError") {
+          alert("Request timed out. The server is taking too long to respond.");
+        } else {
+          console.error("Signup error details:", error);
+          alert(error.message || "Signup failed. Please try again.");
+        }
+      } finally {
+        if (this.submitBtn) this.submitBtn.disabled = false;
+      }
     }
-
-    alert(data.message || "🎉 Account created successfully!");
-    this.form.reset();
-    window.location.href = "index.html";
-
-  } catch (error) {
-    if (error.username === "AbortError") {
-      alert("Request timed out. Please try again.");
-    } else {
-      console.error("Signup error:", error);
-      alert(error.message || "Signup failed. Please try again.");
-    }
-  } finally {
-    if (submitBtn) submitBtn.disabled = false;
-  }
-    }
-    
   }
 
   // ---------------- CREATE INSTANCE ----------------
