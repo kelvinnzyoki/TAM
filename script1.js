@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (submitBtn) submitBtn.disabled = true;
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000);
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
       try {
         const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
         const response = await fetch(SERVER_URL, {
