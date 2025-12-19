@@ -1,7 +1,6 @@
 // SIGN UP PAGE FUNCTIONALITY
 document.addEventListener("DOMContentLoaded", () => {
-  const SERVER_URL =
-    "https://mybackend-production-b618.up.railway.app/signup";
+  const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
 
   class SignupForm {
     constructor() {
@@ -26,12 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ---------------- VALIDATION LOGIC ----------------
     validateForm() {
-      const name = this.usernameInput.value.trim();
+      const username = this.usernameInput.value.trim();
       const email = this.emailInput.value.trim();
       const password = this.passwordInput.value.trim();
       const dob = this.dobSelect.value;
 
-      if (name === "") {
+      if (username === "") {
         alert("Please enter your full name.");
         return false;
       }
@@ -98,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "index.html";
 
   } catch (error) {
-    if (error.name === "AbortError") {
+    if (error.username === "AbortError") {
       alert("Request timed out. Please try again.");
     } else {
       console.error("Signup error:", error);
