@@ -27,11 +27,23 @@ window.onclick = (event) => {
 
 // Validate login
 
-document.getElementById("submitLogin").addEventListener("click", () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+// 1. Target the FORM, not just the button
+const loginForm = document.getElementById("loginForm");
 
-  fetch("https://mybackend-production-b618.up.railway.app/login", {
+loginForm.addEventListener("submit", async (event) => {
+    // 2. STOP the page from refreshing (the default behavior)
+    event.preventDefault();
+
+    // 3. Get your values
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const submitBtn = document.getElementById("submitLogin");
+
+    // Disable button to show loading state
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Processing...";
+    document.getElementById("submitLogin").addEventListener("click", () => {
+        fetch("https://mybackend-production-b618.up.railway.app/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
