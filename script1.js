@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dob: this.dobSelect.value,
       };
 
+      const submitBtn = document.getElementById("submitBtn");
       if (this.submitBtn) this.submitBtn.disabled = true;
 
       const controller = new AbortController();
