@@ -4,12 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   class SignupForm {
     constructor() {
-      this.form = document.querySelector("form");
-      this.usernameInput = document.querySelector("input[type='text']");
-      this.emailInput = document.querySelector("input[type='email']");
-      this.passwordInput = document.querySelector("input[type='password']");
-      this.dobSelect = document.querySelector("select");
-
+      this.form = document.getElementById("signupForm");
+      this.usernameInput = document.getElementById("username");
+      this.emailInput = document.getElementById("email");
+      this.passwordInput = document.getElementById("password");
+      this.dobSelect = document.getElementById("dob");
+      
+      
       this.initialize();
     }
 
@@ -67,13 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
     dob: this.dobSelect.value,
   };
 
-  const submitBtn = this.form.querySelector("button[type='submit']");
-  if (submitBtn) submitBtn.disabled = true;
+  const submitBtn = document.getElementById("submitBtn");
+      if (submitBtn) submitBtn.disabled = true;
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-  try {
+      
+      try {
     const response = await fetch(SERVER_URL, {
       method: "POST",
       headers: {
