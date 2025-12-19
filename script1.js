@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Check for empty string or "Select"
-      if (!dob || dob === "Select") {
+      if (dob === "Select") {
         alert("Please choose your year of birth.");
         return false;
       }
