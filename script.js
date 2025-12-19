@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById("password").value;
 
             // Show loading state
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Processing...";
+            submitLogin.disabled = true;
+            submitLogin.innerText = "Processing...";
 
             try {
                 const response = await fetch("https://mybackend-production-b618.up.railway.app/login", {
