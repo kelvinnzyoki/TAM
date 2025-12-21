@@ -1,4 +1,4 @@
-/*//You can expand behavior later. For now, this just listens.
+//You can expand behavior later. For now, this just listens.
 const avoidCheck = document.getElementById("avoidCheck");
 const relapseCheck = document.getElementById("relapseCheck");
 
@@ -11,7 +11,7 @@ relapseCheck.addEventListener("change", () => {
 });
 
 
-const recordBtn = document.getElementById('recordBtn');
+/*const recordBtn = document.getElementById('recordBtn');
 const customBoxes = document.querySelectorAll('.custom-box');
 let currentScore = null;
 
