@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
+                    localStorage.setItem("userEmail", email);
                     alert("Login successful, {data.user.username}!");
                     window.location.href = "index2.html";
                 } else {
