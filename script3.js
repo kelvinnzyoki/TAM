@@ -34,13 +34,14 @@ customBoxes.forEach(box => {
 
 // --- B. Handle the Record Button Click ---
 recordBtn.addEventListener('click', async function() {
+    const email = document.getElementById("userEmailConfirm").value;
     if (currentScore === null) {
         alert("Please select a box before recording.");
         return;
     }
     
     // FIXED: Get email from localStorage (Saved during Login)
-    const email = localStorage.getItem("userEmail");
+    //const email = localStorage.getItem("userEmail");
 
     if (!email) {
         alert("User session not found. Please log in again.");
