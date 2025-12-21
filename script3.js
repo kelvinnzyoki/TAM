@@ -34,7 +34,7 @@ customBoxes.forEach(box => {
 
 // --- B. Handle the Record Button Click ---
 recordBtn.addEventListener('click', async function() {
-    const email = document.getElementById("userEmailConfirm").value;
+    const email = document.getElementById("email").value;
     if (currentScore === null) {
         alert("Please select a box before recording.");
         return;
