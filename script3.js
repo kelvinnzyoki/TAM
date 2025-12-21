@@ -45,7 +45,7 @@ recordBtn.addEventListener('click', async function() {
 
     if (!email) {
         alert("User session not found. Please log in again.");
-        window.location.href = "login.html"; // Redirect to login if email is missing
+        window.location.href = "index2.html"; // Redirect to login if email is missing
         return;
     }
 
