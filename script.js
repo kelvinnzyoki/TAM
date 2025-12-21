@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    alert("Login successful, ${data.user.username}!");
+                    alert("Login successful, {data.user.username}!");
                     window.location.href = "index2.html";
                 } else {
                     alert(data.message || "Login failed");
