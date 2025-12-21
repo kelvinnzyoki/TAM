@@ -64,7 +64,7 @@ recordBtn.addEventListener('click', function() {
     };
 
     // Send the data to your server endpoint
-    fetch("/api/record", {
+    fetch("https://mybackend-production-b618.up.railway.app/record", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
