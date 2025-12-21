@@ -7,43 +7,39 @@
     <link rel="stylesheet" href="style3.css">
 </head>
 <body>
-
-    <div class="container">
-
-        <h1>MASTURBATION</h1>
-        <p class="subtitle">(Any other)</p>
-
-        <div class="row">
-            <input type="email" id="email" placeholder="Enter your login email" required>
+    
+    
+    <form id="recordForm">
+        <div class="container">
+            <h1>MASTURBATION</h1>
+            <p class="subtitle">(Any other)</p>
+            
+            <input type="email" id="email" placeholder="Confirm your email" required style="margin-bottom: 20px;">
+            
+            
+            <!--Avoided-->
+            <div class="row">
+                <label class="checkbox-container">
+                    <input type="radio" name="scoreGroup" class="score-input" data-score="50">
+                    <span class="custom-box"></span> Avoided (50 pts)
+                </label>
+            
+            </div>
+            
+            <!--Relapsed-->
+            <div class="row">
+                <label class="checkbox-container">
+                    <input type="radio" name="scoreGroup" class="score-input" data-score="5">
+                    <span class="custom-box"></span> Relapsed (5 pts)
+                </label>
+            </div>
+            
+            <button type="submit" id="recordBtn" disabled>Record & Go!</button>
+        
         </div>
-        <button id="recordBtn" disabled>Record & Go!</button>
+    </form>
         
 
-        <!-- Avoided -->
-        <div class="row">
-            <span class="label">Avoided</span>
-
-            <label class="checkbox-container">
-                <input type="checkbox" id="avoidCheck" data-score="50">
-                <span class="custom-box"></span>
-            </label>
-
-            <span class="points">• pts</span>
-        </div>
-
-        <!-- Relapsed -->
-        <div class="row">
-            <span class="label">Relapsed</span>
-
-            <label class="checkbox-container">
-                <input type="checkbox" id="relapseCheck" data-score="5">
-                <span class="custom-box"></span>
-            </label>
-
-            <span class="points">• pts</span>
-        </div>
-
-    </div>
 
 <script src="script3.js"></script>
 </body>
