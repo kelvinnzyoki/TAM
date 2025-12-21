@@ -1,84 +1,45 @@
-//You can expand behavior later. For now, this just listens.
-const avoidCheck = document.getElementById("avoidCheck");
-const relapseCheck = document.getElementById("relapseCheck");
-
-avoidCheck.addEventListener("change", () => {
-    console.log("Avoided ticked:", avoidCheck.checked);
-});
-
-relapseCheck.addEventListener("change", () => {
-    console.log("Relapsed ticked:", relapseCheck.checked);
-});
-
-
-const recordBtn = document.getElementById('recordBtn');
-const customBoxes = document.querySelectorAll('.custom-box');
-let currentScore = null;
-
-// --- A. Handle Box Selection ---
-customBoxes.forEach(box => {
-    box.addEventListener('click', function() {
-        // 1. Visual selection
-        customBoxes.forEach(b => b.classList.remove('selected'));
-        this.classList.add('selected');
-
-        // 2. FIXED: Find the input nearby to get the score
-        const input = this.closest('.row').querySelector('input[type="radio"]');
-        if (input) {
-            currentScore = parseInt(input.getAttribute('data-score'));
-            console.log('Score selected:', currentScore);
-            recordBtn.disabled = false; // Enable button
-        }
-    });
-});
-
-// --- B. Handle the Record Button Click ---
-recordBtn.addEventListener('click', async function() {
-    const email = document.getElementById("email").value;
-    if (currentScore === null) {
-        alert("Please select a box before recording.");
-        return;
-    }
-    
-    // FIXED: Get email from localStorage (Saved during Login)
-    //const email = localStorage.getItem("userEmail");
-
-    if (!email) {
-        alert("User session not found. Please log in again.");
-        window.location.href = "index2.html"; // Redirect to login if email is missing
-        return;
-    }
-
-    const dataToRecord = {
-        email: email,
-        date: new Date().toISOString(), 
-        score: currentScore 
-    };*/
+// 1. Elements
 const recordForm = document.getElementById("recordForm");
-//const recordBtn = document.getElementById("recordBtn");
-const inputs = document.querySelectorAll(".score-input");
+const recordBtn = document.getElementById("recordBtn");
+const scoreInputs = document.querySelectorAll('input[name="scoreGroup"]');
 
-// Enable button when a choice is made
-inputs.forEach(input => {
+// 2. Handle Button Enabling
+// This makes the button clickable only after a score is picked
+scoreInputs.forEach(input => {
     input.addEventListener("change", () => {
         recordBtn.disabled = false;
+        console.log("Score selected:", input.getAttribute("data-score"));
     });
 });
 
+// 3. Handle Form Submission
 recordForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); // VERY IMPORTANT for type="submit"
+    e.preventDefault(); // Prevents the phone from refreshing the page
+
+    // Get values from the form
+    const email = document.getElementById("email").value.trim();
+    const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
     
-    const email = document.getElementById("email").value;
-    const selectedInput = document.querySelector(".score-input:checked");
-    const score = selectedInput.getAttribute("data-score");
+    if (!selectedInput) {
+        alert("Please select a category first.");
+        return;
+    }
 
-    // Fetch call to Railway...
-    console.log(`Sending ${score} for ${email} to PostgreSQL`);
-});
+    const score = parseInt(selectedInput.getAttribute("data-score"));
 
+    // Prepare data for PostgreSQL
+    const dataToRecord = {
+        email: email,
+        date: new Date().toISOString(),
+        score: score
+    };
 
-try {
-        // FIXED: Added '/api' to match the backend route
+    // UI State: Disable button while sending
+    recordBtn.disabled = true;
+    recordBtn.innerText = "Saving...";
+
+    try {
+        // NOTE: Ensure your backend route is "/api/record" or "/record"
         const response = await fetch("https://mybackend-production-b618.up.railway.app/record", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -88,18 +49,17 @@ try {
         const data = await response.json();
 
         if (response.ok) {
-            console.log('Success:', data.message);
+            alert("✅ Data saved to PostgreSQL!");
             window.location.href = 'index2.html'; 
         } else {
-            alert(data.error || "Failed to record");
+            alert("❌ Error: " + (data.error || data.message));
+            recordBtn.disabled = false;
+            recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Server connection failed.');
+        alert('Server connection failed. Check your internet or Railway logs.');
+        recordBtn.disabled = false;
+        recordBtn.innerText = "Record & Go!";
     }
 });
-
-
-
-
-    
