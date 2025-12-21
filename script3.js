@@ -75,7 +75,7 @@ recordBtn.addEventListener('click', async function() {
         console.error('Error:', error);
         alert('Server connection failed.');
     }
-});*/
+});
 
 
 
