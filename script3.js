@@ -52,7 +52,7 @@ recordBtn.addEventListener('click', function() {
     const email = document.getElementById('email')?.value;
 
     if (!email) {
-        alert("Username not found. Please log in again.");
+        alert("email not found. Please log in again.");
         return;
     }
     
