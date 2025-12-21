@@ -29,7 +29,7 @@ recordBtn.addEventListener('click', async function() {
     };
 
     try {
-        const response = await fetch("https://mybackend-production-b618.up.railway.app/api/record", {
+        const response = await fetch("https://mybackend-production-b618.up.railway.app/record", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataToRecord),
