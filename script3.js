@@ -49,16 +49,16 @@ recordBtn.addEventListener('click', function() {
         return;
     }
     
-    const username = document.getElementById('username')?.value;
+    const email = document.getElementById('email')?.value;
 
-    if (!username) {
+    if (!email) {
         alert("Username not found. Please log in again.");
         return;
     }
     
 
     const dataToRecord = {
-        username: username,
+        email: email,
         date: new Date().toISOString(), 
         score: currentScore // This is the hidden score (90 or 5)
     };
