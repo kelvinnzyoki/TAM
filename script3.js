@@ -27,7 +27,7 @@ customBoxes.forEach(box => {
 
         // 3. Get the score from the checkbox INPUT that is INSIDE the parent <label>
         // Use 'closest' to find the parent 'row', then use 'querySelector' to find the input within it.
-        //const input = this.closest('.row').querySelector('input[type="checkbox"]');
+        const input = this.closest('.row').querySelector('input[type="checkbox"]');
         //console.log('Score selected (User does not see this):', currentScore);
         
     
