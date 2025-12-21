@@ -11,7 +11,7 @@ relapseCheck.addEventListener("change", () => {
 });
 
 
-/*const recordBtn = document.getElementById('recordBtn');
+const recordBtn = document.getElementById('recordBtn');
 const customBoxes = document.querySelectorAll('.custom-box');
 let currentScore = null;
 
@@ -23,7 +23,7 @@ customBoxes.forEach(box => {
         this.classList.add('selected');
 
         // 2. FIXED: Find the input nearby to get the score
-        const input = this.closest('.row').querySelector('input[type="checkbox"]');
+        const input = this.closest('.row').querySelector('input[type="radio"]');
         if (input) {
             currentScore = parseInt(input.getAttribute('data-score'));
             console.log('Score selected:', currentScore);
@@ -55,7 +55,7 @@ recordBtn.addEventListener('click', async function() {
         score: currentScore 
     };*/
 const recordForm = document.getElementById("recordForm");
-const recordBtn = document.getElementById("recordBtn");
+//const recordBtn = document.getElementById("recordBtn");
 const inputs = document.querySelectorAll(".score-input");
 
 // Enable button when a choice is made
