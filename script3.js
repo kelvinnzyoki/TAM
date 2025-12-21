@@ -53,9 +53,31 @@ recordBtn.addEventListener('click', async function() {
         email: email,
         date: new Date().toISOString(), 
         score: currentScore 
-    };
+    };*/
+const recordForm = document.getElementById("recordForm");
+const recordBtn = document.getElementById("recordBtn");
+const inputs = document.querySelectorAll(".score-input");
 
-    try {
+// Enable button when a choice is made
+inputs.forEach(input => {
+    input.addEventListener("change", () => {
+        recordBtn.disabled = false;
+    });
+});
+
+recordForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // VERY IMPORTANT for type="submit"
+    
+    const email = document.getElementById("email").value;
+    const selectedInput = document.querySelector(".score-input:checked");
+    const score = selectedInput.getAttribute("data-score");
+
+    // Fetch call to Railway...
+    console.log(`Sending ${score} for ${email} to PostgreSQL`);
+});
+
+
+try {
         // FIXED: Added '/api' to match the backend route
         const response = await fetch("https://mybackend-production-b618.up.railway.app/record", {
             method: 'POST',
@@ -78,28 +100,6 @@ recordBtn.addEventListener('click', async function() {
 });
 
 
-
-const recordForm = document.getElementById("recordForm");
-const recordBtn = document.getElementById("recordBtn");
-const inputs = document.querySelectorAll(".score-input");
-
-// Enable button when a choice is made
-inputs.forEach(input => {
-    input.addEventListener("change", () => {
-        recordBtn.disabled = false;
-    });
-});
-
-recordForm.addEventListener("submit", async (e) => {
-    e.preventDefault(); // VERY IMPORTANT for type="submit"
-    
-    const email = document.getElementById("confirmEmail").value;
-    const selectedInput = document.querySelector(".score-input:checked");
-    const score = selectedInput.getAttribute("data-score");
-
-    // Fetch call to Railway...
-    console.log(`Sending ${score} for ${email} to PostgreSQL`);
-});
 
 
     
