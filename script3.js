@@ -27,7 +27,9 @@ customBoxes.forEach(box => {
 
         // 3. Get the score from the checkbox INPUT that is INSIDE the parent <label>
         // Use 'closest' to find the parent 'row', then use 'querySelector' to find the input within it.
-        const input = this.closest('.row').querySelector('input[type="checkbox"]');
+        //const input = this.closest('.row').querySelector('input[type="checkbox"]');
+        //console.log('Score selected (User does not see this):', currentScore);
+        
     
         
         // 4. Get the score from the HIDDEN data attribute and save it
@@ -46,9 +48,17 @@ recordBtn.addEventListener('click', function() {
         alert("Please select a box before recording.");
         return;
     }
+    
+    const username = document.getElementById('username')?.value;
+
+    if (!username) {
+        alert("Username not found. Please log in again.");
+        return;
+    }
+    
 
     const dataToRecord = {
-        username
+        username: username,
         date: new Date().toISOString(), 
         score: currentScore // This is the hidden score (90 or 5)
     };
