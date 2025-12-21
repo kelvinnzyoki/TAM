@@ -1,4 +1,4 @@
-// You can expand behavior later. For now, this just listens.
+/*//You can expand behavior later. For now, this just listens.
 const avoidCheck = document.getElementById("avoidCheck");
 const relapseCheck = document.getElementById("relapseCheck");
 
@@ -75,8 +75,31 @@ recordBtn.addEventListener('click', async function() {
         console.error('Error:', error);
         alert('Server connection failed.');
     }
+});*/
+
+
+
+const recordForm = document.getElementById("recordForm");
+const recordBtn = document.getElementById("recordBtn");
+const inputs = document.querySelectorAll(".score-input");
+
+// Enable button when a choice is made
+inputs.forEach(input => {
+    input.addEventListener("change", () => {
+        recordBtn.disabled = false;
+    });
 });
 
+recordForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // VERY IMPORTANT for type="submit"
+    
+    const email = document.getElementById("confirmEmail").value;
+    const selectedInput = document.querySelector(".score-input:checked");
+    const score = selectedInput.getAttribute("data-score");
+
+    // Fetch call to Railway...
+    console.log(`Sending ${score} for ${email} to PostgreSQL`);
+});
 
 
     
