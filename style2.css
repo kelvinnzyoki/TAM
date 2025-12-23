@@ -41,23 +41,26 @@ body {
     border: 2px solid #00c7b6;
     border-radius: 15px;
     padding: 20px;
-    margin: 20px auto;
-    width: 80%;
+    margin: 0 auto 30px auto; /* 0 top, auto sides, 30px bottom spacing */
+    width: 90%; /* Increased for better mobile fit */
+    max-width: 350px; /* Matches your button container width */
     text-align: center;
-    margin-bottom: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
 }
 
 #totalScoreDisplay {
     font-size: 48px;
     font-weight: bold;
-    color: #00c7b6; /* Match your brand's teal color */
+    color: #00c7b6;
     text-shadow: 0 0 10px rgba(0, 199, 182, 0.3);
+    line-height: 1; /* Keeps the number tight */
 }
 
 .score-container h2 {
-    font-size: 18px;
+    font-size: 14px; /* Slightly smaller for a cleaner look */
     color: #888;
-    margin-bottom: 5px;
+    margin: 0 0 10px 0;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
