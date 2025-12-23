@@ -53,3 +53,6 @@ async function loadTotalScore() {
         display.innerText = "Offline";
     }
 }
+
+// Call the function when the page loads
+window.onload = loadUserTotalScore;
