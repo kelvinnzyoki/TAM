@@ -19,7 +19,7 @@ async function loadTotalScore() {
     }
 
     try {
-        const response = await fetch(`https://mybackend-production-b618.up.railway.app/api/total-score/${email}`);
+        const response = await fetch(`https://mybackend-production-b618.up.railway.app/total-score/${email}`);
         const data = await response.json();
 
         if (data.success) {
