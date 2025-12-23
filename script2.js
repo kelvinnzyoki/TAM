@@ -11,20 +11,24 @@ buttons.forEach(btn => {
 
 async function loadTotalScore() {
     const email = localStorage.getItem("userEmail");
-    if (!email) return;
+    const display = document.getElementById("totalScoreDisplay");
+
+    if (!email) {
+        display.innerText = "Login to see score";
+        return;
+    }
 
     try {
-        const response = await fetch(`https://your-backend.railway.app/api/total-score/${email}`);
+        const response = await fetch(`https://mybackend-production-b618.up.railway.app/api/total-score/${email}`);
         const data = await response.json();
 
         if (data.success) {
-            // Assuming you have an element with ID 'totalScoreDisplay'
-            document.getElementById("totalScoreDisplay").innerText = `Total Score: ${data.total_score}`;
+            display.innerText = data.total_score;
+        } else {
+            console.error("Server said:", data.error);
+            display.innerText = "Error";
         }
     } catch (err) {
-        console.error("Failed to load score:", err);
+        display.innerText = "Offline";
     }
 }
-
-// Call this when the page loads
-window.onload = loadTotalScore;
