@@ -32,7 +32,7 @@ async function loadTotalScore() {
 
     try {
         const response = await fetch(
-            `https://mybackend-production-b618.up.railway.app/total-score/${encodeURIComponent(email)}`
+            `https://mybackend-production-b618.up.railway.app/total-score?email=${encodeURIComponent(email)}`
         );
 
         // Handle HTTP errors
