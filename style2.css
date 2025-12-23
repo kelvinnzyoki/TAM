@@ -33,3 +33,12 @@ body {
 .menu-btn:hover {
     opacity: 0.7;
 }
+
+
+#totalScoreDisplay {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    margin: 10px 0;
+}
+
