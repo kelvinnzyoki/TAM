@@ -59,9 +59,9 @@ recordBtn.addEventListener("click", async () => {
 
     const payload = {
         email: email,
-        score: currentScore,
         date: new Date().toISOString(),
-        activity: "Push-ups"
+        score: currentScore
+    
     };
 
     recordBtn.disabled = true;
