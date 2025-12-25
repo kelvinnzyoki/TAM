@@ -28,7 +28,7 @@ boxes.forEach(id => {
 
 // --- B. Handle "Other" Input Logic ---
 otherInput.addEventListener("input", () => {
-    const value = parseInt(otherInput.score);
+    const score = parseInt(otherInput.score);
 
     // If user starts typing, uncheck all boxes
     if (!isNaN(score) && otherInput.score !== "") {
