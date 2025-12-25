@@ -36,41 +36,41 @@ otherInput.addEventListener("input", () => {
         recordBtn.disabled = false;
 
         // "If user inputs a value more than 30, score is 70"
-        if (score == 0) {
-        points = 0;
+        if (score === 0) {
+        currentScore = 0;
         } else if (score >= 1 && score <= 10) {
-        points = 2;
+        currentScore = 2;
         } else if (score >= 11 && score <= 14) {
-        points = 3;
-        } else if (score == 15) {
-        points = 4;
+        currentScore = 3;
+        } else if (score === 15) {
+        currentScore = 4;
         } else if (score >= 16 && score <= 19) {
-        points = 5;
-        } else if (score == 20) {
-        points = 6;
+        currentScore = 5;
+        } else if (score === 20) {
+        currentScore = 6;
         } else if (score >= 21 && score <= 24) {
-        points = 7;
-        } else if (score == 25) {
-        points = 8;
+        currentScore = 7;
+        } else if (score === 25) {
+        currentScore  = 8;
         } else if (score >= 26 && score <= 29) {
-        points = 9;
-        } else if (score == 30) {
-        points = 10;
+        currentScore  = 9;
+        } else if (score === 30) {
+        currentScore  = 10;
         } else if (score >= 31 && score <= 34) {
-        points = 11;
-        } else if (score == 35) {
-        points = 12;
+        currentScore = 11;
+        } else if (score === 35) {
+        currentScore = 12;
         } else if (score >= 36 && score <= 40) {
-        points = 13;
+        currentScore = 13;
         } else if (score >= 41 && score <= 50) {
-        points = 14;
+        currentScore = 14;
         } else if (score >= 51 && score <= 70) {
-        points = 15;
+        currentScore = 15;
         } else if (score >= 71 && score <= 1000) {
-        points = 16;
+        currentScore  = 16;
         }
         else {
-        points = 0;
+        currentScore = 0;
         }
 });
 
