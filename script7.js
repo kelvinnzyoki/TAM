@@ -36,14 +36,44 @@ otherInput.addEventListener("input", () => {
         recordBtn.disabled = false;
 
         // "If user inputs a value more than 30, score is 70"
-        if (value > 5000) {
-            currentScore = 70;
-        } else {
-            currentScore = 20; // Default score for lower numbers
+        if (score === 0) {
+        currentScore = 0;
+        } else if (score >= 1 && score <= 250) {
+        currentScore = 1;
+        } else if (score >= 251 && score <= 500) {
+        currentScore = 2;
+        } else if (score >= 501 && score <= 999) {
+        currentScore = 3;
+        } else if (score === 1000) {
+        currentScore = 4;
+        } else if (score >= 1001 && score <= 1999) {
+        currentScore = 5;
+        } else if (score === 2000) {
+        currentScore = 6;
+        } else if (score >= 2001 && score <= 2999) {
+        currentScore = 7;
+        } else if (score === 3000) {
+        currentScore  = 8;
+        } else if (score >= 3001 && score <= 3999) {
+        currentScore  = 9;
+        } else if (score === 4000) {
+        currentScore  = 10;
+        } else if (score >= 4001 && score <= 4999) {
+        currentScore = 11;
+        } else if (score === 5000) {
+        currentScore = 12;
+        } else if (score >= 5001 && score <= 7000) {
+        currentScore = 13;
+        } else if (score >= 7001 && score <= 9000) {
+        currentScore = 14;
+        } else if (score >= 9001 && score <= 12999) {
+        currentScore = 15;
+        } else if (score >= 13000 && score <= 200000) {
+        currentScore  = 16;
         }
-    } else {
+        else {
         recordBtn.disabled = true;
-    }
+        }
 });
 
 // --- C. Submit to Backend ---
