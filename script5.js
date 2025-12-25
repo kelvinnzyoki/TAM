@@ -28,10 +28,10 @@ boxes.forEach(id => {
 
 // --- B. Handle "Other" Input Logic ---
 otherInput.addEventListener("input", () => {
-    const value = parseInt(otherInput.value);
+    const value = parseInt(otherInput.score);
 
     // If user starts typing, uncheck all boxes
-    if (otherInput.value !== "") {
+    if (!isNaN(score) && otherInput.score !== "") {
         boxes.forEach(id => document.getElementById(id).checked = false);
         recordBtn.disabled = false;
 
@@ -71,6 +71,7 @@ otherInput.addEventListener("input", () => {
         }
         else {
         recordBtn.disabled = true;
+    }
     }
 });
 
