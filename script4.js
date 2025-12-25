@@ -69,6 +69,9 @@ otherInput.addEventListener("input", () => {
         } else if (score >= 71 && score <= 1000) {
         currentScore  = 16;
         }
+        else {
+        recordBtn.disabled = true;
+        }
         
 });
 
