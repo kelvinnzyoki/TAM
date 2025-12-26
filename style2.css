@@ -1,64 +1,92 @@
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #27231F; /* same dark background like screenshot */
-    font-family: Arial, sans-serif;
+    background-color: #0f0f0f;
+    color: white;
+    font-family: 'Poppins', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 40px; /* Add some top spacing */
-    min-height: 100vh;
+    margin: 0;
+    padding: 20px 0;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 60px; /* spacing between buttons */
-    width: 90%;
-    max-width: 350px;
-}
-
-.menu-btn {
-    background-color: #7A7978; /* grey button */
-    color: #C7BD7D; /* gold-ish text */
-    font-size: 28px;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 18px;
-    font-weight: bold;
-    width: 100%;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.menu-btn:hover {
-    opacity: 0.7;
-}
-
+/* Score Header */
 .score-container {
-    background: #1a1a1a;
+    background: linear-gradient(145deg, #1a1a1a, #222);
     border: 2px solid #00c7b6;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 0 auto 30px auto; /* 0 top, auto sides, 30px bottom spacing */
-    width: 90%; /* Increased for better mobile fit */
-    max-width: 350px; /* Matches your button container width */
+    border-radius: 20px;
+    padding: 25px;
+    width: 85%;
+    max-width: 360px;
     text-align: center;
-    box-sizing: border-box; /* Ensures padding doesn't break width */
+    margin-bottom: 30px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
 }
 
 #totalScoreDisplay {
-    font-size: 48px;
-    font-weight: bold;
+    font-size: 54px;
+    font-weight: 800;
     color: #00c7b6;
-    text-shadow: 0 0 10px rgba(0, 199, 182, 0.3);
-    line-height: 1; /* Keeps the number tight */
+    text-shadow: 0 0 15px rgba(0, 199, 182, 0.4);
 }
 
-.score-container h2 {
-    font-size: 14px; /* Slightly smaller for a cleaner look */
+.rank-text {
     color: #888;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-top: 5px;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+/* Grid Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 15px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.card {
+    background: #1a1a1a;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: 0.3s;
+    border: 1px solid #333;
+    cursor: pointer;
+}
+
+.card:active {
+    transform: scale(0.95);
+    border-color: #00c7b6;
+}
+
+.card .icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.card span {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Special styling for secondary cards */
+.secondary {
+    background: #111;
+    border-style: dashed;
+}
+
+.logout-btn {
+    margin-top: 40px;
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    font-weight: bold;
+    cursor: pointer;
 }
