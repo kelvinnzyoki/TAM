@@ -26,7 +26,7 @@ body {
     height: 300px;
     background: var(--primary);
     filter: blur(150px);
-    opacity: 0.1;
+    opacity: 0.3;
     z-index: -1;
 }
 
