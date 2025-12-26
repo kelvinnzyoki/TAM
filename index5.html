@@ -3,84 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sit-ups Tracker</title>
-    <link rel="stylesheet" href="style4.css">
+    <title>TAM | Core</title>
+    <link rel="stylesheet" href="style5.css">
+    
 </head>
 <body>
+    <div class="bg-glow"></div>
 
     <div class="container">
-        <h1>SIT-UPS</h1>
-        <p class="subtitle">(Tick where applicable)</p>
+        <header>
+            <h1>SIT-UPS</h1>
+            <p class="subtitle">CORE STRENGTH PROTOCOL</p>
+        </header>
 
-        <div class="row">
-            <div class="column">
+        <div class="stats-grid">
+            <div class="grid-item">
                 <span class="label-number">0</span>
                 <label class="checkbox-container">
                       <input type="checkbox" class="situp-box" id="c0" data-score="0">
-                      <span class="tick"></span>
+                      <div class="custom-check">
+                          <span class="tick"></span>
+                      </div>
                 </label>
-                <span class="points">• pts</span>
+                <span class="points">0 PTS</span>
             </div>
 
-            <div class="column">
+            <div class="grid-item">
                 <span class="label-number">15</span>
                 <label class="checkbox-container">
                     <input type="checkbox" class="situp-box" id="c15" data-score="4">
-                    <span class="tick"></span>
+                    <div class="custom-check">
+                        <span class="tick"></span>
+                    </div>
                 </label>
-                <span class="points">• pts</span>
+                <span class="points">4 PTS</span>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="column">
+            <div class="grid-item">
                 <span class="label-number">20</span>
                 <label class="checkbox-container">
                     <input type="checkbox" class="situp-box" id="c20" data-score="6">
-                    <span class="tick"></span>
+                    <div class="custom-check">
+                        <span class="tick"></span>
+                    </div>
                 </label>
-                <span class="points">• pts</span>
+                <span class="points">6 PTS</span>
             </div>
 
-            <div class="column">
+            <div class="grid-item">
                 <span class="label-number">25</span>
                 <label class="checkbox-container">
                     <input type="checkbox" class="situp-box" id="c25" data-score="8">
-                    <span class="tick"></span>
+                    <div class="custom-check">
+                        <span class="tick"></span>
+                    </div>
                 </label>
-                <span class="points">• pts</span>
+                <span class="points">8 PTS</span>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="column">
+            <div class="grid-item">
                 <span class="label-number">30</span>
                 <label class="checkbox-container">
                     <input type="checkbox" class="situp-box" id="c30" data-score="10">
-                    <span class="tick"></span>
+                    <div class="custom-check">
+                        <span class="tick"></span>
+                    </div>
                 </label>
-                <span class="points">• pts</span>
+                <span class="points">10 PTS</span>
             </div>
 
-            <div class="column">
+            <div class="grid-item">
                 <span class="label-number">35</span>
                 <label class="checkbox-container">
                     <input type="checkbox" class="situp-box" id="c30plus" data-score="12">
-                    <span class="tick"></span>
+                    <div class="custom-check">
+                        <span class="tick"></span>
+                    </div>
                 </label>
-                <span class="points">• pts</span>
+                <span class="points">12 PTS</span>
             </div>
         </div>
 
-        <div class="row single">
-            <div class="column">
-                <span class="label-number">Other</span>
+        <div class="other-section">
+            <span class="label-number">OTHER</span>
+            <div class="input-wrapper">
                 <input type="number" id="otherInput" class="other-input" placeholder="0">
-                <span class="points">• pts</span>
+                <span class="pts-tag">Variable PTS</span>
             </div>
         </div>
 
-        <button id="recordBtn" class="record-btn" disabled>Record & Go!</button>
+        <button id="recordBtn" class="record-btn" disabled>RECORD PERFORMANCE</button>
     </div>
 
 <script src="script5.js"></script>
