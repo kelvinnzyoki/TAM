@@ -129,7 +129,7 @@ h1 {
 }
 
 .other-input {
-    width: 120px;
+    width: 80px;
     height: 60px;
     background: #000;
     border: 2px solid #444;
@@ -138,7 +138,7 @@ h1 {
     font-family: 'Orbitron', sans-serif;
     font-size: 24px;
     text-align: center;
-    margin-top: 10px;
+
 }
 
 .other-input:focus {
