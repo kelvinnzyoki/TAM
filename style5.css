@@ -1,103 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+
+:root {
+    --primary: #00c7b6;
+    --bg-dark: #080808;
+    --card-bg: #1a1a1a;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background: #0f0f0f;
-    font-family: "Poppins", sans-serif;
+    background-color: var(--bg-dark);
     color: white;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.bg-glow {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: var(--primary);
+    filter: blur(180px);
+    opacity: 0.08;
+    z-index: -1;
+    transform: translate(-50%, -50%);
 }
 
 .container {
+    width: 90%;
+    max-width: 400px;
+    padding: 40px 0;
     text-align: center;
-    padding-top: 40px;
 }
 
 h1 {
-    font-size: 32px;
-    margin-bottom: 40px;
-    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    letter-spacing: 5px;
+    color: var(--primary);
+    margin: 0;
 }
 
 .subtitle {
-    /*margin-top: 4px;*/
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+}
+
+/* Grid Layout */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
     margin-bottom: 30px;
-    font-size: 16px;
 }
 
-.row {
-    display: flex;
-    gap: 50px;
-    justify-content: space-between;
-    width: 80%;
-    margin: 30px auto;
-}
-
-
-.single {
-    margin-top: 40px;
-}
-
-.column {
+.grid-item {
+    background: var(--card-bg);
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 20px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: 0.3s ease;
 }
 
 .label-number {
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
 }
 
-/* Hide default checkbox */
+/* Checkbox Styling */
+.checkbox-container {
+    position: relative;
+    cursor: pointer;
+    width: 55px;
+    height: 55px;
+}
+
 .checkbox-container input {
     display: none;
 }
 
-/* Custom square box */
-.checkbox-container {
-    width: 90px;
-    height: 90px;
-    border: 5px solid #00c7b6;
+.custom-check {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #444;
     border-radius: 12px;
-    background: white;
-    position: relative;
-    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Tick mark */
 .tick {
-    content: "";
-    position: absolute;
-    top: 18px;
-    left: 28px;
-    width: 20px;
-    height: 40px;
-    border: solid #00c7b6;
-    border-width: 0 10px 10px 0;
+    width: 10px;
+    height: 20px;
+    border: solid var(--primary);
+    border-width: 0 4px 4px 0;
     transform: rotate(45deg);
     opacity: 0;
     transition: 0.2s;
 }
 
-/* Show tick */
-.checkbox-container input:checked + .tick {
+.checkbox-container input:checked + .custom-check {
+    border-color: var(--primary);
+    background: rgba(0, 199, 182, 0.1);
+    box-shadow: 0 0 15px rgba(0, 199, 182, 0.3);
+}
+
+.checkbox-container input:checked + .custom-check .tick {
     opacity: 1;
 }
 
 .points {
-    margin-top: 10px;
-    font-size: 18px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 1px;
 }
 
-/* Other input box */
+/* Other Section */
+.other-section {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid #333;
+    margin-bottom: 30px;
+}
+
 .other-input {
     width: 90px;
-    height: 90px;
-    border: 5px solid #00c7b6;
+    height: 65px;
+    background: #000;
+    border: 2px solid #444;
     border-radius: 12px;
-    background: white;
+    color: var(--primary);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 26px;
     text-align: center;
-    font-size: 28px;
-    font-weight: bold;
+    margin: 10px 0;
+}
+
+.other-input:focus {
+    border-color: var(--primary);
     outline: none;
+    box-shadow: 0 0 10px rgba(0, 199, 182, 0.2);
+}
+
+/* Button */
+.record-btn {
+    width: 100%;
+    padding: 20px;
+    border-radius: 15px;
+    border: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    background: var(--primary);
+    color: black;
+    box-shadow: 0 4px 20px rgba(0, 199, 182, 0.2);
+    cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.record-btn:disabled {
+    background: #2a2a2a;
+    color: #555;
+    box-shadow: none;
+    cursor: not-allowed;
 }
