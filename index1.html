@@ -1,50 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account</title>
+    <title>TAM | Join Evolution</title>
     <link rel="stylesheet" href="style1.css">
+    
 </head>
-
 <body>
+    <div class="bg-glow"></div>
 
-    <!-- Curved Header Background -->
-    <div class="header"></div>
-
-    <!-- Content -->
     <div class="content">
+        <header>
+            <h1>CREATE<br><span class="highlight">ACCOUNT</span></h1>
+            <p class="subtext">BEGIN YOUR PROTOCOL</p>
+        </header>
 
-        <h1>Create new<br>Account</h1>
-        <!--<p class="subtext">Already Registered? <a href="#">Log in here.</a></p>
-
-        <!-- Form -->
         <form id="signupForm">
-            <input type="text" id="username" placeholder="Username">
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Password">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
             
-            <select id="dob">
+            <div class="input-group">
+                <select id="dob" required>
+                    <option value="" disabled selected>Select Birth Year</option>
+                    <option value="1998">1998</option>
+                    <option value="1999">1999</option>
+                    <option value="2000">2000</option>
+                    <option value="2001">2001</option>
+                    <option value="2002">2002</option>
+                    <option value="2003">2003</option>
+                    <option value="2004">2004</option>
+                </select>
+            </div>
 
-                <option value="">Select Year</option>
-                <option value="1998">1998</option>
-                <option value="1999">1999</option>
-                <option value="2000">2000</option>
-                <option value="2001">2001</option>
-                <option value="2002">2002</option>
-                <option value="2003">2003</option>
-                <option value="2004">2004</option>
-                
-            </select>
-            <button type="submit" id="signupBtn">Sign Up</button>
+            <button type="submit" id="signupBtn">INITIALIZE SYSTEM</button>
         </form>
 
-    
-
+        <p class="login-link">Already a member? <a href="index.html">Login here</a></p>
     </div>
     
     <script src="script1.js"></script>
-
 </body>
 </html>
