@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+
+:root {
+    --primary: #00c7b6;
+    --bg-dark: #080808;
+    --card-bg: #1a1a1a;
+}
+
+body {
+    background: var(--bg-dark);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+.container { width: 90%; max-width: 400px; padding-top: 40px; text-align: center; }
+
+h1 { font-family: 'Orbitron', sans-serif; color: var(--primary); letter-spacing: 5px; }
+
+.leaderboard-list { margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
+
+.rank-item {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #333;
+}
+
+/* Highlight the Top 3 */
+.rank-item:nth-child(1) { border-color: gold; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+.rank-item:nth-child(2) { border-color: silver; }
+.rank-item:nth-child(3) { border-color: #cd7f32; }
+
+.rank-number { font-family: 'Orbitron', sans-serif; font-weight: bold; color: var(--primary); width: 30px; }
+.user-email { flex-grow: 1; text-align: left; padding-left: 10px; font-size: 14px; color: #ccc; }
+.user-score { font-family: 'Orbitron', sans-serif; font-weight: bold; }
+
+.back-btn {
+    margin-top: 30px;
+    background: transparent;
+    border: 1px solid #444;
+    color: #888;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
