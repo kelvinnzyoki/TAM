@@ -1,121 +1,90 @@
-const boxes = ["c0", "c15", "c20", "c25", "c30", "c30plus"];
-const otherInput = document.getElementById("otherInput");
-const recordBtn = document.getElementById("recordBtn");
+document.addEventListener("DOMContentLoaded", () => {
 
-let currentScore = 0;
+    const boxes = ["c0", "c15", "c20", "c25", "c30", "c30plus"];
+    const otherInput = document.getElementById("otherInput");
+    const recordBtn = document.getElementById("recordBtn");
 
-// --- A. Handle Checkbox Logic ---
-boxes.forEach(id => {
-    const box = document.getElementById(id);
+    let currentScore = 0;
 
-    box.addEventListener("change", () => {
-        if (box.checked) {
-            // Untick all other checkboxes
-            boxes.forEach(otherID => {
-                if (otherID !== id) document.getElementById(otherID).checked = false;
-            });
-            // Clear other input
-            otherInput.value = "";
-            
-            // Set current score from data attribute
-            currentScore = parseInt(box.getAttribute("data-score"));
+    // --- A. Handle Checkbox Logic ---
+    boxes.forEach(id => {
+        const box = document.getElementById(id);
+
+        box.addEventListener("change", () => {
+            if (box.checked) {
+                boxes.forEach(otherID => {
+                    if (otherID !== id)
+                        document.getElementById(otherID).checked = false;
+                });
+
+                otherInput.value = "";
+                currentScore = parseInt(box.dataset.score);
+                recordBtn.disabled = false;
+            } else {
+                recordBtn.disabled = true;
+            }
+        });
+    });
+
+    // --- B. Other Input ---
+    otherInput.addEventListener("input", () => {
+        const score = parseInt(otherInput.value);
+
+        if (!isNaN(score)) {
+            boxes.forEach(id => document.getElementById(id).checked = false);
             recordBtn.disabled = false;
-        } else {
-            recordBtn.disabled = true;
+
+            if (score === 0) currentScore = 0;
+            else if (score <= 250) currentScore = 1;
+            else if (score <= 500) currentScore = 2;
+            else if (score <= 999) currentScore = 3;
+            else if (score === 1000) currentScore = 4;
+            else if (score <= 1999) currentScore = 5;
+            else if (score === 2000) currentScore = 6;
+            else if (score <= 2999) currentScore = 7;
+            else if (score === 3000) currentScore = 8;
+            else if (score <= 3999) currentScore = 9;
+            else if (score === 4000) currentScore = 10;
+            else if (score <= 4999) currentScore = 11;
+            else if (score === 5000) currentScore = 12;
+            else if (score <= 7000) currentScore = 13;
+            else if (score <= 9000) currentScore = 14;
+            else if (score <= 12999) currentScore = 15;
+            else currentScore = 16;
         }
     });
-});
 
-// --- B. Handle "Other" Input Logic ---
-otherInput.addEventListener("input", () => {
-    const score = parseInt(otherInput.value);
+    // --- Submit ---
+    recordBtn.addEventListener("click", async () => {
+        const email = localStorage.getItem("userEmail");
 
-    // If user starts typing, uncheck all boxes
-    if (!isNaN(score) && otherInput.value !== "") {
-        boxes.forEach(id => document.getElementById(id).checked = false);
-        recordBtn.disabled = false;
-
-        // "If user inputs a value more than 30, score is 70"
-        if (score === 0) {
-        currentScore = 0;
-        } else if (score >= 1 && score <= 250) {
-        currentScore = 1;
-        } else if (score >= 251 && score <= 500) {
-        currentScore = 2;
-        } else if (score >= 501 && score <= 999) {
-        currentScore = 3;
-        } else if (score === 1000) {
-        currentScore = 4;
-        } else if (score >= 1001 && score <= 1999) {
-        currentScore = 5;
-        } else if (score === 2000) {
-        currentScore = 6;
-        } else if (score >= 2001 && score <= 2999) {
-        currentScore = 7;
-        } else if (score === 3000) {
-        currentScore  = 8;
-        } else if (score >= 3001 && score <= 3999) {
-        currentScore  = 9;
-        } else if (score === 4000) {
-        currentScore  = 10;
-        } else if (score >= 4001 && score <= 4999) {
-        currentScore = 11;
-        } else if (score === 5000) {
-        currentScore = 12;
-        } else if (score >= 5001 && score <= 7000) {
-        currentScore = 13;
-        } else if (score >= 7001 && score <= 9000) {
-        currentScore = 14;
-        } else if (score >= 9001 && score <= 12999) {
-        currentScore = 15;
-        } else if (score >= 13000 && score <= 200000) {
-        currentScore  = 16;
+        if (!email) {
+            alert("Session missing. Please log in again.");
+            window.location.href = "index.html";
+            return;
         }
-        else {
+
         recordBtn.disabled = true;
-        }
-    }
-});
+        recordBtn.innerText = "Saving...";
 
-// --- C. Submit to Backend ---
-recordBtn.addEventListener("click", async () => {
-    // Retrieve email saved from login page
-    const email = localStorage.getItem("userEmail");
+        try {
+            const res = await fetch("https://mybackend-production-b618.up.railway.app/steps", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email,
+                    date: new Date().toISOString(),
+                    score: currentScore
+                })
+            });
 
-    if (!email) {
-        alert("Session missing. Please log in again.");
-        window.location.href = "index.html";
-        return;
-    }
+            if (!res.ok) throw new Error("Server error");
 
-    const payload = {
-        email: email,
-        date: new Date().toISOString(),
-        score: currentScore
-    
-    };
-
-    recordBtn.disabled = true;
-    recordBtn.innerText = "Saving...";
-
-    try {
-        const response = await fetch("https://mybackend-production-b618.up.railway.app/steps", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
             alert("Score Recorded!");
             window.location.href = "index2.html";
-        } else {
-            const err = await response.json();
-            alert("Error: " + err.error);
+        } catch (err) {
+            alert("Server connection failed.");
             recordBtn.disabled = false;
-            recordBtn.innerText = "Record & Go!";
         }
-    } catch (error) {
-        alert("Server connection failed.");
-        recordBtn.disabled = false;
-    }
+    });
 });
