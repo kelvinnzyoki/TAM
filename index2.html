@@ -3,27 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List Buttons</title>
+    <title>Growth Dashboard</title>
     <link rel="stylesheet" href="style2.css">
 </head>
 <body>
 
     <div class="score-container">
-    <h2>Your Total Progress</h2>
-    <div id="totalScoreDisplay">Loading score...</div>
+        <h2>Total Progress Points</h2>
+        <div id="totalScoreDisplay">0</div>
+        <p class="rank-text">Level: Warrior</p>
     </div>
 
-    <div class="container">
+    <div class="dashboard-grid">
         
+        <div class="card" onclick="location.href='index3.html'">
+            <div class="icon">🚫</div>
+            <h3>Addictions</h3>
+            <span>Track Sobriety</span>
+        </div>
 
-        <button class="menu-btn" data-target="index3.html">ADDICTION</button>
-        <button class="menu-btn" data-target="index4.html">PUSH-UPS</button>
-        <button class="menu-btn" data-target="index5.html">SIT-UPS</button>
-        <button class="menu-btn" data-target="index6.html">SQUATS</button>
-        <button class="menu-btn" data-target="index7.html">STEPS</button>
+        <div class="card" onclick="location.href='index4.html'">
+            <div class="icon">💪</div>
+            <h3>Push-Ups</h3>
+            <span>Strength</span>
+        </div>
+
+        <div class="card">
+            <div class="icon">🧘</div>
+            <h3>Sit-Ups</h3>
+            <span>Core</span>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏋️</div>
+            <h3>Squats</h3>
+            <span>Legs</span>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏃</div>
+            <h3>Steps</h3>
+            <span>Cardio</span>
+        </div>
+
+        <div class="card secondary">
+            <div class="icon">🏆</div>
+            <h3>Rankings</h3>
+            <span>Global Board</span>
+        </div>
 
     </div>
 
-<script src="script2.js"></script>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+
+    <script src="script2.js"></script>
 </body>
 </html>
