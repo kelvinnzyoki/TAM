@@ -1,129 +1,160 @@
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Advent+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-/* Full-screen background */
-html, body {
+/* rest of your css */
 
-    height: 100%;
+
+:root {
+    --primary: #00c7b6;
+    --bg-dark: #080808;
+    --card-bg: rgba(26, 26, 26, 0.9);
+}
+
+body {
     margin: 0;
     padding: 0;
-    background-image: url("alpha1.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    font-family: "Quicksand", sans-serif;
-}
-
-/* Center content */
-.container {
-    height: 100%;
-    width: 100%;
-    position: relative;
-}
-
-    
-#signupBtn {
-    position: absolute;
-    top: 0;
-    right: 0%;
-    padding: 8px 20px;
-    font-size: 10px;
-    background-color: black;
+    background-color: var(--bg-dark);
+    font-family: 'Poppins', sans-serif;
     color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-#signupBtn:hover {
-  background-color: #218838;
-}
-
-#signupBtn:hover {
-  transform: scale(1.05);
-  background: linear-gradient(45deg, #16a085, #1abc9c);
-}
-
-/* LOGIN BUTTON (Bottom Center) */
-#loginBtn {
-    position: absolute;
-    bottom: 30px;
+/* Background Glow Effect */
+.bg-glow {
+    position: fixed;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 30px;
-    font-size: 18px;
-    background: #39ff14;
-    color: black;
-    border: none;
+    width: 300px;
+    height: 300px;
+    background: var(--primary);
+    filter: blur(150px);
+    opacity: 0.15;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+}
+
+.main-wrapper {
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    z-index: 1;
+}
+
+/* Glitch Typography */
+.hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 60px;
+    margin: 0;
+    letter-spacing: 8px;
+    color: var(--primary);
+    text-shadow: 0 0 20px rgba(0, 199, 182, 0.5);
+}
+
+.hero p {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+}
+
+/* Button Styling */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+button {
+    padding: 18px;
     border-radius: 12px;
-    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
     font-weight: bold;
-    box-shadow: 0 0 10px #39ff14;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    letter-spacing: 2px;
 }
 
-#loginBtn:hover {
-    background: #32d112;
+.btn-primary {
+    background: var(--primary);
+    color: black;
+    box-shadow: 0 0 20px rgba(0, 199, 182, 0.3);
 }
 
-/* Modal Background */
+.btn-secondary {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Modal Styling */
 .modal {
     display: none;
     position: fixed;
-    top: 0;
+    z-index: 10;
     left: 0;
-    height: 100%;
+    top: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.75);
-    justify-content: center;
-    align-items: center;
+    height: 100%;
+    background-color: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
 }
 
-/* Modal Box */
 .modal-content {
-    background: white;
-    width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    animation: fadeIn 0.3s ease;
+    background: var(--card-bg);
+    margin: 15% auto;
+    padding: 40px 30px;
+    border: 1px solid #333;
+    width: 85%;
+    max-width: 350px;
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0,0,0,1);
 }
 
-/* Close Button */
+.modal-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
 #closeBtn {
-    float: right;
-    font-size: 25px;
-    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    color: #666;
 }
 
-/* Inputs */
+/* Form Inputs */
 input {
-    width: 90%;
-    padding: 10px;
-    margin: 12px auto;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid gray;
-}
-
-/* Submit Button */
-#submitLogin {
-    padding: 10px 20px;
-    background: #2196F3;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #000;
+    border: 1px solid #333;
+    border-radius: 8px;
     color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-#submitLogin:hover {
-    background: #0b7dda;
+input:focus {
+    border-color: var(--primary);
+    outline: none;
 }
 
-/* Modal fade animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to   { opacity: 1; transform: scale(1); }
+.btn-submit {
+    width: 100%;
+    background: var(--primary);
+    color: black;
 }
