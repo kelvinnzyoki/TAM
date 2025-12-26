@@ -1,58 +1,45 @@
-// Select all buttons
-const buttons = document.querySelectorAll(".menu-btn");
-
-// Add click event to each button
-buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        const page = btn.getAttribute("data-target");
-        if (page) {
-            window.location.href = page; // navigate to that page
-        }
-    });
-});
-
-// Load total score on page load
-document.addEventListener("DOMContentLoaded", loadTotalScore);
-
-async function loadTotalScore() {
+async function loadDashboard() {
     const email = localStorage.getItem("userEmail");
-    const display = document.getElementById("totalScoreDisplay");
+    const scoreDisplay = document.getElementById("totalScoreDisplay");
 
-    // Ensure display element exists
-    if (!display) {
-        console.error("Element with ID 'totalScoreDisplay' not found");
-        return;
-    }
-
-    // If user is not logged in
     if (!email) {
-        display.innerText = "Login to see score";
+        window.location.href = "index.html"; // Send back to login if no email
         return;
     }
 
     try {
-        const response = await fetch(
-            `https://mybackend-production-b618.up.railway.app/total-score?email=${encodeURIComponent(email)}`
-        );
-
-        // Handle HTTP errors
-        if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`);
-        }
-
+        // Use the query parameter endpoint we fixed
+        const url = `https://mybackend-production-b618.up.railway.app/total-score?email=${encodeURIComponent(email)}`;
+        const response = await fetch(url);
         const data = await response.json();
 
         if (data.success) {
-            display.innerText = data.total_score;
-        } else {
-            console.error("Server error:", data.error);
-            display.innerText = "Error loading score";
+            // Animate the number counting up
+            animateValue(scoreDisplay, 0, data.total_score, 1000);
         }
     } catch (err) {
-        console.error("Fetch failed:", err);
-        display.innerText = "Offline";
+        console.error("Dashboard error:", err);
+        scoreDisplay.innerText = "!!";
     }
 }
 
-// Call the function when the page loads
-window.onload = loadUserTotalScore;
+// Cool number animation function
+function animateValue(obj, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.href = "index.html";
+}
+
+window.onload = loadDashboard;
