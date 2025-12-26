@@ -1,44 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TAM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAM | Evolution</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    
-        
+    <div class="bg-glow"></div>
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- navigate to index1.html-->
-        <button id="signupBtn">Sign Up</button>
-        <!-- Login Button -->
-        <button id="loginBtn">Login</button>
-               
-    
+    <div class="main-wrapper">
+        <div class="hero">
+            <h1 class="glitch" data-text="TAM">TAM</h1>
+            <p>Master Your Discipline</p>
+        </div>
 
-        <!-- Login Modal -->
+        <div class="container">
+            <button id="signupBtn" class="btn-primary" onclick="location.href='index1.html'">GET STARTED</button>
+            <button id="loginBtn" class="btn-secondary">LOGIN</button>
+        </div>
+
         <div id="loginModal" class="modal">
             <div class="modal-content">
                 <span id="closeBtn">&times;</span>
-                
-
+                <h2 class="modal-title">Welcome Back</h2>
                 <form id="loginForm">
-                    <input type="email" id="email" placeholder="Email" required>
-                    <input type="password" id="password" placeholder="Password" required>
-                    
-                    <button type="submit" id="submitLogin">Submit</button>
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" id="submitLogin" class="btn-submit">ENTER SYSTEM</button>
                 </form>
             </div>
         </div>
-
     </div>
-    
 
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
