@@ -38,7 +38,7 @@ signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
 
-    const res = await fetch('https://your-backend.railway.app/send-code', {
+    const res = await fetch('https://mybackend-production-b618.up.railway.app/send-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
