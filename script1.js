@@ -2,7 +2,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   
   // Define URL once at the top
-  const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
+const SERVER_URL = "https://mybackend-production-b618.up.railway.app/signup";
+const signupForm = document.getElementById('signupForm');
+const verifyModal = document.getElementById('verifyModal');
+const resendBtn = document.getElementById('resendBtn');
+const timerText = document.getElementById('timerText');
+const secondsSpan = document.getElementById('seconds');
+const confirmBtn = document.getElementById('confirmBtn');
 
   class SignupForm {
     constructor() {
@@ -23,8 +29,83 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      this.form.addEventListener("submit", (e) => {
-        e.preventDefault(); 
+      //this.form.addEventListener("submit", (e) => {
+        //e.preventDefault();
+
+let countdown;
+      // 1. Initial Signup Submission
+signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+
+    const res = await fetch('https://your-backend.railway.app/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+    });
+
+    if (res.ok) {
+        verifyModal.style.display = 'flex';
+        startResendTimer();
+    } else {
+        alert("Error sending code. Please try again.");
+    }
+});
+
+      // 2. Resend Timer Logic
+function startResendTimer() {
+    let timeLeft = 60;
+    resendBtn.style.display = 'none';
+    timerText.style.display = 'block';
+    
+    clearInterval(countdown);
+    countdown = setInterval(() => {
+        timeLeft--;
+        secondsSpan.innerText = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timerText.style.display = 'none';
+            resendBtn.style.display = 'inline-block';
+        }
+    }, 1000);
+}
+
+      // 3. Resend Button Click
+resendBtn.onclick = async () => {
+    const email = document.getElementById('email').value;
+    const res = await fetch('https://your-backend.railway.app/send-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+    });
+    if (res.ok) startResendTimer();
+};
+      // 4. Final Verification and Success Animation
+confirmBtn.onclick = async () => {
+    const code = document.getElementById('verifyCode').value;
+    const email = document.getElementById('email').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const dob = document.getElementById('dob').value;
+
+    const res = await fetch('https://your-backend.railway.app/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code, username, password, dob })
+    });
+
+    if (res.ok) {
+        verifyModal.style.display = 'none';
+        document.getElementById('successOverlay').style.display = 'flex';
+      
+      // Wait for animation then redirect
+        setTimeout(() => {
+            window.location.href = "index.html"; 
+        }, 2500);
+    } else {
+        alert("Invalid Security Code.");
+    }
+};
 
         if (this.validateForm()) {
           this.submitForm();
@@ -103,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
           throw new Error(data.message || "Signup failed");
         }
 
-        alert(data.message || "🎉 Account created successfully!");
+        alert(data.message || "Account created successfully!");
         this.form.reset();
         window.location.href = "index.html";
 
