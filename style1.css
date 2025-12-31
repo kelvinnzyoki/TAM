@@ -103,7 +103,7 @@ select {
     background-position: right 15px center;
 }
 
-#signupBtn {
+#signupBtn, .btn-primary {
     margin-top: 10px;
     padding: 18px;
     background: var(--primary);
