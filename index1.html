@@ -42,6 +42,38 @@
 
             <button type="submit" id="signupBtn">INITIALIZE SYSTEM</button>
         </form>
+        
+        
+        
+        <div id="verifyModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2 class="highlight">VERIFY IDENTITY</h2>
+            <p class="subtext">Enter the code sent to your email.</p>
+            
+            <input type="text" id="verifyCode" placeholder="######" 
+                   maxlength="6" inputmode="numeric" pattern="[0-9]*">
+            
+            <div class="timer-container">
+                <p id="timerText">Resend available in: <span id="seconds">60</span>s</p>
+                <button id="resendBtn" style="display:none;">RESEND CODE</button>
+            </div>
+
+            <button id="confirmBtn" class="btn-primary">CONFIRM CODE</button>
+        </div>
+        </div>
+
+
+        <div id="successOverlay" class="success-overlay" style="display:none;">
+        <div class="success-content">
+            <div class="checkmark-circle">
+                <div class="checkmark draw"></div>
+            </div>
+            <h2 class="highlight">SYSTEM INITIALIZED</h2>
+            <p>ACCESS GRANTED</p>
+        </div>
+        </div>
+
+        
 
         <p class="login-link">Already a member? <a href="index.html">Login here</a></p>
     </div>
