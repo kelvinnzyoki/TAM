@@ -12,6 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if(e.target == loginModal) loginModal.style.display = "none"; 
     };
 
+   if (!loginForm) {
+    console.error("Login form not found!");
+    return;
+   } 
+    
     loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const email = document.getElementById("email").value;
