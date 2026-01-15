@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const supabaseUrl = "https://YOUR_PROJECT_ID.supabase.co";
+    const supabaseUrl = "https://gzzonrfqbkrbssarrjch.supabase.co";
     const supabaseKey = "sb_secret_4YVRD6MYkCV18Sf4FWeEtg_yG7JGZzm";
     const supabase = window.supabase.createClient(
   supabaseUrl,
