@@ -1,72 +1,55 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const supabaseUrl = "https://gzzonrfqbkrbssarrjch.supabase.co";
-    const supabaseKey = "sb_secret_4YVRD6MYkCV18Sf4FWeEtg_yG7JGZzm";
-    const supabase = window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
-    /*const SERVER_URL = "https://mybackend-production-b618.up.railway.app";*/
-    const loginModal = document.getElementById("loginModal");
-    const loginBtn = document.getElementById("loginBtn");
-    const closeBtn = document.getElementById("closeBtn");
-    const loginForm = document.getElementById("loginForm");
 
-    if (loginBtn) loginBtn.onclick = () => loginModal.style.display = "block";
-    if (closeBtn) closeBtn.onclick = () => loginModal.style.display = "none";
-    
-    window.onclick = (e) => { 
-        if(e.target == loginModal) loginModal.style.display = "none"; 
-    };
+  // ✅ SAFE Supabase credentials
+  const supabaseUrl = "https://gzzonrfqbkrbssarrjch.supabase.co";
+  const supabaseKey = "YOUR_ANON_PUBLIC_KEY_HERE";
 
-   if (!loginForm) {
-    console.error("Login form not found!");
-    return;
-   } 
-    
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const submitBtn = document.getElementById("submitLogin");
+  const supabase = window.supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+  );
 
-        submitBtn.innerText = "AUTHORIZING...";
-        submitBtn.disabled = true;
-        
-        const { data, error } = await supabase.auth.signInWithPassword({
-  email: "user@email.com",
-  password: "password123"
-});
-        const { data: { user } } = await supabase.auth.getUser();
-        
+  const loginModal = document.getElementById("loginModal");
+  const loginBtn = document.getElementById("loginBtn");
+  const closeBtn = document.getElementById("closeBtn");
+  const loginForm = document.getElementById("loginForm");
 
-/*if (error) {
-  console.error(error);
-} else {
-  console.log(data);
-}
+  loginBtn.onclick = () => loginModal.style.display = "block";
+  closeBtn.onclick = () => loginModal.style.display = "none";
 
-        try {
-            const response = await fetch(`${SERVER_URL}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
+  window.onclick = (e) => {
+    if (e.target === loginModal) loginModal.style.display = "none";
+  };
 
-            const data = await response.json();
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-            if (response.ok && data.success) {
-                localStorage.setItem("userEmail", email);
-                localStorage.setItem("username", data.user.username);
-                window.location.href = "index2.html"; 
-            } else {
-                alert(data.message || "Login Failed");
-                submitBtn.innerText = "AUTHORIZE";
-                submitBtn.disabled = false;
-            }
-        } catch (err) {
-            alert("Server Offline. Please try later.");
-            submitBtn.innerText = "AUTHORIZE";
-            submitBtn.disabled = false;
-        }
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const submitBtn = document.getElementById("submitLogin");
+
+    submitBtn.innerText = "AUTHORIZING...";
+    submitBtn.disabled = true;
+
+    // ✅ Supabase login
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
     });
-});*/
+
+    if (error) {
+      alert(error.message);
+      submitBtn.innerText = "ENTER SYSTEM";
+      submitBtn.disabled = false;
+      return;
+    }
+
+    // ✅ Login success
+    const user = data.user;
+
+    localStorage.setItem("userId", user.id);
+    localStorage.setItem("userEmail", user.email);
+
+    window.location.href = "index2.html";
+  });
+});
