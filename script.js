@@ -51,5 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("userEmail", user.email);
 
     window.location.href = "index2.html";
+      const { data: { user } } = await supabase.auth.getUser();
+
+if (!user) {
+  window.location.href = "index.html";
+}
   });
+
 });
