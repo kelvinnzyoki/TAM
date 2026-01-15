@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   supabaseUrl,
   supabaseKey
 );
-    const SERVER_URL = "https://mybackend-production-b618.up.railway.app";
+    /*const SERVER_URL = "https://mybackend-production-b618.up.railway.app";*/
     const loginModal = document.getElementById("loginModal");
     const loginBtn = document.getElementById("loginBtn");
     const closeBtn = document.getElementById("closeBtn");
@@ -31,9 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         submitBtn.innerText = "AUTHORIZING...";
         submitBtn.disabled = true;
-        const { data, error } = await supabase
-  .from("users")
-  .select("*");
+        
         const { data, error } = await supabase.auth.signInWithPassword({
   email: "user@email.com",
   password: "password123"
@@ -41,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const { data: { user } } = await supabase.auth.getUser();
         
 
-if (error) {
+/*if (error) {
   console.error(error);
 } else {
   console.log(data);
@@ -71,4 +69,4 @@ if (error) {
             submitBtn.disabled = false;
         }
     });
-});
+});*/
