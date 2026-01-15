@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const supabaseUrl = "https://YOUR_PROJECT_ID.supabase.co";
+    const supabaseKey = "YOUR_ANON_PUBLIC_KEY";
+    const supabase = window.supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);
     const SERVER_URL = "https://mybackend-production-b618.up.railway.app";
     const loginModal = document.getElementById("loginModal");
     const loginBtn = document.getElementById("loginBtn");
@@ -25,6 +31,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         submitBtn.innerText = "AUTHORIZING...";
         submitBtn.disabled = true;
+        const { data, error } = await supabase
+  .from("users")
+  .select("*");
+        const { data, error } = await supabase.auth.signInWithPassword({
+  email: "user@email.com",
+  password: "password123"
+});
+        const { data: { user } } = await supabase.auth.getUser();
+        
+
+if (error) {
+  console.error(error);
+} else {
+  console.log(data);
+}
 
         try {
             const response = await fetch(`${SERVER_URL}/login`, {
