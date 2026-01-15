@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ✅ SAFE Supabase credentials
   const supabaseUrl = "https://gzzonrfqbkrbssarrjch.supabase.co";
-  const supabaseKey = "YOUR_ANON_PUBLIC_KEY_HERE";
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6em9ucmZxYmtyYnNzYXJyamNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0ODg5NzEsImV4cCI6MjA4NDA2NDk3MX0.QvwB6_P8hU62VPcG-4FoEeDtkUuAaQYGPf8eZ0Zz5Q0";
 
   const supabase = window.supabase.createClient(
     supabaseUrl,
