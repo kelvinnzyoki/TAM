@@ -84,8 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         };
         
-        localStorage.setItem("userEmail", payload.email);
-        localStorage.setItem("username", payload.username);
         
         
         try {
@@ -96,6 +94,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (res.ok) {
+
+                localStorage.setItem("userEmail", payload.email);
+                localStorage.setItem("username", payload.username);
+        
+                
                 verifyModal.style.display = 'none';
                 document.getElementById('successOverlay').style.display = 'flex';
                 setTimeout(() => window.location.href = "index.html", 2500);
