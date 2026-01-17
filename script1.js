@@ -14,14 +14,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Initial Signup Submission (Triggers Email)
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
         const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
-
-        if (password.length < 8) {
-            alert("Password must be at least 8 characters.");
+        const password = document.getElementById('password').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const dob = document.getElementById('dob').value;
+        if (!email || !username || !password || !dob) {
+            alert("All fields required");
             return;
         }
+
+
 
         try {
             const res = await fetch(`${SERVER_URL}/send-code`, {
@@ -79,8 +81,13 @@ document.addEventListener("DOMContentLoaded", () => {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
             dob: document.getElementById('dob').value
+        
         };
-
+        
+        localStorage.setItem("userEmail", payload.email);
+        localStorage.setItem("username", payload.username);
+        
+        
         try {
             const res = await fetch(`${SERVER_URL}/signup`, {
                 method: 'POST',
