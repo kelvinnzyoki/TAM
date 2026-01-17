@@ -1,61 +1,53 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const SERVER_URL = "https://mybackend-production-b618.up.railway.app";
+    const loginModal = document.getElementById("loginModal");
+    const loginBtn = document.getElementById("loginBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const loginForm = document.getElementById("loginForm");
 
-  // ✅ SAFE Supabase credentials
-  const supabaseUrl = "https://gzzonrfqbkrbssarrjch.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd6em9ucmZxYmtyYnNzYXJyamNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg0ODg5NzEsImV4cCI6MjA4NDA2NDk3MX0.QvwB6_P8hU62VPcG-4FoEeDtkUuAaQYGPf8eZ0Zz5Q0";
+    if (loginBtn) loginBtn.onclick = () => loginModal.style.display = "block";
+    if (closeBtn) closeBtn.onclick = () => loginModal.style.display = "none";
+    
+    window.onclick = (e) => { 
+        if(e.target == loginModal) loginModal.style.display = "none"; 
+    };
 
-  const supabase = window.supabase.createClient(
-    supabaseUrl,
-    supabaseKey
-  );
+   if (!loginForm) {
+    console.error("Login form not found!");
+    return;
+   } 
+    
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const submitBtn = document.getElementById("submitLogin");
 
-  const loginModal = document.getElementById("loginModal");
-  const loginBtn = document.getElementById("loginBtn");
-  const closeBtn = document.getElementById("closeBtn");
-  const loginForm = document.getElementById("loginForm");
+        submitBtn.innerText = "AUTHORIZING...";
+        submitBtn.disabled = true;
 
-  loginBtn.onclick = () => loginModal.style.display = "block";
-  closeBtn.onclick = () => loginModal.style.display = "none";
+        try {
+            const response = await fetch(`${SERVER_URL}/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
 
-  window.onclick = (e) => {
-    if (e.target === loginModal) loginModal.style.display = "none";
-  };
+            const data = await response.json();
 
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const submitBtn = document.getElementById("submitLogin");
-
-    submitBtn.innerText = "AUTHORIZING...";
-    submitBtn.disabled = true;
-
-    // ✅ Supabase login
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
+            if (response.ok && data.success) {
+                localStorage.setItem("userEmail", email);
+                localStorage.setItem("username", data.user.username);
+                window.location.href = "index2.html"; 
+            } else {
+                alert(data.message || "Login Failed");
+                submitBtn.innerText = "AUTHORIZE";
+                submitBtn.disabled = false;
+            }
+        } catch (err) {
+            alert("Server Offline. Please try later.");
+            submitBtn.innerText = "AUTHORIZE";
+            submitBtn.disabled = false;
+        }
     });
-
-    if (error) {
-      alert(error.message);
-      submitBtn.innerText = "ENTER SYSTEM";
-      submitBtn.disabled = false;
-      return;
-    }
-
-    // ✅ Login success
-    const user = data.user;
-
-    localStorage.setItem("userId", user.id);
-    localStorage.setItem("userEmail", user.email);
-
-    window.location.href = "index2.html";
-      const { data: { user } } = await supabase.auth.getUser();
-
-if (!user) {
-  window.location.href = "index.html";
-}
-  });
-
 });
