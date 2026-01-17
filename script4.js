@@ -97,7 +97,7 @@ recordBtn.addEventListener("click", async () => {
     recordBtn.innerText = "Saving...";
 
     try {
-        const response = await fetch("https://mybackend-production-b618.up.railway.app/pushup", {
+        const response = await fetch("https://mybackend-production-b618.up.railway.app/record-score", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
