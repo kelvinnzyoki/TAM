@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const SERVER_URL = "https://mybackend-production-b618.up.railway.app";
+    const SERVER_URL = process.env.SERVER_URL;
     
     const signupForm = document.getElementById('signupForm');
     const verifyModal = document.getElementById('verifyModal');
