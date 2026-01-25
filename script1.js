@@ -12,37 +12,42 @@ document.addEventListener("DOMContentLoaded", () => {
     let countdown;
 
     // 1. Initial Signup Submission (Triggers Email)
-    signupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const username = document.getElementById('username').value.trim();
-        const dob = document.getElementById('dob').value;
-        if (!email || !username || !password || !dob) {
-            alert("All fields required");
-            return;
+signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const username = document.getElementById('username').value.trim();
+    const dob = document.getElementById('dob').value;
+    
+    if (!email || !username || !password || !dob) {
+        alert("All fields required");
+        return;
+    }
+
+    console.log("📤 Sending signup request to:", `${SERVER_URL}/send-code`);
+
+    try {
+        const res = await fetch(`${SERVER_URL}/send-code`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        console.log("📥 Response status:", res.status);
+        const data = await res.json();
+        console.log("📥 Response data:", data);
+
+        if (res.ok) {
+            verifyModal.style.display = 'flex';
+            startResendTimer();
+        } else {
+            alert(data.message || "Error sending code.");
         }
-
-
-
-        try {
-            const res = await fetch(`${SERVER_URL}/send-code`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-
-            if (res.ok) {
-                verifyModal.style.display = 'flex';
-                startResendTimer();
-            } else {
-                const data = await res.json();
-                alert(data.message || "Error sending code.");
-            }
-        } catch (err) {
-            alert("Server connection failed.");
-        }
-    });
+    } catch (err) {
+        console.error("❌ Fetch error:", err);
+        alert(`Server connection failed: ${err.message}`);
+    }
+});
 
     // 2. Timer Logic
     function startResendTimer() {
