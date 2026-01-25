@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const SERVER_URL = "https://mybackend-production-b618.up.railway.app";
+    const SERVER_URL = process.env.BASE_URL;
     const loginModal = document.getElementById("loginModal");
     const loginBtn = document.getElementById("loginBtn");
     const closeBtn = document.getElementById("closeBtn");
