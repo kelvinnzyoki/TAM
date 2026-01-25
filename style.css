@@ -36,6 +36,15 @@ body {
     transform: translate(-50%, -50%);
 }
 
+button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button[type="submit"] {
+    transition: all 0.3s ease;
+}
+
 .main-wrapper {
     text-align: center;
     width: 90%;
