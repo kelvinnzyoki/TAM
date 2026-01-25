@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const SERVER_URL = process.env.SERVER_URL;
+    const SERVER_URL = "cctamcc.site";
     
     const signupForm = document.getElementById('signupForm');
     const verifyModal = document.getElementById('verifyModal');
