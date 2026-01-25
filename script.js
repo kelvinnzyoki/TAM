@@ -1,5 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
     const SERVER_URL = "https://cctamcc.site";
+
+    console.log("🔍 Testing server connection...");
+    try {
+        const testRes = await fetch(`${SERVER_URL}/health`);
+        const testData = await testRes.json();
+        console.log("✅ Server status:", testData);
+    } catch (err) {
+        console.error("❌ Server unreachable:", err);
+        alert("Cannot connect to server. Please check your connection.");
+        return;
+    }
     const loginModal = document.getElementById("loginModal");
     const loginBtn = document.getElementById("loginBtn");
     const closeBtn = document.getElementById("closeBtn");
