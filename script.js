@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const SERVER_URL = "https://cctamcc.site/";
+    const SERVER_URL = "https://cctamcc.site";
 
 
     const loginModal = document.getElementById("loginModal");
