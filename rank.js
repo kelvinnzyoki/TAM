@@ -1,8 +1,9 @@
 async function fetchLeaderboard() {
+    const SERVER_URL = "https://cctamcc.site";
     const list = document.getElementById("leaderboardList");
 
     try {
-        const response = await fetch("https://mybackend-production-b618.up.railway.app/leaderboard");
+        const response = await fetch(SERVER_URL);
         const result = await response.json();
 
         if (result.success) {
