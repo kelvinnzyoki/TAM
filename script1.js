@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const SERVER_URL = "https://cctamcc.site";
+    const SERVER_URL = "https://mybackend-rdbef7n6r-kevin-s-projects-11d5da14.vercel.app/";
     
     const signupForm = document.getElementById('signupForm');
     const verifyModal = document.getElementById('verifyModal');
