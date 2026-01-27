@@ -51,3 +51,30 @@ function saveRecovery() {
 
 // Initial calculation
 calculateReadiness();
+
+
+
+
+// recovery.js
+document.addEventListener('DOMContentLoaded', () => {
+    const savedBio = SessionManager.getData('bio_metrics');
+    
+    if (savedBio) {
+        document.getElementById('sleepInput').value = savedBio.sleep;
+        document.getElementById('waterInput').value = savedBio.hydration;
+        document.getElementById('stressInput').value = savedBio.stress;
+        calculateReadiness(); // Update the gauge visually
+    }
+});
+
+function saveRecovery() {
+    const metrics = {
+        sleep: document.getElementById('sleepInput').value,
+        hydration: document.getElementById('waterInput').value,
+        stress: document.getElementById('stressInput').value,
+        score: document.getElementById('readinessScore').innerText
+    };
+
+    SessionManager.saveData('bio_metrics', metrics);
+    alert("Biometrics Cached for Session.");
+    }
