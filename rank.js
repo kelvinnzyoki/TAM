@@ -3,7 +3,7 @@ async function fetchLeaderboard() {
     const list = document.getElementById("leaderboardList");
 
     try {
-        const response = await fetch("https://cctamcc.site");
+        const response = await fetch("https://cctamcc.site/leaderboard");
         const result = await response.json();
 
         if (result.success) {
