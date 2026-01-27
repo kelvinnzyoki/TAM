@@ -1,4 +1,4 @@
-// Initialize Chart.js Radar
+// 1. CHART INITIALIZATION
 const ctx = document.getElementById('performanceRadar').getContext('2d');
 let performanceChart = new Chart(ctx, {
     type: 'radar',
@@ -6,7 +6,7 @@ let performanceChart = new Chart(ctx, {
         labels: ['Discipline', 'Focus', 'Ego Control', 'Physical', 'Social'],
         datasets: [{
             label: 'Alpha Profile',
-            data: [80, 70, 60, 90, 50], // Initial dummy data
+            data: [80, 70, 60, 90, 50],
             backgroundColor: 'rgba(0, 199, 182, 0.2)',
             borderColor: '#00c7b6',
             pointBackgroundColor: '#00c7b6',
@@ -26,68 +26,56 @@ let performanceChart = new Chart(ctx, {
     }
 });
 
-// Function to sync Victories and Defeats to your Node Server
-async function syncAuditToProduction() {
-    const token = sessionStorage.getItem('auth_token');
-    
-    const auditData = {
-        victory: document.querySelector('.victory textarea').value,
-        defeat: document.querySelector('.defeat textarea').value
-    };
+// 2. PRODUCTION API CONFIG
+const API_BASE = "https://cctamcc.site/api"; // Unified Base URL
+
+// 3. LOAD STATE FROM POSTGRESQL
+window.addEventListener('load', async () => {
+    const token = sessionStorage.getItem('auth_token'); // Ensure key name matches Login
+    if (!token) return;
 
     try {
-        const response = await fetch('https://cctamcc.site/api/user/audit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(auditData)
+        const response = await fetch(`${API_BASE}/audit/load`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
-
+        
         if (response.ok) {
-            console.log("Persistence Confirmed.");
+            const data = await response.json();
+            // Match these keys to your PostgreSQL column names
+            if (data.victory_text) document.querySelector('.victory textarea').value = data.victory_text;
+            if (data.defeat_text) document.querySelector('.defeat textarea').value = data.defeat_text;
         }
-    } catch (error) {
-        console.error("Communication Blackout: Server Unreachable.");
+    } catch (err) {
+        console.error("Failed to load initial state.");
     }
-}
-
-// Attach listener to textareas
-document.querySelectorAll('textarea').forEach(area => {
-    area.addEventListener('blur', syncAuditToProduction);
 });
 
-
-
-// On Page Load: Retrieve the "just left it there" state
-window.addEventListener('load', async () => {
-    const response = await fetch('/api/audit/load', {
-        headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
-    });
-    const data = await response.json();
-    document.querySelector('.victory textarea').value = data.victory_text;
-    document.querySelector('.defeat textarea').value = data.defeat_text;
-});
-
-// Auto-Save: Sync to PostgreSQL when the user stops typing
+// 4. DEBOUNCED AUTO-SAVE
 let debouncer;
 document.querySelectorAll('textarea').forEach(el => {
     el.addEventListener('input', () => {
         clearTimeout(debouncer);
         debouncer = setTimeout(async () => {
-            await fetch('/api/audit/save', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-                },
-                body: JSON.stringify({
-                    victory: document.querySelector('.victory textarea').value,
-                    defeat: document.querySelector('.defeat textarea').value
-                })
-            });
-            console.log("Cloud Persistence Confirmed.");
-        }, 1500); // 1.5s delay to protect server resources
+            const token = sessionStorage.getItem('auth_token');
+            const payload = {
+                victory: document.querySelector('.victory textarea').value,
+                defeat: document.querySelector('.defeat textarea').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/audit/save`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) console.log("PostgreSQL Synced.");
+            } catch (error) {
+                console.error("Sync Error: Connection lost.");
+            }
+        }, 1500); 
     });
 });
