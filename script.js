@@ -71,3 +71,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+
+
+
+
+function toggleMenu() {
+    const sidebar = document.getElementById('sideNav');
+    sidebar.classList.toggle('active');
+    
+    // Animate the hamburger icon to an 'X'
+    const spans = document.querySelectorAll('.menu-trigger span');
+    if (sidebar.classList.contains('active')) {
+        spans[0].style.transform = "rotate(45deg) translate(5px, 6px)";
+        spans[1].style.transform = "rotate(-45deg) translate(5px, -7px)";
+    } else {
+        spans[0].style.transform = "none";
+        spans[1].style.transform = "none";
+    }
+}
+
+function handleLogout() {
+    if (confirm("Terminate current session? Your discipline data is saved locally.")) {
+        localStorage.clear();
+        location.href = 'index.html';
+    }
+}
