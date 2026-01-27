@@ -50,3 +50,35 @@ function saveAudit() {
         location.href = 'index2.html';
     }, 1500);
 }
+
+
+
+
+// save
+document.addEventListener('DOMContentLoaded', () => {
+    const victText = document.querySelector('.victory textarea');
+    const defText = document.querySelector('.defeat textarea');
+
+    // Load existing data from the session
+    const savedAudit = SessionManager.getData('stoic_audit');
+    if (savedAudit) {
+        victText.value = savedAudit.victory || "";
+        defText.value = savedAudit.defeat || "";
+    }
+
+    // "Live Sync" - Save every time they stop typing (500ms delay)
+    let timeout = null;
+    const autoSave = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            SessionManager.saveData('stoic_audit', {
+                victory: victText.value,
+                defeat: defText.value
+            });
+            console.log("Audit Synced to Session.");
+        }, 500);
+    };
+
+    victText.addEventListener('input', autoSave);
+    defText.addEventListener('input', autoSave);
+});
