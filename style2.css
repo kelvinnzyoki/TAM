@@ -90,3 +90,72 @@ body {
     font-weight: bold;
     cursor: pointer;
 }
+
+
+
+/* --- DASHBOARD RESPONSIVE LAYER --- */
+
+@media screen and (max-width: 480px) {
+    /* 1. Adjust spacing for small screens */
+    body {
+        padding: 15px 0;
+    }
+
+    .score-container {
+        padding: 20px;
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    #totalScoreDisplay {
+        font-size: 42px; /* Prevent text from overflowing its container */
+    }
+
+    /* 2. Grid Optimization */
+    .dashboard-grid {
+        gap: 10px; /* Tighter gap for small screens */
+        width: 95%;
+    }
+
+    .card {
+        padding: 15px 10px; /* Reduce padding to prioritize icon/text space */
+    }
+
+    .card .icon {
+        font-size: 24px;
+    }
+
+    .card h3 {
+        font-size: 14px;
+    }
+}
+
+/* 3. Tablet/Desktop Scaling */
+@media screen and (min-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr); /* Expand to 3 columns on tablets */
+        max-width: 700px;
+        gap: 25px;
+    }
+
+    .score-container {
+        max-width: 500px;
+    }
+}
+
+/* 4. "Squashed" Height Fix (Landscape) */
+@media screen and (max-height: 550px) {
+    .score-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 10px 20px;
+        margin-bottom: 15px;
+    }
+    
+    #totalScoreDisplay {
+        font-size: 32px;
+    }
+    
+    .rank-text { margin: 0; }
+        }
