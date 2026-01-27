@@ -184,3 +184,78 @@ h1 {
     box-shadow: none;
     cursor: not-allowed;
 }
+
+
+
+/* --- QUANTITATIVE TRACKER RESPONSIVE LAYER --- */
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 20px 0;
+        width: 92%;
+    }
+
+    h1 {
+        font-size: 22px;
+        letter-spacing: 3px;
+    }
+
+    /* 1. Optimize Grid for Small Screens */
+    .stats-grid {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .grid-item {
+        padding: 15px 5px; /* Narrower padding to keep items side-by-side */
+    }
+
+    .label-number {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    /* 2. Responsive Checkbox sizing */
+    .checkbox-container {
+        width: 48px;
+        height: 48px;
+    }
+
+    /* 3. Improve Numeric Input Accessibility */
+    .other-input {
+        width: 100px; /* Wider for easier tapping on mobile */
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .record-btn {
+        padding: 18px;
+        font-size: 13px; /* Slightly smaller to keep text on one line */
+    }
+}
+
+/* 4. Desktop/Tablet Polish */
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 450px;
+        padding-top: 60px;
+    }
+
+    .grid-item:hover {
+        border-color: var(--primary);
+        background: rgba(0, 199, 182, 0.03);
+        transform: scale(1.02); /* Expert touch: subtle pop-out effect */
+    }
+
+    .record-btn:hover:not(:disabled) {
+        box-shadow: 0 0 30px rgba(0, 199, 182, 0.4);
+        transform: translateY(-2px);
+    }
+}
+
+/* 5. Orientation Fix for short screens */
+@media screen and (max-height: 650px) {
+    .subtitle { margin-bottom: 20px; }
+    .other-section { margin-bottom: 20px; padding: 15px; }
+    .container { padding-top: 10px; }
+}
