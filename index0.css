@@ -243,3 +243,69 @@ input:focus {
         background: #00e0cd; /* Visual feedback for touch */
     }
 }
+
+
+
+
+
+
+
+/* --- Navigation Core --- */
+.menu-trigger {
+    position: fixed; top: 25px; left: 25px;
+    width: 30px; height: 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer; z-index: 2000;
+}
+
+.menu-trigger span {
+    width: 100%; height: 2px; background: var(--primary);
+    transition: 0.3s; box-shadow: 0 0 10px rgba(0, 199, 182, 0.5);
+}
+
+.sidebar {
+    position: fixed; top: 0; left: -300px;
+    width: 280px; height: 100vh;
+    background: rgba(10, 10, 12, 0.98);
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 1000; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex; flex-direction: column;
+}
+
+.sidebar.active { left: 0; }
+
+/* --- Nav Content --- */
+.nav-header { padding: 50px 30px 30px; border-bottom: 1px solid #222; }
+.user-profile { display: flex; align-items: center; gap: 15px; }
+.avatar { 
+    width: 45px; height: 45px; background: var(--primary); 
+    border-radius: 10px; display: flex; align-items: center; 
+    justify-content: center; font-weight: bold; color: #000;
+}
+
+.user-name { display: block; font-family: 'Orbitron'; font-size: 14px; }
+.user-status { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+
+.nav-links { list-style: none; padding: 40px 30px; flex-grow: 1; }
+.nav-links li { margin-bottom: 25px; }
+.nav-links a {
+    text-decoration: none; color: #888; font-family: 'Orbitron';
+    font-size: 13px; letter-spacing: 2px; transition: 0.3s;
+}
+
+.nav-links a:hover { color: var(--primary); padding-left: 10px; }
+
+.nav-footer { padding: 30px; }
+.logout-link { 
+    background: none; border: 1px solid #333; color: #ff4d4d;
+    width: 100%; padding: 12px; border-radius: 8px; cursor: pointer;
+    font-family: 'Orbitron'; font-size: 10px;
+}
+
+/* Overlay */
+.menu-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    opacity: 0; pointer-events: none; transition: 0.4s; z-index: 999;
+}
+.sidebar.active + .menu-overlay { opacity: 1; pointer-events: all; }
