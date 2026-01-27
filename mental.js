@@ -42,8 +42,9 @@ window.addEventListener('load', async () => {
         if (response.ok) {
             const data = await response.json();
             // Match these keys to your PostgreSQL column names
-            if (data.victory_text) document.querySelector('.victory textarea').value = data.victory_text;
-            if (data.defeat_text) document.querySelector('.defeat textarea').value = data.defeat_text;
+        
+            if (data.victory) document.querySelector('.victory textarea').value = data.victory;
+            if (data.defeat) document.querySelector('.defeat textarea').value = data.defeat;
         }
     } catch (err) {
         console.error("Failed to load initial state.");
