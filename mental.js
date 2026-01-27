@@ -35,7 +35,7 @@ window.addEventListener('load', async () => {
     if (!token) return;
 
     try {
-        const response = await fetch(`${API_BASE}/audit/load`, {
+        const response = await fetch(`${API_BASE}/audit/save`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -64,7 +64,7 @@ document.querySelectorAll('textarea').forEach(el => {
             };
 
             try {
-                const response = await fetch(`${API_BASE}/audit/save`, {
+                const response = await fetch(`${API_BASE}/audit/load`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
