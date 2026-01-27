@@ -32,3 +32,25 @@ function postAchievement() {
 
 // Initial render
 renderFeed();
+
+
+
+// arena.js
+function postAchievement() {
+    const userAction = prompt("Declare your victory:");
+    if (userAction) {
+        const newPost = {
+            name: "YOU",
+            action: userAction,
+            time: "Just now",
+            rank: "WARRIOR"
+        };
+        
+        // Add to local list and save to session
+        let currentFeed = SessionManager.getData('arena_posts') || [];
+        currentFeed.unshift(newPost);
+        SessionManager.saveData('arena_posts', currentFeed);
+        
+        renderFeed();
+    }
+}
