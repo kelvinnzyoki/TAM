@@ -145,3 +145,71 @@ h1 {
 .record-btn:active:not(:disabled) {
     transform: scale(0.98);
 }
+
+
+
+/* --- HABIT SELECTION RESPONSIVE LAYER --- */
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding-top: 30px; /* Bring content up on small screens */
+        width: 92%;
+    }
+
+    h1 {
+        font-size: 20px; /* Scale down heading */
+        letter-spacing: 2px;
+    }
+
+    .subtitle {
+        margin-bottom: 30px;
+    }
+
+    .card-content {
+        padding: 15px; /* Tighter padding for mobile */
+        gap: 12px;
+    }
+
+    .label-text {
+        font-size: 14px; /* Ensure text fits on one line */
+    }
+
+    .record-btn {
+        padding: 16px;
+        font-size: 14px;
+    }
+}
+
+/* 1. Tablet/Desktop Alignment */
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 450px; /* Slightly wider for better desktop presence */
+        padding-top: 80px;
+    }
+
+    .selection-wrapper {
+        gap: 25px; /* More breathing room */
+    }
+
+    .card-content:hover {
+        border-color: #555; /* Subtle hover before selection */
+        transform: translateX(5px); /* Expert touch: slide right on hover */
+    }
+}
+
+/* 2. Interactive States (Expert UX) */
+.option-card input:checked + .card-content {
+    animation: pulse-select 0.3s ease-in-out;
+}
+
+@keyframes pulse-select {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* 3. High-Contrast Focus (Accessibility) */
+.option-card input:focus-visible + .card-content {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+}
