@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoic Audit | Mental Performance</title>
+    <link rel="stylesheet" href="mental.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <header>
+            <h1>Stoic Audit</h1>
+            <p class="subtitle">AUDIT YOUR MIND. CONQUER YOUR WEAKNESS.</p>
+        </header>
+
+        <div class="performance-chart">
+            <canvas id="performanceRadar"></canvas>
+        </div>
+
+        <div class="audit-grid">
+            <div class="audit-card victory">
+                <h3>Daily Victories</h3>
+                <textarea placeholder="Where did you show discipline?"></textarea>
+            </div>
+            <div class="audit-card defeat">
+                <h3>System Failures</h3>
+                <textarea placeholder="Where did your ego win?"></textarea>
+            </div>
+        </div>
+
+        <div class="metrics-row">
+            <div class="metric-input">
+                <label>Focus Level</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="focusRange">
+            </div>
+            <div class="metric-input">
+                <label>Ego Control</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="egoRange">
+            </div>
+        </div>
+
+        <button class="record-btn" onclick="saveAudit()">Seal Audit</button>
+        <button class="back-btn" onclick="history.back()">Return to Hub</button>
+    </div>
+
+    <script src="mental.js"></script>
+</body>
+</html>

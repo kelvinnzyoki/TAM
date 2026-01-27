@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+:root {
+    --primary: #00c7b6;
+    --warning: #ffcc00;
+    --danger: #ff4d4d;
+    --success: #00ff88;
+    --bg-dark: #080808;
+    --card-bg: #111;
+}
+
+body { margin: 0; background: var(--bg-dark); color: white; font-family: 'Poppins', sans-serif; display: flex; justify-content: center; }
+
+.bg-glow {
+    position: fixed; width: 400px; height: 400px; background: var(--primary);
+    filter: blur(200px); opacity: 0.05; z-index: -1; top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+
+.container { width: 90%; max-width: 450px; padding: 40px 0; text-align: center; }
+
+h1 { font-family: 'Orbitron'; color: var(--primary); letter-spacing: 5px; font-size: 24px; }
+
+/* Gauge Styling */
+.readiness-section { margin: 40px 0; }
+.gauge-container { position: relative; width: 200px; margin: 0 auto; }
+.gauge { width: 100%; fill: none; stroke-width: 8; stroke-linecap: round; }
+.gauge-bg { stroke: #222; }
+.gauge-fill { 
+    stroke: var(--primary); 
+    transition: stroke-dasharray 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s;
+}
+
+.gauge-text {
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    font-family: 'Orbitron'; font-size: 28px; font-weight: bold;
+}
+
+#readinessStatus { margin-top: 15px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #888; }
+
+/* Grid Layout */
+.bio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; }
+.bio-card { background: var(--card-bg); padding: 15px; border-radius: 15px; border: 1px solid #222; }
+.bio-card .icon { font-size: 24px; margin-bottom: 10px; }
+.bio-card h3 { font-size: 10px; font-family: 'Orbitron'; color: #666; margin-bottom: 10px; }
+
+input[type="number"], select {
+    width: 100%; background: #000; border: 1px solid #333; color: white; 
+    text-align: center; border-radius: 5px; font-size: 12px; padding: 5px 0;
+}
+
+/* Range slider styling */
+input[type="range"] { width: 100%; accent-color: var(--primary); }
+
+.record-btn {
+    width: 100%; padding: 18px; border-radius: 12px; border: none;
+    font-family: 'Orbitron'; font-weight: bold; background: var(--primary);
+    cursor: pointer; transition: 0.3s;
+}

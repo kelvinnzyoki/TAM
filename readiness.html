@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio-Hub | Optimization</title>
+    <link rel="stylesheet" href="readiness.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-glow"></div>
+
+    <div class="container">
+        <header>
+            <h1>Bio-Optimization</h1>
+            <p class="subtitle">CALCULATING READINESS FOR BATTLE</p>
+        </header>
+
+        <div class="readiness-section">
+            <div class="gauge-container">
+                <svg viewBox="0 0 100 50" class="gauge">
+                    <path class="gauge-bg" d="M10,45 A40,40 0 0,1 90,45" />
+                    <path id="gauge-fill" class="gauge-fill" d="M10,45 A40,40 0 0,1 90,45" style="stroke-dasharray: 0, 126;" />
+                </svg>
+                <div class="gauge-text">
+                    <span id="readinessScore">0</span>%
+                </div>
+            </div>
+            <p id="readinessStatus">Input Data...</p>
+        </div>
+
+        <div class="bio-grid">
+            <div class="bio-card">
+                <div class="icon">💤</div>
+                <h3>Sleep</h3>
+                <input type="number" id="sleepInput" placeholder="Hours" oninput="calculateReadiness()">
+            </div>
+            <div class="bio-card">
+                <div class="icon">💧</div>
+                <h3>Hydration</h3>
+                <select id="waterInput" onchange="calculateReadiness()">
+                    <option value="0">Dehydrated</option>
+                    <option value="1">Moderate</option>
+                    <option value="2">Optimized</option>
+                </select>
+            </div>
+            <div class="bio-card">
+                <div class="icon">🧘</div>
+                <h3>Stress</h3>
+                <input type="range" id="stressInput" min="1" max="10" value="5" oninput="calculateReadiness()">
+            </div>
+        </div>
+
+        <button class="record-btn" onclick="saveRecovery()">Save State</button>
+    </div>
+
+    <script src="readiness.js"></script>
+</body>
+</html>
