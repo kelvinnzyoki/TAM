@@ -167,3 +167,79 @@ input:focus {
     background: var(--primary);
     color: black;
     }
+    
+    
+    
+    /* --- RESPONSIVE ADJUSTMENTS --- */
+
+/* 1. Handle small screens (Mobile) */
+@media screen and (max-width: 480px) {
+    body {
+        /* Allow scrolling on very short phones or when keyboard is open */
+        height: auto;
+        min-height: 100vh;
+        padding: 40px 0; 
+        overflow-y: auto;
+    }
+
+    .hero h1 {
+        font-size: 38px; /* Scale down the massive title */
+        letter-spacing: 4px;
+    }
+
+    .hero p {
+        font-size: 12px;
+        margin-bottom: 30px;
+    }
+
+    .main-wrapper {
+        width: 85%;
+    }
+
+    .modal-content {
+        margin: 20% auto; /* Give more top space on mobile */
+        width: 90%;
+        padding: 30px 20px;
+    }
+
+    button {
+        padding: 15px; /* Slightly smaller touch targets */
+        font-size: 12px;
+    }
+}
+
+/* 2. Handle Tablet/Medium screens */
+@media screen and (max-width: 768px) {
+    .hero h1 {
+        font-size: 48px;
+    }
+}
+
+/* 3. Landscape Mode Fix (For phones flipped sideways) */
+@media screen and (max-height: 500px) {
+    body {
+        height: auto;
+        overflow-y: auto;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    
+    .hero p {
+        margin-bottom: 20px;
+    }
+    
+    .modal-content {
+        margin: 5% auto;
+    }
+}
+
+/* 4. Touch Device Optimization */
+@media (hover: none) {
+    button:hover {
+        transform: none; /* Prevent sticky hover states on mobile */
+    }
+    
+    .btn-primary:active {
+        background: #00e0cd; /* Visual feedback for touch */
+    }
+}
