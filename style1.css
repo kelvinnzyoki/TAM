@@ -205,4 +205,76 @@ select {
 
 
 
+/* --- RESPONSIVE LAYER --- */
+
+@media screen and (max-width: 480px) {
+    /* 1. Prevent clipping on small phones */
+    body {
+        padding: 20px 0;
+        align-items: flex-start; /* Start from top so user can scroll down to button */
+        overflow-y: auto;
+    }
+
+    .content {
+        width: 90%;
+        margin-top: 10vh; /* Better vertical positioning */
+    }
+
+    /* 2. Scale Typography */
+    h1 {
+        font-size: 26px;
+        letter-spacing: 2px;
+    }
+
+    .subtext {
+        margin-bottom: 25px;
+        font-size: 11px;
+    }
+
+    /* 3. Optimize Inputs for Touch */
+    input, select {
+        padding: 14px; /* Slightly shorter to save vertical space */
+        font-size: 16px; /* 16px prevents iOS from auto-zooming on focus */
+    }
+
+    /* 4. Verification Code Field */
+    #verifyCode {
+        font-size: 24px;
+        letter-spacing: 6px;
+        padding: 12px;
+    }
+
+    /* 5. Modal Adaptation */
+    .modal-content {
+        width: 95%;
+        padding: 30px 15px;
+    }
+}
+
+/* 6. Landscape Orientation Fix */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    body {
+        align-items: center;
+    }
+    .content {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Split form into two columns if screen is too wide but short */
+        gap: 20px;
+        max-width: 600px;
+    }
+    h1, .subtext { grid-column: span 2; }
+    #signupBtn { grid-column: span 2; }
+}
+
+/* 7. High-End Interaction (No-Hover Devices) */
+@media (hover: none) {
+    #signupBtn:active, .btn-primary:active {
+        background-color: #00ebd7;
+        box-shadow: 0 0 25px rgba(0, 199, 182, 0.5);
+    }
+}
+
+
+
 
