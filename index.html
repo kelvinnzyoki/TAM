@@ -3,45 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAM | Evolution</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Forge Your Legacy | Growth Tracker</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-glow"></div>
+  <div class="glow-bg"></div>
 
-    <div class="main-wrapper">
-        <div class="hero">
-            <h1 class="glitch" data-text="TAM">TAM</h1>
-            <p>Master Your Discipline</p>
-        </div>
+<nav>
+    <div class="logo">TAM<span>.</span></div>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <button class="btn-secondary" onclick="location.href='index.html'">Login</button>
+    </div>
+</nav>
 
-        <div class="container">
-            <button id="signupBtn" class="btn-primary" onclick="location.href='index1.html'">GET STARTED</button>
-            <button id="loginBtn" class="btn-secondary">LOGIN</button>
-        </div>
-
-        <div id="loginModal" class="modal">
-            <div class="modal-content">
-                <span id="closeBtn">&times;</span>
-                <h2 class="modal-title">Welcome Back</h2>
-                <form id="loginForm">
-                    <div class="input-group">
-                        <input type="email" id="email" placeholder="Email" required>
-                    </div>
-                    <div class="input-group">
-                        <input type="password" id="password" placeholder="Password" required>
-                    </div>
-                    <button type="submit" id="submitLogin" class="btn-submit">ENTER SYSTEM</button>
-                </form>
-            </div>
+<header class="hero">
+    <div class="hero-content">
+        <span class="badge">V1.0 Now Live</span>
+        <h1>Stop Existing. <br><span class="gradient-text">Start Conquering.</span></h1>
+        <p>The ultimate discipline dashboard. Track your sobriety, crush your physical limits, and rise through the ranks from Novice to Legend.</p>
+        
+        <div class="cta-group">
+            <button class="btn-primary" onclick="location.href='index2.html'">Enter Dashboard</button>
+            <button class="btn-outline" onclick="location.href='rank.html'">View Global Ranks</button>
         </div>
     </div>
 
-    
-    <script src="script.js"></script>
+    <div class="hero-visual">
+        <div class="abstract-shape"></div>
+        <div class="stat-card-preview">
+            <div class="icon-circle">🔥</div>
+            <div class="details">
+                <p>Current Rank</p>
+                <strong>Warrior</strong>
+            </div>
+        </div>
+    </div>
+</header>
 
+<section id="features" class="features-section">
+    <div class="section-header">
+        <h2>Built for the legends</h2>
+    </div>
+    <div class="features-grid">
+        <div class="feat-card">
+            <div class="feat-icon">🚫</div>
+            <h3>Addiction Tracking</h3>
+            <p>Real-time sobriety counters with high-stakes accountability and streak protection.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">💪</div>
+            <h3>Physical Mastery</h3>
+            <p>Log every rep. Watch your "Total Progress Points" climb as you hit new PRs.</p>
+        </div>
+        <div class="feat-card">
+            <div class="feat-icon">📈</div>
+            <h3>Data Analytics</h3>
+            <p>Visualise your growth with deep-dive charts into your daily discipline habits.</p>
+        </div>
+    </div>
+</section>
 
-    
 </body>
-    </html>
-    
+</html>
