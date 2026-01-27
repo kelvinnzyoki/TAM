@@ -1,24 +1,30 @@
-// --- SESSION GATEKEEPER ---
-const SessionManager = {
-    checkAuth: function() {
-        const user = localStorage.getItem('activeUser');
-        if (!user) {
-            window.location.href = 'login.html'; // Kick out if not signed in
+// production-core.js
+const API_BASE_URL = "https://cctamcc.site"; // Replace with your actual domain
+
+const ProductionAPI = {
+    // Get the secure token from session storage (more secure than localStorage for production)
+    getToken: () => sessionStorage.getItem('auth_token'),
+
+    // Secure Fetch Wrapper
+    request: async (endpoint, options = {}) => {
+        const token = ProductionAPI.getToken();
+        
+        const defaultHeaders = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            ...options,
+            headers: { ...defaultHeaders, ...options.headers }
+        });
+
+        if (response.status === 401) {
+            // Token expired or invalid
+            window.location.href = '/index.html';
+            return;
         }
-        return JSON.parse(user);
-    },
 
-    saveData: function(key, data) {
-        const user = this.checkAuth();
-        // Save data unique to this specific user email
-        const userKey = `${user.email}_${key}`;
-        localStorage.setItem(userKey, JSON.stringify(data));
-    },
-
-    getData: function(key) {
-        const user = this.checkAuth();
-        const userKey = `${user.email}_${key}`;
-        const data = localStorage.getItem(userKey);
-        return data ? JSON.parse(data) : null;
+        return response.json();
     }
 };
