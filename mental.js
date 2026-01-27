@@ -26,59 +26,68 @@ let performanceChart = new Chart(ctx, {
     }
 });
 
-function saveAudit() {
-    const focusVal = document.getElementById('focusRange').value;
-    const egoVal = document.getElementById('egoRange').value;
-
-    // Logic to save values to localStorage
+// Function to sync Victories and Defeats to your Node Server
+async function syncAuditToProduction() {
+    const token = sessionStorage.getItem('auth_token');
+    
     const auditData = {
-        date: new Date().toLocaleDateString(),
-        focus: focusVal,
-        ego: egoVal,
         victory: document.querySelector('.victory textarea').value,
         defeat: document.querySelector('.defeat textarea').value
     };
 
-    localStorage.setItem('lastAudit', JSON.stringify(auditData));
-    
-    // Animation feedback
-    const btn = document.querySelector('.record-btn');
-    btn.innerHTML = "AUDIT SEALED";
-    btn.style.background = "#00ff88";
-    
-    setTimeout(() => {
-        location.href = 'index2.html';
-    }, 1500);
+    try {
+        const response = await fetch('https://cctamcc.site/api/user/audit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(auditData)
+        });
+
+        if (response.ok) {
+            console.log("Persistence Confirmed.");
+        }
+    } catch (error) {
+        console.error("Communication Blackout: Server Unreachable.");
+    }
 }
 
+// Attach listener to textareas
+document.querySelectorAll('textarea').forEach(area => {
+    area.addEventListener('blur', syncAuditToProduction);
+});
 
 
 
-// save
-document.addEventListener('DOMContentLoaded', () => {
-    const victText = document.querySelector('.victory textarea');
-    const defText = document.querySelector('.defeat textarea');
+// On Page Load: Retrieve the "just left it there" state
+window.addEventListener('load', async () => {
+    const response = await fetch('/api/audit/load', {
+        headers: { 'Authorization': `Bearer ${sessionStorage.getItem('token')}` }
+    });
+    const data = await response.json();
+    document.querySelector('.victory textarea').value = data.victory_text;
+    document.querySelector('.defeat textarea').value = data.defeat_text;
+});
 
-    // Load existing data from the session
-    const savedAudit = SessionManager.getData('stoic_audit');
-    if (savedAudit) {
-        victText.value = savedAudit.victory || "";
-        defText.value = savedAudit.defeat || "";
-    }
-
-    // "Live Sync" - Save every time they stop typing (500ms delay)
-    let timeout = null;
-    const autoSave = () => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            SessionManager.saveData('stoic_audit', {
-                victory: victText.value,
-                defeat: defText.value
+// Auto-Save: Sync to PostgreSQL when the user stops typing
+let debouncer;
+document.querySelectorAll('textarea').forEach(el => {
+    el.addEventListener('input', () => {
+        clearTimeout(debouncer);
+        debouncer = setTimeout(async () => {
+            await fetch('/api/audit/save', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    victory: document.querySelector('.victory textarea').value,
+                    defeat: document.querySelector('.defeat textarea').value
+                })
             });
-            console.log("Audit Synced to Session.");
-        }, 500);
-    };
-
-    victText.addEventListener('input', autoSave);
-    defText.addEventListener('input', autoSave);
+            console.log("Cloud Persistence Confirmed.");
+        }, 1500); // 1.5s delay to protect server resources
+    });
 });
