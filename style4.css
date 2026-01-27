@@ -181,3 +181,70 @@ h1 {
     color: #555;
     box-shadow: none;
 }
+
+
+
+/* --- ACTIVITY LOGGER RESPONSIVE LAYER --- */
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 20px 0;
+        width: 92%;
+    }
+
+    h1 {
+        font-size: 22px; /* Scale down for smaller viewports */
+        letter-spacing: 3px;
+    }
+
+    /* 1. Prevent the grid from getting too tight */
+    .stats-grid {
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .grid-item {
+        padding: 12px;
+    }
+
+    .label-number {
+        font-size: 18px;
+    }
+
+    /* 2. Scale the Checkbox for mobile thumbs */
+    .checkbox-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* 3. Optimize the numeric input */
+    .other-input {
+        width: 100%; /* Expand to full width of its parent for easier tapping */
+        max-width: 120px;
+        height: 50px;
+        font-size: 20px;
+    }
+}
+
+/* 4. Desktop/Tablet Polish */
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 500px;
+    }
+
+    .grid-item:hover {
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-5px);
+    }
+}
+
+/* 5. Mobile Keyboard Fix */
+@media screen and (max-height: 600px) {
+    .container {
+        padding-top: 10px;
+    }
+    .subtitle {
+        margin-bottom: 15px;
+    }
+}
