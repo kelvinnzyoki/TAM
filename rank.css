@@ -50,3 +50,70 @@ h1 { font-family: 'Orbitron', sans-serif; color: var(--primary); letter-spacing:
     border-radius: 8px;
     cursor: pointer;
 }
+
+
+
+/* --- LEADERBOARD RESPONSIVE LAYER --- */
+
+@media screen and (max-width: 480px) {
+    .container {
+        padding-top: 25px;
+        width: 92%;
+    }
+
+    h1 {
+        font-size: 22px;
+        letter-spacing: 3px;
+    }
+
+    .rank-item {
+        padding: 12px 10px; /* Tighter padding for mobile */
+    }
+
+    .user-email {
+        font-size: 12px; /* Prevent text overlap on small screens */
+        max-width: 150px; /* Force truncation for very long emails */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .user-score {
+        font-size: 14px;
+    }
+
+    .rank-number {
+        font-size: 14px;
+        width: 25px;
+    }
+}
+
+/* 1. Desktop Polish (Expert UX) */
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 450px;
+    }
+
+    .rank-item {
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    /* Subtle lift effect on hover */
+    .rank-item:hover {
+        transform: scale(1.02);
+        border-color: var(--primary);
+        cursor: default;
+    }
+}
+
+/* 2. Visual Enhancements for Top Ranks */
+.rank-item:nth-child(1) .rank-number { color: gold; text-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+.rank-item:nth-child(2) .rank-number { color: silver; }
+.rank-item:nth-child(3) .rank-number { color: #cd7f32; }
+
+/* 3. Interactive Back Button */
+.back-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transition: 0.3s;
+}
