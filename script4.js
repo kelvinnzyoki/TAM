@@ -76,44 +76,39 @@ otherInput.addEventListener("input", () => {
 });
 
 // --- C. Submit to Backend ---
+// --- C. Submit to Backend (Corrected for auth.js & Production) ---
 recordBtn.addEventListener("click", async () => {
-    // Retrieve email saved from login page
-    /*const email = localStorage.getItem("userEmail");*/
-
-    /*if (!email) {
-        alert("Session missing. Please log in again.");
-        window.location.href = "index.html";
-        return;*/
-    }
+    // Basic validation before sending
+    if (recordBtn.disabled) return;
 
     const payload = {
-        /*email: email,*/
         date: new Date().toISOString(),
-        score: currentScore
-    
+        score: currentScore // This is set by your checkbox/input logic
     };
 
     recordBtn.disabled = true;
     recordBtn.innerText = "Saving...";
 
     try {
-        const response = await fetch("https://cctamcc.site/pushups", {
+        // Use API.request from your auth.js bridge
+        // It handles credentials: "include" and 401 token refreshes automatically
+        const data = await API.request("/pushups", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-            alert("Score Recorded!");
+        if (data.success) {
+            alert("✅ Alpha Progress Recorded!");
             window.location.href = "index2.html";
         } else {
-            const err = await response.json();
-            alert("Error: " + err.error);
+            alert("Error: " + (data.message || "Failed to sync"));
             recordBtn.disabled = false;
             recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
-        alert("Server connection failed.");
+        console.error("Submission failed:", error);
+        alert("Server connection failed or session expired.");
         recordBtn.disabled = false;
+        recordBtn.innerText = "Record & Go!";
     }
 });
