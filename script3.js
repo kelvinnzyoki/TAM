@@ -9,41 +9,34 @@ scoreInputs.forEach(input => {
 });
 
 recordBtn.addEventListener('click', async function() {
-    // 1. Automatically grab the email from the browser bridge
-    /*const email = localStorage.getItem("userEmail");
-
-    if (!email) {
-        alert("Session expired. Please log in again.");
-        window.location.href = "index.html";
-        return;
-    }*/
-
-    // 2. Get the score from the selected radio button
     const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
+    
+    if (!selectedInput) return; // Guard clause
+
     const score = parseInt(selectedInput.getAttribute("data-score"));
 
-    const dataToRecord = {
-       /* email: email, // This is the email used to log in*/
-        date: new Date().toISOString(),
-        score: score
-    };
-
+    // We use API.request which handles:
+    // 1. Sending the HttpOnly Cookie automatically
+    // 2. Refreshing the token if it's expired (401)
+    // 3. Retrying the request after refresh
     try {
-        const response = await fetch("https://cctamcc.site/addictions", {
+        const data = await API.request("/addictions", {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataToRecord),
+            body: JSON.stringify({
+                score: score,
+                date: new Date().toISOString()
+            })
         });
 
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("✅ Score recorded");
+        // Since API.request returns res.json(), we check for success data
+        if (data.success) {
+            alert("✅ Alpha Progress Recorded");
             window.location.href = 'index2.html'; 
         } else {
-            alert(data.error || "Failed to record");
+            alert(data.message || "Failed to record");
         }
     } catch (error) {
-        alert('Server error. Please try again.');
+        console.error("Submission error:", error);
+        alert('Authentication failed or server error.');
     }
 });
