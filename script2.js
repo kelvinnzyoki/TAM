@@ -1,29 +1,26 @@
 async function loadDashboard() {
-    const email = localStorage.getItem("userEmail");
     const scoreDisplay = document.getElementById("totalScoreDisplay");
 
-    if (!email) {
-        window.location.href = "index.html"; // Send back to login if no email
-        return;
-    }
-
     try {
-        // Use the query parameter endpoint we fixed
-        const url = `https://cctamcc.site/total-score?email=${encodeURIComponent(email)}`;
-        const response = await fetch(url);
-        const data = await response.json();
+        // 1. Use API.request from auth.js
+        // No need to pass email in the URL! The server gets your ID from the cookie.
+        const data = await API.request("/total-score");
 
-        if (data.success) {
-            // Animate the number counting up
+        // 2. Check for the score in the response
+        // Note: In your server code, you returned { total_score: X }
+        if (data && typeof data.total_score !== 'undefined') {
             animateValue(scoreDisplay, 0, data.total_score, 1000);
+        } else {
+            scoreDisplay.innerText = "0";
         }
     } catch (err) {
         console.error("Dashboard error:", err);
-        scoreDisplay.innerText = "!!";
+        // If API.request throws an error, it usually means the session is dead
+        scoreDisplay.innerText = "Error";
     }
 }
 
-// Cool number animation function
+// Keep your cool animation function exactly as it is
 function animateValue(obj, start, end, duration) {
     let startTimestamp = null;
     const step = (timestamp) => {
@@ -37,9 +34,15 @@ function animateValue(obj, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
-function logout() {
-    localStorage.clear();
-    window.location.href = "index.html";
+// Update the logout to use the API helper
+async function handleLogout() {
+    try {
+        await API.logout(); // Clears cookies on server and redirects to index.html
+    } catch (err) {
+        // Fallback if server is unreachable
+        localStorage.clear();
+        window.location.href = "index.html";
+    }
 }
 
 window.onload = loadDashboard;
