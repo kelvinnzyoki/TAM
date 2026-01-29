@@ -99,7 +99,7 @@ recordBtn.disabled = true;
 recordBtn.innerText = "Saving...";  
 
 try {  
-    const response = await fetch("https://mybackend-production-b618.up.railway.app/steps", {  
+    const response = await fetch("https://cctamcc.site/steps", {  
         method: "POST",  
         headers: { "Content-Type": "application/json" },  
         body: JSON.stringify(payload)  
