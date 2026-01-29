@@ -28,55 +28,28 @@ let performanceChart = new Chart(ctx, {
 
 // 2. PRODUCTION API CONFIG
 const API_BASE = "https://cctamcc.site/api"; // Unified Base URL
+document.querySelector("#saveAudit").onclick = async () => {
+  const victory = victoryInput.value;
+  const defeat = defeatInput.value;
 
-// 3. LOAD STATE FROM POSTGRESQL
-window.addEventListener('load', async () => {
-    const token = sessionStorage.getItem('auth_token'); // Ensure key name matches Login
-    if (!token) return;
+  await API.request("/api/audit/load", {
+    method: "POST",
+    body: JSON.stringify({ victory, defeat })
+  });
 
-    try {
-        const response = await fetch(`${API_BASE}/audit/save`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        
-        if (response.ok) {
-            const data = await response.json();
-            // Match these keys to your PostgreSQL column names
-        
-            if (data.victory) document.querySelector('.victory textarea').value = data.victory;
-            if (data.defeat) document.querySelector('.defeat textarea').value = data.defeat;
-        }
-    } catch (err) {
-        console.error("Failed to load initial state.");
-    }
-});
+  alert("Audit Saved");
+};
 
-// 4. DEBOUNCED AUTO-SAVE
-let debouncer;
-document.querySelectorAll('textarea').forEach(el => {
-    el.addEventListener('input', () => {
-        clearTimeout(debouncer);
-        debouncer = setTimeout(async () => {
-            const token = sessionStorage.getItem('auth_token');
-            const payload = {
-                victory: document.querySelector('.victory textarea').value,
-                defeat: document.querySelector('.defeat textarea').value
-            };
 
-            try {
-                const response = await fetch(`${API_BASE}/audit/load`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify(payload)
-                });
-                
-                if (response.ok) console.log("PostgreSQL Synced.");
-            } catch (error) {
-                console.error("Sync Error: Connection lost.");
-            }
-        }, 1500); 
-    });
-});
+
+// Load Stoic Audit 
+
+async function loadAudit() {
+  const data = await API.request("/api/audit/save");
+  victoryInput.value = data.victory || "";
+  defeatInput.value = data.defeat || "";
+}
+
+
+
+
