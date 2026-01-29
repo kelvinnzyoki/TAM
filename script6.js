@@ -75,45 +75,42 @@ otherInput.addEventListener("input", () => {
     }
 });
 
-// --- C. Submit to Backend ---
-recordBtn.addEventListener("click", async () => {
-    // Retrieve email saved from login page
-    /*const email = localStorage.getItem("userEmail");
 
-    if (!email) {
-        alert("Session missing. Please log in again.");
-        window.location.href = "index.html";
-        return;
-    }*/
+// --- C. Submit to Backend (Refactored for Squats) ---
+recordBtn.addEventListener("click", async () => {
+    // Prevent multiple clicks
+    if (recordBtn.disabled) return;
 
     const payload = {
-       /* email: email,*/
-        date: new Date().toISOString(),
-        score: currentScore
-    
+        // Use YYYY-MM-DD format to match PostgreSQL DATE type
+        date: new Date().toISOString().split('T')[0],
+        score: Number(currentScore)
     };
 
     recordBtn.disabled = true;
-    recordBtn.innerText = "Saving...";
+    recordBtn.innerText = "Syncing...";
 
     try {
-        const response = await fetch("https://cctamcc.site/squats", {
+        // API.request automatically handles:
+        // 1. Sending the access_token cookie
+        // 2. Refreshing tokens if the session expired (401)
+        const data = await API.request("/squats", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-            alert("Score Recorded!");
+        if (data.success) {
+            alert("✅ Squats Recorded!");
             window.location.href = "index2.html";
         } else {
-            const err = await response.json();
-            alert("Error: " + err.error);
+            alert("Sync Failed: " + (data.message || "Unknown error"));
             recordBtn.disabled = false;
             recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
-        alert("Server connection failed.");
+        console.error("Submission error:", error);
+        alert("Server connection failed. Please check your internet.");
         recordBtn.disabled = false;
+        recordBtn.innerText = "Record & Go!";
     }
 });
