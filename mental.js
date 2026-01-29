@@ -27,7 +27,7 @@ let performanceChart = new Chart(ctx, {
 });
 
 // 2. PRODUCTION API CONFIG
-const API_BASE = "https://cctamcc.site/api"; // Unified Base URL
+
 document.querySelector("#saveAudit").onclick = async () => {
   const victory = victoryInput.value;
   const defeat = defeatInput.value;
