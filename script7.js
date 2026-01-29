@@ -77,46 +77,41 @@ if (!isNaN(score) && otherInput.value !== "") {
 
 });
 
-// --- C. Submit to Backend ---
+
+// --- C. Submit to Backend (Refactored for Steps) ---
 recordBtn.addEventListener("click", async () => {
-// Retrieve email saved from login page
-/*const email = localStorage.getItem("userEmail");
+    // Basic UI guard
+    if (recordBtn.disabled) return;
 
-if (!email) {  
-    alert("Session missing. Please log in again.");  
-    window.location.href = "index.html";  
-    return;  
-}  */
+    // We no longer send email; the server identifies the user via the JWT cookie.
+    const payload = {
+        date: new Date().toISOString().split('T')[0], // Sends as YYYY-MM-DD
+        score: Number(currentScore) // Ensure it's a number, not a string
+    };
 
-const payload = {  
-    /*email: email,  */
-    date: new Date().toISOString(),  
-    score: currentScore  
-  
-};  
+    recordBtn.disabled = true;
+    recordBtn.innerText = "Syncing...";
 
-recordBtn.disabled = true;  
-recordBtn.innerText = "Saving...";  
+    try {
+        // Use API.request to leverage your automatic 401/Refresh logic
+        const data = await API.request("/steps", {
+            method: "POST",
+            body: JSON.stringify(payload)
+        });
 
-try {  
-    const response = await fetch("https://cctamcc.site/steps", {  
-        method: "POST",  
-        headers: { "Content-Type": "application/json" },  
-        body: JSON.stringify(payload)  
-    });  
-
-    if (response.ok) {  
-        alert("Score Recorded!");  
-        window.location.href = "index2.html";  
-    } else {  
-        const err = await response.json();  
-        alert("Error: " + err.error);  
-        recordBtn.disabled = false;  
-        recordBtn.innerText = "Record & Go!";  
-    }  
-} catch (error) {  
-    alert("Server connection failed.");  
-    recordBtn.disabled = false;  
-}
-
+        // Your server returns { success: true } on success
+        if (data.success) {
+            alert("✅ Steps Recorded!");
+            window.location.href = "index2.html";
+        } else {
+            alert("Sync Failed: " + (data.message || "Please try again"));
+            recordBtn.disabled = false;
+            recordBtn.innerText = "Record & Go!";
+        }
+    } catch (error) {
+        console.error("Steps submission error:", error);
+        alert("Server connection failed. Check your network.");
+        recordBtn.disabled = false;
+        recordBtn.innerText = "Record & Go!";
+    }
 });
