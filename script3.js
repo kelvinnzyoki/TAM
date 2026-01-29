@@ -14,6 +14,7 @@ recordBtn.addEventListener('click', async function() {
     if (!selectedInput) return; // Guard clause
 
     const score = parseInt(selectedInput.getAttribute("data-score"));
+    currentScore = parseInt(box.getAttribute("data-score"));
 
     // We use API.request which handles:
     // 1. Sending the HttpOnly Cookie automatically
@@ -23,7 +24,7 @@ recordBtn.addEventListener('click', async function() {
         const data = await API.request("/addictions", {
             method: 'POST',
             body: JSON.stringify({
-                score: score,
+                score: currentScore,
                 date: new Date().toISOString()
             })
         });
