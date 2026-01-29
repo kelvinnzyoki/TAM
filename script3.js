@@ -24,7 +24,7 @@ recordBtn.addEventListener('click', async function() {
         const data = await API.request("/addictions", {
             method: 'POST',
             body: JSON.stringify({
-                score: currentScore,
+                score: Number(currentScore),
                 date: new Date().toISOString()
             })
         });
