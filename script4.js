@@ -83,7 +83,7 @@ recordBtn.addEventListener("click", async () => {
 
     const payload = {
         date: new Date().toISOString(),
-        score: currentScore // This is set by your checkbox/input logic
+        score: Number(currentScore) // This is set by your checkbox/input logic
     };
 
     recordBtn.disabled = true;
