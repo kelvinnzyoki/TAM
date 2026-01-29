@@ -9,7 +9,7 @@ async function loadDashboard() {
 
     try {
         // Use the query parameter endpoint we fixed
-        const url = `https://mybackend-production-b618.up.railway.app/total-score?email=${encodeURIComponent(email)}`;
+        const url = `https://cctamcc.site/total-score?email=${encodeURIComponent(email)}`;
         const response = await fetch(url);
         const data = await response.json();
 
