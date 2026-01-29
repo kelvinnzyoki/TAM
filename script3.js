@@ -10,20 +10,20 @@ scoreInputs.forEach(input => {
 
 recordBtn.addEventListener('click', async function() {
     // 1. Automatically grab the email from the browser bridge
-    const email = localStorage.getItem("userEmail");
+    /*const email = localStorage.getItem("userEmail");
 
     if (!email) {
         alert("Session expired. Please log in again.");
         window.location.href = "index.html";
         return;
-    }
+    }*/
 
     // 2. Get the score from the selected radio button
     const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
     const score = parseInt(selectedInput.getAttribute("data-score"));
 
     const dataToRecord = {
-        email: email, // This is the email used to log in
+       /* email: email, // This is the email used to log in*/
         date: new Date().toISOString(),
         score: score
     };
@@ -38,7 +38,7 @@ recordBtn.addEventListener('click', async function() {
         const data = await response.json();
 
         if (response.ok) {
-            alert("✅ Score recorded for " + email);
+            alert("✅ Score recorded");
             window.location.href = 'index2.html'; 
         } else {
             alert(data.error || "Failed to record");
