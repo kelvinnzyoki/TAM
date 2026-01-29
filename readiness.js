@@ -42,12 +42,6 @@ function calculateReadiness() {
     }
 }
 
-function saveRecovery() {
-    const score = document.getElementById('readinessScore').innerText;
-    localStorage.setItem('readinessScore', score);
-    alert("Biometrics Locked In.");
-    location.href = 'index2.html';
-}
 
 // Initial calculation
 calculateReadiness();
@@ -55,21 +49,23 @@ calculateReadiness();
 
 
 
-// recovery-production.js
-async function saveRecoveryToServer() {
-    const readinessData = {
-        sleep: document.getElementById('sleepInput').value,
-        hydration: document.getElementById('waterInput').value,
-        stress: document.getElementById('stressInput').value,
-        score: document.getElementById('readinessScore').innerText
-    };
+document.querySelector("#saveRecovery").onclick = async () => {
+  await API.request("/api/user/recovery", {
+    method: "POST",
+    body: JSON.stringify({
+      sleep: +sleep.value,
+      hydration: +hydration.value,
+      stress: +stress.value,
+      score: +score.value
+    })
+  });
 
-    const response = await ProductionAPI.request('/user/recovery', {
-        method: 'POST',
-        body: JSON.stringify(readinessData)
-    });
+  alert("Recovery Synced");
+};
 
-    if (response.success) {
-        alert("Biological State Archived.");
-    }
+
+
+async function loadRecovery() {
+  const data = await API.request("/api/user/recovery");
+  console.log("Latest Recovery:", data);
 }
