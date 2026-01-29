@@ -80,16 +80,16 @@ if (!isNaN(score) && otherInput.value !== "") {
 // --- C. Submit to Backend ---
 recordBtn.addEventListener("click", async () => {
 // Retrieve email saved from login page
-const email = localStorage.getItem("userEmail");
+/*const email = localStorage.getItem("userEmail");
 
 if (!email) {  
     alert("Session missing. Please log in again.");  
     window.location.href = "index.html";  
     return;  
-}  
+}  */
 
 const payload = {  
-    email: email,  
+    /*email: email,  */
     date: new Date().toISOString(),  
     score: currentScore  
   
