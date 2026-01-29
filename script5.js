@@ -75,45 +75,43 @@ otherInput.addEventListener("input", () => {
     }
 });
 
-// --- C. Submit to Backend ---
+
+// --- C. Submit to Backend (Refactored for Production) ---
 recordBtn.addEventListener("click", async () => {
-    // Retrieve email saved from login page
-    /*const email = localStorage.getItem("userEmail");
+    // Ensure button is only active if valid input exists
+    if (recordBtn.disabled) return;
 
-    if (!email) {
-        alert("Session missing. Please log in again.");
-        window.location.href = "index.html";
-        return;
-    }*/
-
+    // Use a clean payload. Date is optional as server defaults to CURRENT_DATE,
+    // but sending it ensures the score is recorded for the user's local day.
     const payload = {
-        /*email: email,*/
-        date: new Date().toISOString(),
-        score: currentScore
-    
+        date: new Date().toISOString().split('T')[0], // Sends YYYY-MM-DD
+        score: Number(currentScore) // Forces numerical format
     };
 
     recordBtn.disabled = true;
-    recordBtn.innerText = "Saving...";
+    recordBtn.innerText = "Syncing...";
 
     try {
-        const response = await fetch("https://cctamcc.site/situps", {
+        // We use API.request from auth.js which handles:
+        // 1. Sending HttpOnly cookies (credentials: "include")
+        // 2. Automatic token refresh if session expired
+        const data = await API.request("/situps", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-            alert("Score Recorded!");
+        if (data.success) {
+            alert("✅ Score Recorded!");
             window.location.href = "index2.html";
         } else {
-            const err = await response.json();
-            alert("Error: " + err.error);
+            alert("Sync Failed: " + (data.message || "Unknown error"));
             recordBtn.disabled = false;
             recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
-        alert("Server connection failed.");
+        console.error("Submission error:", error);
+        alert("Server connection failed. Please check your internet.");
         recordBtn.disabled = false;
+        recordBtn.innerText = "Record & Go!";
     }
 });
