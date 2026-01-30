@@ -1,18 +1,20 @@
 // Wait for page to load completely
 document.addEventListener('DOMContentLoaded', async () => {
     
-    // --- 1. VERIFY ELEMENTS EXIST ---
-    const saveBtn = document.querySelector("#saveAudit");
-    const victoryInput = document.getElementById("victoryInput");
-    const defeatInput = document.getElementById("defeatInput");
+    // --- 1. GET ALL ELEMENTS (matching your HTML) ---
+    const victoryTextarea = document.querySelector('.audit-card.victory textarea');
+    const defeatTextarea = document.querySelector('.audit-card.defeat textarea');
+    const focusRange = document.getElementById('focusRange');
+    const egoRange = document.getElementById('egoRange');
     const chartCanvas = document.getElementById('performanceRadar');
 
-    if (!saveBtn || !victoryInput || !defeatInput) {
-        console.error("❌ Required elements not found!");
+    // Verify critical elements exist
+    if (!victoryTextarea || !defeatTextarea) {
+        console.error("❌ Textareas not found!");
         return;
     }
 
-    // --- 2. INITIALIZE CHART (Only if canvas exists) ---
+    // --- 2. INITIALIZE CHART ---
     let performanceChart = null;
     
     if (chartCanvas) {
@@ -23,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 labels: ['Discipline', 'Focus', 'Ego Control', 'Physical', 'Social'],
                 datasets: [{
                     label: 'Alpha Profile',
-                    data: [0, 0, 0, 0, 0],
+                    data: [50, 50, 50, 50, 50], // Default values
                     backgroundColor: 'rgba(0, 199, 182, 0.2)',
                     borderColor: '#00c7b6',
                     pointBackgroundColor: '#00c7b6',
@@ -36,73 +38,119 @@ document.addEventListener('DOMContentLoaded', async () => {
                         angleLines: { color: '#333' },
                         grid: { color: '#333' },
                         pointLabels: { 
-                            color: '#888', 
-                            font: { family: 'Orbitron', size: 10 } 
+                            color: '#00c7b6', 
+                            font: { family: 'Orbitron', size: 12 } 
                         },
                         suggestedMin: 0,
                         suggestedMax: 100,
-                        ticks: { display: false }
+                        ticks: { 
+                            display: true,
+                            color: '#666',
+                            backdropColor: 'transparent'
+                        }
                     }
                 },
-                plugins: { legend: { display: false } }
+                plugins: { 
+                    legend: { display: false }
+                },
+                responsive: true,
+                maintainAspectRatio: true
             }
         });
     }
 
-    // --- 3. SAVE BUTTON HANDLER ---
-    saveBtn.onclick = async () => {
-        const victory = victoryInput.value;
-        const defeat = defeatInput.value;
+    // --- 3. UPDATE CHART WHEN SLIDERS CHANGE ---
+    if (focusRange && egoRange && performanceChart) {
+        focusRange.addEventListener('input', () => {
+            performanceChart.data.datasets[0].data[1] = parseInt(focusRange.value);
+            performanceChart.update();
+        });
 
-        saveBtn.disabled = true;
-        saveBtn.innerText = "Syncing...";
+        egoRange.addEventListener('input', () => {
+            performanceChart.data.datasets[0].data[2] = parseInt(egoRange.value);
+            performanceChart.update();
+        });
+    }
 
-        try {
-            const data = await API.request("/api/audit/save", {
-                method: "POST",
-                body: JSON.stringify({ victory, defeat })
-            });
-
-            if (data.success) {
-                alert("✅ Audit Synchronized");
-            } else {
-                alert("Failed to save: " + (data.message || "Unknown error"));
-            }
-        } catch (err) {
-            console.error("Save failed:", err);
-            alert("Connection Error");
-        } finally {
-            saveBtn.disabled = false;
-            saveBtn.innerText = "Save Audit";
-        }
-    };
-
-    // --- 4. LOAD AUDIT DATA ---
+    // --- 4. LOAD AUDIT DATA FROM SERVER ---
     async function loadAudit() {
         try {
             const data = await API.request("/api/audit/load");
             
-            victoryInput.value = data.victory || "";
-            defeatInput.value = data.defeat || "";
+            // Populate textareas
+            victoryTextarea.value = data.victory || "";
+            defeatTextarea.value = data.defeat || "";
 
-            // Update chart if data contains biometrics (optional)
-            if (performanceChart && data.discipline !== undefined) {
-                performanceChart.data.datasets[0].data = [
-                    data.discipline || 0,
-                    data.focus || 0,
-                    data.ego_control || 0,
-                    data.physical || 0,
-                    data.social || 0
-                ];
+            // Update chart if server returns metrics
+            if (performanceChart) {
+                if (data.focus !== undefined) {
+                    focusRange.value = data.focus;
+                    performanceChart.data.datasets[0].data[1] = data.focus;
+                }
+                if (data.ego_control !== undefined) {
+                    egoRange.value = data.ego_control;
+                    performanceChart.data.datasets[0].data[2] = data.ego_control;
+                }
                 performanceChart.update();
             }
 
             console.log("✅ Audit loaded successfully");
         } catch (err) {
-            console.error("Load failed:", err);
+            console.error("❌ Load failed:", err);
+            // Don't show alert on load failure - let user start fresh
         }
     }
 
-    // Load data on initialization
+    // Load existing data
     await loadAudit();
+
+    console.log("✅ Mental audit page initialized");
 });
+
+// --- 5. GLOBAL SAVE FUNCTION (called by onclick in HTML) ---
+async function saveAudit() {
+    const victoryTextarea = document.querySelector('.audit-card.victory textarea');
+    const defeatTextarea = document.querySelector('.audit-card.defeat textarea');
+    const focusRange = document.getElementById('focusRange');
+    const egoRange = document.getElementById('egoRange');
+
+    if (!victoryTextarea || !defeatTextarea) {
+        alert("Error: Page elements not found");
+        return;
+    }
+
+    const victory = victoryTextarea.value.trim();
+    const defeat = defeatTextarea.value.trim();
+    const focus = focusRange ? parseInt(focusRange.value) : 50;
+    const egoControl = egoRange ? parseInt(egoRange.value) : 50;
+
+    // Show loading state
+    const btn = event.target;
+    const originalText = btn.innerText;
+    btn.disabled = true;
+    btn.innerText = "Syncing...";
+
+    try {
+        const data = await API.request("/api/audit/save", {
+            method: "POST",
+            body: JSON.stringify({ 
+                victory, 
+                defeat,
+                focus,
+                ego_control: egoControl
+            })
+        });
+
+        if (data.success) {
+            alert("✅ Audit Sealed Successfully");
+        } else {
+            alert("Failed to save: " + (data.message || "Unknown error"));
+        }
+    } catch (err) {
+        console.error("❌ Save failed:", err);
+        alert("Connection Error. Please try again.");
+    } finally {
+        btn.disabled = false;
+        btn.innerText = originalText;
+    }
+        }
