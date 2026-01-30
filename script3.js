@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.success) {
                 alert("✅ Alpha Progress Recorded");
-                window.location.href = '/TAM/index2.html';
+                window.location.replace = '/TAM/index2.html';
             } else {
                 alert(data.message || "Failed to record");
                 recordBtn.disabled = false;
