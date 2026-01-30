@@ -107,13 +107,13 @@ async function saveRecovery() {
         });
         
         if (data.success) {
-            alert("✅ Recovery Data Synced");
+            showToast("✅ Recovery Data Synced");
         } else {
-            alert("Failed: " + (data.message || "Unknown error"));
+            showToast("Failed: " + (data.message || "Unknown error"));
         }
     } catch (err) {
         console.error("❌ Save failed:", err);
-        alert("Failed to save recovery data");
+        showToast("Failed to save recovery data");
     } finally {
         btn.disabled = false;
         btn.innerText = "Save State";
