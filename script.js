@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 
                 // Short delay before redirect for better UX
                 setTimeout(() => {
-                    window.location.href = "index2.html";
+                    window.location.replace("index2.html");
                 }, 500);
             } else {
                 alert(data.message || "Login Failed");
