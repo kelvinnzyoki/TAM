@@ -79,40 +79,51 @@ signupForm.addEventListener('submit', async (e) => {
     };
 
     // 4. Final Verification and Signup
+
     confirmBtn.onclick = async () => {
-        const payload = {
-            email: document.getElementById('email').value,
-            code: verifyCodeInput.value,
-            username: document.getElementById('username').value,
-            password: document.getElementById('password').value,
-            dob: document.getElementById('dob').value
-        
-        };
-        
-        
-        
-        try {
-            const res = await fetch(`${SERVER_URL}/signup`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (res.ok) {
-
-                localStorage.setItem("userEmail", payload.email);
-                localStorage.setItem("username", payload.username);
-        
-                
-                verifyModal.style.display = 'none';
-                document.getElementById('successOverlay').style.display = 'flex';
-                setTimeout(() => window.location.replace("/TAM/index.html"), 2500);
-            } else {
-                const data = await res.json();
-                showToast(data.message || "Invalid Code.");
-            }
-        } catch (err) {
-            showToast("Signup failed. Check connection.");
-        }
+    const payload = {
+        email: document.getElementById('email').value,
+        code: verifyCodeInput.value,
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+        dob: document.getElementById('dob').value
     };
+    
+    confirmBtn.disabled = true;
+    confirmBtn.innerText = "Verifying...";
+
+    try {
+        const res = await fetch(`${SERVER_URL}/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            // Save non-sensitive info if needed
+            localStorage.setItem("username", payload.username);
+            
+            verifyModal.style.display = 'none';
+            
+            // Use your custom Toast!
+            showToast("🔥 ACCOUNT VERIFIED. WELCOME, ALPHA.", "success");
+            
+            // showToast handles the redirect to index2.html (Dashboard)
+            // after 2.5 seconds automatically!
+        } else {
+            showToast(data.message || "Invalid Code.", "error");
+            confirmBtn.disabled = false;
+            confirmBtn.innerText = "Confirm";
+        }
+    } catch (err) {
+        showToast("Signup failed. Check connection.", "error");
+        confirmBtn.disabled = false;
+        confirmBtn.innerText = "Confirm";
+    }
+};
+
+
+    
 });
