@@ -101,7 +101,7 @@ recordBtn.addEventListener("click", async () => {
 
         if (data.success) {
             alert("✅ Squats Recorded!");
-            window.location.href = "index2.html";
+            window.location.href = "/TAM/index2.html";
         } else {
             alert("Sync Failed: " + (data.message || "Unknown error"));
             recordBtn.disabled = false;
