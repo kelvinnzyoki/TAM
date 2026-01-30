@@ -1,43 +1,53 @@
 const recordBtn = document.getElementById('recordBtn');
 const scoreInputs = document.querySelectorAll('input[name="scoreGroup"]');
 
-// Handle button enabling when a score is picked
+let currentScore = 0; // ✅ Store the score globally
+
+// Handle radio button selection
 scoreInputs.forEach(input => {
     input.addEventListener("change", () => {
-        recordBtn.disabled = false;
+        if (input.checked) {
+            // Get the score from the selected radio button
+            currentScore = parseInt(input.getAttribute("data-score"));
+            recordBtn.disabled = false;
+        }
     });
 });
 
+// Submit the score
 recordBtn.addEventListener('click', async function() {
     const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
     
-    if (!selectedInput) return; // Guard clause
+    if (!selectedInput) {
+        alert("Please select a score first");
+        return;
+    }
 
-    const score = parseInt(selectedInput.getAttribute("data-score"));
-    currentScore = parseInt(box.getAttribute("data-score"));
+    // Disable button to prevent double-clicks
+    recordBtn.disabled = true;
+    recordBtn.innerText = "Saving...";
 
-    // We use API.request which handles:
-    // 1. Sending the HttpOnly Cookie automatically
-    // 2. Refreshing the token if it's expired (401)
-    // 3. Retrying the request after refresh
     try {
         const data = await API.request("/addictions", {
             method: 'POST',
             body: JSON.stringify({
                 score: Number(currentScore),
-                date: new Date().toISOString()
+                date: new Date().toISOString().split('T')[0] // ✅ Use YYYY-MM-DD format
             })
         });
 
-        // Since API.request returns res.json(), we check for success data
         if (data.success) {
             alert("✅ Alpha Progress Recorded");
-            window.location.href = '/TAM/index2.html'; 
+            window.location.href = '/TAM/index2.html'; // ✅ Fixed path
         } else {
             alert(data.message || "Failed to record");
+            recordBtn.disabled = false;
+            recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
         console.error("Submission error:", error);
-        alert('Authentication failed or server error.');
+        alert('Server error. Please try again.');
+        recordBtn.disabled = false;
+        recordBtn.innerText = "Record & Go!";
     }
 });
