@@ -13,6 +13,17 @@
 
     <body>
 
+        <div id="victoryModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3>DECLARE VICTORY</h3>
+        <input type="text" id="victoryInput" placeholder="e.g., 100 Pushups">
+        <div class="modal-btns">
+            <button onclick="closeVictoryModal()" class="cancel-btn">Cancel</button>
+            <button onclick="submitVictory()" class="confirm-btn">Broadcast</button>
+        </div>
+    </div>
+        </div>
+
         <div id="toast"></div>
         
     <div class="bg-glow"></div>
