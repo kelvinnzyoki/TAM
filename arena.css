@@ -29,31 +29,95 @@ h1 { font-family: 'Orbitron'; letter-spacing: 10px; color: var(--primary); text-
 /* Activity Cards */
 .feed { display: flex; flex-direction: column; gap: 15px; }
 
-.card {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    animation: slideIn 0.5s ease-out forwards;
-}
 
 @keyframes slideIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-.avatar {
-    width: 45px; height: 45px; border-radius: 50%;
-    background: linear-gradient(45deg, #222, #444);
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--primary);
+
+.card {
+    background: rgba(20, 20, 30, 0.8);
+    border: 1px solid #00c7b6;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 15px;
+    transition: all 0.3s ease;
 }
 
-.card-content h4 { margin: 0; font-size: 14px; font-weight: 600; color: #fff; }
+.card:hover {
+    border-color: #00ff88;
+    box-shadow: 0 0 15px rgba(0, 199, 182, 0.3);
+    transform: translateX(5px);
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00c7b6, #00ff88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    flex-shrink: 0;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-content h4 {
+    margin: 0 0 8px 0;
+    color: #fff;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge.legend {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #000;
+}
+
+.badge.warrior {
+    background: linear-gradient(135deg, #00c7b6, #00ff88);
+    color: #000;
+}
+
+.badge.novice {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.victory-text {
+    color: #00c7b6;
+    font-size: 14px;
+    font-style: italic;
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.meta-text {
+    color: #888;
+    font-size: 12px;
+    margin: 5px 0 0 0;
+                   }
+
+
 .card-content p { margin: 2px 0 0; font-size: 12px; color: #888; }
 .badge { font-family: 'Orbitron'; font-size: 9px; color: var(--primary); border: 1px solid var(--primary); padding: 2px 6px; border-radius: 4px; margin-left: 10px; }
 
