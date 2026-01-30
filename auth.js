@@ -2,7 +2,7 @@ const API = {
   async request(endpoint, options = {}) {
     // 1. MUST use backticks (`) for template literals
     // 2. Ensure a / exists between the site and the endpoint
-    const url = `https://cctamcc.site${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+    const url = `https://cctamcc.site/${endpoint.replace(/^\//, '')}`;
 
     try {
       const res = await fetch(url, {
