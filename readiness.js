@@ -50,22 +50,34 @@ calculateReadiness();
 
 
 document.querySelector("#saveRecovery").onclick = async () => {
-  await API.request("/api/user/recovery", {
-    method: "POST",
-    body: JSON.stringify({
-      sleep: +sleep.value,
-      hydration: +hydration.value,
-      stress: +stress.value,
-      score: +score.value
-    })
-  });
+    const sleep = parseFloat(document.getElementById('sleepInput').value) || 0;
+    const hydration = parseInt(document.getElementById('waterInput').value) || 0;
+    const stress = parseInt(document.getElementById('stressInput').value) || 5;
+    const score = parseInt(document.getElementById('readinessScore').innerText) || 0;
 
-  alert("Recovery Synced");
+    try {
+        const data = await API.request("/api/user/recovery", {
+            method: "POST",
+            body: JSON.stringify({ sleep, hydration, stress, score })
+        });
+        
+        if (data.success) {
+            alert("✅ Recovery Data Synced");
+        }
+    } catch (err) {
+        alert("Failed to save recovery data");
+    }
 };
 
-
-
-async function loadRecovery() {
-  const data = await API.request("/api/user/recovery");
-  console.log("Latest Recovery:", data);
-}
+window.onload = async () => {
+    try {
+        const data = await API.request("/api/user/recovery");
+        if (data) {
+            document.getElementById('sleepInput').value = data.sleep || 0;
+            document.getElementById('waterInput').value = data.hydration || 0;
+            document.getElementById('stressInput').value = data.stress || 5;
+            calculateReadiness();
+        }
+    } catch (err) {
+        console.error("Failed to load recovery data");
+    }
