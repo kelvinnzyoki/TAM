@@ -1,130 +1,69 @@
 :root {
     --primary: #00c7b6;
     --accent: #ff0055;
-    --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.1);
+    --bg: #080808;
+    --card-bg: rgba(20, 20, 25, 0.9);
 }
 
 body {
-    margin: 0; background: #080808; color: white;
-    font-family: 'Poppins', sans-serif;
+    margin: 0; background: var(--bg); color: white;
+    font-family: 'Poppins', sans-serif; overflow-x: hidden;
 }
 
 .bg-glow {
     position: fixed; top: 50%; left: 50%; width: 500px; height: 500px;
-    background: var(--primary); filter: blur(250px); opacity: 0.03;
+    background: var(--primary); filter: blur(200px); opacity: 0.05;
     z-index: -1; transform: translate(-50%, -50%);
 }
 
-.container { width: 95%; max-width: 500px; margin: 0 auto; padding: 40px 0; }
+.container { width: 90%; max-width: 450px; margin: 0 auto; padding: 40px 0; }
 
-h1 { font-family: 'Orbitron'; letter-spacing: 10px; color: var(--primary); text-align: center; }
+h1 { font-family: 'Orbitron'; letter-spacing: 8px; color: var(--primary); text-align: center; margin-bottom: 5px; }
+.subtitle { text-align: center; font-size: 10px; letter-spacing: 2px; color: #666; margin-bottom: 30px; }
 
-/* Global Progress */
-.global-stat { margin: 20px 0 40px; text-align: center; }
-.global-stat span { font-family: 'Orbitron'; font-size: 10px; color: #888; text-transform: uppercase; }
-.progress-bar { width: 100%; height: 4px; background: #111; margin-top: 10px; border-radius: 2px; }
-.fill { height: 100%; background: linear-gradient(90deg, var(--primary), #00ff88); box-shadow: 0 0 10px var(--primary); }
+/* Action Bar */
+.action-bar { margin-bottom: 30px; }
+.arena-btn {
+    width: 100%; padding: 15px; border-radius: 8px; border: 1px solid var(--primary); 
+    background: rgba(0, 199, 182, 0.1); color: var(--primary);
+    font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s;
+}
+.arena-btn:hover { background: var(--primary); color: black; box-shadow: 0 0 20px rgba(0, 199, 182, 0.4); }
 
-/* Activity Cards */
+/* Feed Cards */
 .feed { display: flex; flex-direction: column; gap: 15px; }
 
+.card {
+    background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px; padding: 16px; display: flex; gap: 15px;
+    animation: slideIn 0.4s ease-out forwards;
+}
 
 @keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-
-.card {
-    background: rgba(20, 20, 30, 0.8);
-    border: 1px solid #00c7b6;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
-    display: flex;
-    gap: 15px;
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    border-color: #00ff88;
-    box-shadow: 0 0 15px rgba(0, 199, 182, 0.3);
-    transform: translateX(5px);
-}
-
 .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #00c7b6, #00ff88);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: #000;
-    flex-shrink: 0;
+    width: 45px; height: 45px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), #00ff88);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: bold; color: #000; flex-shrink: 0;
 }
 
-.card-content {
-    flex: 1;
+.card-content { flex: 1; }
+.card-content h4 { margin: 0; font-size: 15px; display: flex; align-items: center; justify-content: space-between; }
+
+.badge { font-family: 'Orbitron'; font-size: 9px; padding: 2px 6px; border-radius: 4px; border: 1px solid currentColor; }
+.badge.legend { color: #ffed4e; }
+.badge.warrior { color: var(--primary); }
+.badge.novice { color: #888; }
+
+.victory-text { color: #ddd; font-size: 13px; margin: 8px 0; line-height: 1.4; }
+.meta-text { color: #555; font-size: 11px; font-family: 'Orbitron'; }
+
+.back-btn {
+    width: 100%; margin-top: 30px; background: none; border: none; 
+    color: #444; font-family: 'Orbitron'; cursor: pointer; font-size: 12px;
 }
-
-.card-content h4 {
-    margin: 0 0 8px 0;
-    color: #fff;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.badge {
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.badge.legend {
-    background: linear-gradient(135deg, #ffd700, #ffed4e);
-    color: #000;
-}
-
-.badge.warrior {
-    background: linear-gradient(135deg, #00c7b6, #00ff88);
-    color: #000;
-}
-
-.badge.novice {
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-}
-
-.victory-text {
-    color: #00c7b6;
-    font-size: 14px;
-    font-style: italic;
-    margin: 5px 0;
-    line-height: 1.4;
-}
-
-.meta-text {
-    color: #888;
-    font-size: 12px;
-    margin: 5px 0 0 0;
-                   }
-
-
-.card-content p { margin: 2px 0 0; font-size: 12px; color: #888; }
-.badge { font-family: 'Orbitron'; font-size: 9px; color: var(--primary); border: 1px solid var(--primary); padding: 2px 6px; border-radius: 4px; margin-left: 10px; }
-
-/* Action Bar */
-.action-bar { position: sticky; bottom: 20px; margin-top: 30px; display: flex; flex-direction: column; gap: 10px; }
-.arena-btn {
-    padding: 18px; border-radius: 12px; border: none; background: var(--primary);
-    font-family: 'Orbitron'; font-weight: bold; cursor: pointer; transition: 0.3s;
-}
-.arena-btn:hover { box-shadow: 0 0 20px rgba(0, 199, 182, 0.4); transform: scale(1.02); }
+.back-btn:hover { color: var(--primary); }
