@@ -20,7 +20,7 @@ signupForm.addEventListener('submit', async (e) => {
     const dob = document.getElementById('dob').value;
     
     if (!email || !username || !password || !dob) {
-        alert("All fields required");
+        showToast("All fields required");
         return;
     }
 
@@ -41,11 +41,11 @@ signupForm.addEventListener('submit', async (e) => {
             verifyModal.style.display = 'flex';
             startResendTimer();
         } else {
-            alert(data.message || "Error sending code.");
+            showToast(data.message || "Error sending code.");
         }
     } catch (err) {
         console.error("❌ Fetch error:", err);
-        alert(`Server connection failed: ${err.message}`);
+        showToast("All`Server connection failed: ${err.message}`);
     }
 });
 
@@ -109,10 +109,10 @@ signupForm.addEventListener('submit', async (e) => {
                 setTimeout(() => window.location.replace("/TAM/index.html"), 2500);
             } else {
                 const data = await res.json();
-                alert(data.message || "Invalid Code.");
+                showToast(data.message || "Invalid Code.");
             }
         } catch (err) {
-            alert("Signup failed. Check connection.");
+            showToast("Signup failed. Check connection.");
         }
     };
 });
