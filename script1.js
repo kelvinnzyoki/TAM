@@ -140,35 +140,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
 
             if (res.ok && data.success) {
-                localStorage.setItem("username", payload.username);
-                
-                showToast("🔥 ACCOUNT CREATED! WELCOME, ALPHA.", "success");
-                
-                // Hide modal and show success overlay
-                verifyModal.style.display = 'none';
-                
-                const successOverlay = document.getElementById('successOverlay');
-                if (successOverlay) {
-                    successOverlay.style.display = 'flex';
-                }
-                
-                // Redirect to dashboard after 2.5 seconds
-                setTimeout(() => {
-                    window.location.href = "/TAM/index2.html";
-                }, 2500);
-                
-            } else {
-                showToast(data.message || "Invalid verification code", "error");
-                confirmBtn.disabled = false;
-                confirmBtn.innerText = "Confirm";
+    localStorage.setItem("username", payload.username);
+    showToast("🔥 ACCOUNT CREATED! WELCOME, ALPHA.", "success");
+    
+    setTimeout(() => {
+        window.location.href = "/TAM/index2.html";
+    }, 2500);
+    
+} else {
+    // Show specific error messages from server
+    if (data.message.includes("already registered")) {
+        showToast("⚠️ Email already registered. Try logging in.", "error");
+    } else if (data.message.includes("already taken")) {
+        showToast("⚠️ Username taken. Choose another.", "error");
+    } else {
+        showToast(data.message || "Invalid verification code", "error");
+    }
+    
+    confirmBtn.disabled = false;
+    confirmBtn.innerText = "Confirm";
             }
-        } catch (err) {
-            console.error("Signup error:", err);
-            showToast("Signup failed. Check connection.", "error");
-            confirmBtn.disabled = false;
-            confirmBtn.innerText = "Confirm";
-        }
-    };
-
-    console.log("✅ Signup page initialized");
 });
