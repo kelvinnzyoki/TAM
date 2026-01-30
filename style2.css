@@ -156,9 +156,11 @@ body {
 
 
 .logout-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
+    /* Change from fixed to relative/block flow */
+    position: relative; 
+    margin: 40px auto 20px; /* Centers it and adds space above/below */
+    display: block; /* Allows margin: auto to work */
+    
     padding: 12px 30px;
     background: linear-gradient(135deg, #ff4d4d, #cc0000);
     color: #fff;
@@ -172,7 +174,17 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
-    z-index: 1000;
+    z-index: 10;
+}
+
+/* Update Mobile responsive */
+@media (max-width: 768px) {
+    .logout-btn {
+        width: 80%; /* Makes it easier to tap on mobile */
+        max-width: 200px;
+        margin-top: 30px;
+        font-size: 12px;
+    }
 }
 
 .logout-btn:hover {
