@@ -102,7 +102,7 @@ recordBtn.addEventListener("click", async () => {
         // Your server returns { success: true } on success
         if (data.success) {
             alert("✅ Steps Recorded!");
-            window.location.href = "/TAM/index2.html";
+            window.location.replace = "/TAM/index2.html";
         } else {
             alert("Sync Failed: " + (data.message || "Please try again"));
             recordBtn.disabled = false;
