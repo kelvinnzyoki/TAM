@@ -68,8 +68,8 @@ async function loadAudit() {
     document.getElementById("defeatInput").value = data.defeat || "";
 
     // OPTIONAL: If your server sends biometrics, update the chart here
-    // performanceChart.data.datasets[0].data = [data.discipline, data.focus...];
-    // performanceChart.update();
+     performanceChart.data.datasets[0].data = [data.discipline, data.focus...];
+     performanceChart.update();
 
   } catch (err) {
     console.error("Load failed:", err);
