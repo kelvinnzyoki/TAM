@@ -67,18 +67,7 @@
 
     <script src="auth.js"></script>
     <script src="script2.js"></script>
-    <script>
-        // Attach the logout function specifically to the ID
-        document.getElementById('logoutBtn').addEventListener('click', async () => {
-            if(confirm("Are you sure you want to exit the Brotherhood?")) {
-                try {
-                    await API.logout();
-                } catch (err) {
-                    localStorage.clear();
-                    location.href = 'index.html';
-                }
-            }
-        });
-    </script>
+
+        
 </body>
 </html>
