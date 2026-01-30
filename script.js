@@ -24,6 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Submit button not found!");
         return;
     }
+
+
+
+    function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.innerText = message;
+    toast.className = "show";
+    
+    }
     
     loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -55,10 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("username", data.user.username);
                 
-                // Short delay before redirect for better UX
-                setTimeout(() => {
-                    window.location.replace("index2.html");
-                }, 500);
+                
+    // Wait 3 seconds, then hide and navigate
+    setTimeout(() => { 
+        toast.className = toast.className.replace("show", "");
+        window.location.replace("index2.html"); // Your smooth navigation
+    }, 500);
             } else {
                 alert(data.message || "Login Failed");
                 submitBtn.innerText = "AUTHORIZE";
@@ -66,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (err) {
             console.error("Login error:", err);
-            alert("Server Offline or Connection Failed. Please try later.");
+            showToast("Server Offline or Connection Failed. Please try later.");
             submitBtn.innerText = "AUTHORIZE";
             submitBtn.disabled = false;
         }
