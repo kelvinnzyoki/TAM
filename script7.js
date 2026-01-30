@@ -101,16 +101,16 @@ recordBtn.addEventListener("click", async () => {
 
         // Your server returns { success: true } on success
         if (data.success) {
-            alert("✅ Steps Recorded!");
+            showToast("✅ Steps Recorded!");
             window.location.replace("/TAM/index2.html");
         } else {
-            alert("Sync Failed: " + (data.message || "Please try again"));
+            showToast("Sync Failed: " + (data.message || "Please try again"));
             recordBtn.disabled = false;
             recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
         console.error("Steps submission error:", error);
-        alert("Server connection failed. Check your network.");
+        showToast("Server connection failed. Check your network.");
         recordBtn.disabled = false;
         recordBtn.innerText = "Record & Go!";
     }
