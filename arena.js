@@ -73,10 +73,25 @@ async function loadArena() {
 }
 
 // 5. Post a victory
-async function postAchievement() {
-    const userAction = prompt("Declare your victory (e.g., '100 Pushups', 'Meditated 20 mins'):");
+// 1. Open the modal instead of using prompt()
+function postAchievement() {
+    document.getElementById("victoryModal").style.display = "flex";
+    document.getElementById("victoryInput").focus();
+}
+
+// 2. Close the modal
+function closeVictoryModal() {
+    document.getElementById("victoryModal").style.display = "none";
+    document.getElementById("victoryInput").value = "";
+}
+
+// 3. The actual submission logic
+async function submitVictory() {
+    const input = document.getElementById("victoryInput");
+    const userAction = input.value;
     
     if (!userAction || userAction.trim() === "") {
+        showToast("⚠️ PLEASE ENTER A VICTORY", "error");
         return;
     }
 
@@ -90,16 +105,16 @@ async function postAchievement() {
         });
 
         if (response.success) {
-            showToast("✅ Victory Broadcasted!");
+            closeVictoryModal();
+            // Use your showToast here! 
+            // Pass false for the second parameter so it doesn't redirect to index2.html
+            showToast("🔥 VICTORY BROADCASTED", "success", false); 
             await loadArena(); // Refresh the feed
-        } else {
-            showToast("Failed: " + (response.message || "Unknown error"));
         }
     } catch (err) {
-        console.error("Post error:", err);
-        showToast("Failed to post victory. Please try again.");
+        showToast("❌ CONNECTION FAILED", "error");
     }
-}
+    }
 
 // Make postAchievement available globally for HTML onclick
 window.postAchievement = postAchievement;
