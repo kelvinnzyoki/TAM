@@ -65,6 +65,43 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #00c7b6; /* Your Alpha Teal */
+    color: #000;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 2000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(0, 199, 182, 0.4);
+}
+
+#toast.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+
+
+
 /* --- Background Effects --- */
 .glow-bg {
     position: fixed;
