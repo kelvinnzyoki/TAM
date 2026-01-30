@@ -32,7 +32,7 @@ recordBtn.addEventListener('click', async function() {
         // Since API.request returns res.json(), we check for success data
         if (data.success) {
             alert("✅ Alpha Progress Recorded");
-            window.location.href = 'index2.html'; 
+            window.location.href = '/TAM/index2.html'; 
         } else {
             alert(data.message || "Failed to record");
         }
