@@ -102,7 +102,7 @@ recordBtn.addEventListener("click", async () => {
 
         if (data.success) {
             alert("✅ Score Recorded!");
-            window.location.replace = "/TAM/index2.html";
+            window.location.replace("/TAM/index2.html");
         } else {
             alert("Sync Failed: " + (data.message || "Unknown error"));
             recordBtn.disabled = false;
