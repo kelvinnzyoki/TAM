@@ -9,6 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmBtn = document.getElementById('confirmBtn');
     const verifyCodeInput = document.getElementById('verifyCode');
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailPattern.test(email)) {
+    showToast("Invalid email format", "error");
+    return;
+}
+
     let countdown;
 
     
@@ -65,6 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- 3. TIMER LOGIC ---
     function startResendTimer() {
         let timeLeft = 60;
+        secondsSpan.innerText = timeLeft;
         resendBtn.style.display = 'none';
         timerText.style.display = 'block';
         
@@ -82,9 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- 4. RESEND CODE ---
     resendBtn.onclick = async () => {
-        const email = document.getElementById('email').value;
+        const email = document.getElementById('email').value.trim();
         
-        resendBtn.disabled = true;
+        resendBtn.disabled = false;
         resendBtn.innerText = "Sending...";
 
         try {
@@ -149,13 +156,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
 } else {
     // Show specific error messages from server
-    if (data.message.includes("already registered")) {
-        showToast("⚠️ Email already registered. Try logging in.", "error");
-    } else if (data.message.includes("already taken")) {
-        showToast("⚠️ Username taken. Choose another.", "error");
-    } else {
-        showToast(data.message || "Invalid verification code", "error");
-    }
+    const message = data.message || "";
+
+if (message.includes("already registered")) {
+    showToast("⚠️ Email already registered. Try logging in.", "error");
+} else if (message.includes("already taken")) {
+    showToast("⚠️ Username taken. Choose another.", "error");
+} else {
+    showToast(message || "Invalid verification code", "error");
+}
     
     confirmBtn.disabled = false;
     confirmBtn.innerText = "Confirm";
