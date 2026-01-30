@@ -50,3 +50,20 @@ const API = {
     location.href = "/TAM/index.html";
   }
 };
+
+
+function showToast(message, redirect = true) {
+    const toast = document.getElementById("toast");
+    if (!toast) return; // Safety check
+
+    toast.innerText = message;
+    toast.classList.add("show");
+    
+    // Hide after 3 seconds
+    setTimeout(() => { 
+        toast.classList.remove("show");
+        if (redirect) {
+            window.location.replace("index2.html"); 
+        }
+    }, 2500);
+}
