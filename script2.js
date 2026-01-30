@@ -41,7 +41,7 @@ async function handleLogout() {
     } catch (err) {
         // Fallback if server is unreachable
         localStorage.clear();
-        window.location.href = "index.html";
+        window.location.href = "/TAM/index.html";
     }
 }
 
