@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
         
         if (!selectedInput) {
-            alert("Please select a score first");
+            showToast("Please select a score first");
             return;
         }
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("📥 Server response:", data); // Debug log
 
             if (data.success) {
-                alert("✅ Alpha Progress Recorded");
+                showToast("✅ Alpha Progress Recorded");
                 window.location.replace("/TAM/index2.html");
             } else {
                 alert(data.message || "Failed to record");
