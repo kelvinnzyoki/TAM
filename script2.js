@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 console.error("Logout error:", err);
                 localStorage.clear();
-                window.location.href = "/TAM/index.html";
+                window.location.replace("/TAM/index.html");
             }
         });
     }
