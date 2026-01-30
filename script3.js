@@ -54,15 +54,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (data.success) {
                 showToast("✅ Alpha Progress Recorded");
-                window.location.replace("/TAM/index2.html");
+                
             } else {
-                alert(data.message || "Failed to record");
+                showToast(data.message || "Failed to record");
                 recordBtn.disabled = false;
                 recordBtn.innerText = "Record & Go!";
             }
         } catch (error) {
             console.error("❌ Submission error:", error);
-            alert('Server error. Please try again.');
+            showToast('Server error. Please try again.');
             recordBtn.disabled = false;
             recordBtn.innerText = "Record & Go!";
         }
