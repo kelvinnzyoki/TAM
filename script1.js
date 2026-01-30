@@ -119,12 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const payload = {
-            email: document.getElementById('email').value.trim(),
-            code: code,
-            username: document.getElementById('username').value.trim(),
-            password: document.getElementById('password').value.trim(),
-            dob: document.getElementById('dob').value
-        };
+    email: document.getElementById('email').value.trim(),
+    code: code,
+    username: document.getElementById('username').value.trim(),
+    password: document.getElementById('password').value.trim(),
+    dob: `${document.getElementById('dob').value}-01-01` // ✅ Convert year to date
+};
 
         confirmBtn.disabled = true;
         confirmBtn.innerText = "Verifying...";
