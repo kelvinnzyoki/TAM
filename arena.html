@@ -2,34 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Arena | Global Feed</title>
+    <title>Arena | Live Feed</title>
     <link rel="stylesheet" href="arena.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-glow"></div>
-
     <div class="container">
         <header>
-            <h1>The Arena</h1>
-            <div class="global-stat">
-                <span>Global War Level: <strong id="warLevel">74%</strong></span>
-                <div class="progress-bar"><div class="fill" style="width: 74%"></div></div>
-            </div>
+            <h1>🏟️ The Arena</h1>
+            <p class="subtitle">LIVE VICTORIES FROM THE BROTHERHOOD</p>
         </header>
 
-        <div id="activityFeed" class="feed">
-            </div>
+        <button class="post-btn" onclick="postAchievement()">+ Declare Victory</button>
 
-        <div class="action-bar">
-            <button class="arena-btn" onclick="postAchievement()">Declare Victory</button>
-            <button class="back-btn" onclick="history.back()">Exit Arena</button>
+        <div id="activityFeed">
+            <p style="text-align:center; color: #666;">Loading feed...</p>
         </div>
+
+        <button class="back-btn" onclick="history.back()">Return to Hub</button>
     </div>
 
-        <script src="auth.js"></script>
+    <script src="auth.js"></script>
     <script src="arena.js"></script>
-
 </body>
 </html>
