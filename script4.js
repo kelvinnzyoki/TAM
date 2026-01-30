@@ -99,9 +99,9 @@ recordBtn.addEventListener("click", async () => {
 
         if (data.success) {
             showToast("✅ Alpha Progress Recorded!");
-            window.location.replace("/TAM/index2.html");
+            
         } else {
-            alert("Error: " + (data.message || "Failed to sync"));
+            showToast("Error: " + (data.message || "Failed to sync"));
             recordBtn.disabled = false;
             recordBtn.innerText = "Record & Go!";
         }
