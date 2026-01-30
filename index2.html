@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Growth Dashboard</title>
     <link rel="stylesheet" href="style2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -15,67 +16,69 @@
     </div>
 
     <div class="dashboard-grid">
-        
         <div class="card" onclick="location.href='index3.html'">
             <div class="icon">🚫</div>
             <h3>Addictions</h3>
             <span>Track Sobriety</span>
         </div>
-
         <div class="card" onclick="location.href='index4.html'">
             <div class="icon">💪</div>
             <h3>Push-Ups</h3>
             <span>Strength</span>
         </div>
-
         <div class="card" onclick="location.href='index5.html'">
             <div class="icon">🧘</div>
             <h3>Sit-Ups</h3>
             <span>Core</span>
         </div>
-
         <div class="card" onclick="location.href='index6.html'">
             <div class="icon">🏋️</div>
             <h3>Squats</h3>
             <span>Legs</span>
         </div>
-
         <div class="card" onclick="location.href='index7.html'">
             <div class="icon">🏃</div>
             <h3>Steps</h3>
             <span>Cardio</span>
         </div>
-
         <div class="card" onclick="location.href='mental.html'">
             <div class="icon">👽</div>
             <h3>Mentality</h3>
             <span>Track</span>
         </div>
-
         <div class="card" onclick="location.href='readiness.html'">
             <div class="icon">🧘</div>
             <h3>Sleep, Stress & Dehydration</h3>
             <span>Track</span>
         </div>
-
         <div class="card" onclick="location.href='arena.html'">
             <div class="icon">🧑‍🧑‍🧒‍🧒</div>
             <h3>Community Live</h3>
             <span>Track</span>
         </div>
-
         <div class="card secondary" onclick="location.href='rank.html'">
             <div class="icon">🏆</div>
             <h3>Rankings</h3>
             <span>Global Board</span>
         </div>
-
     </div>
 
     <button class="logout-btn" id="logoutBtn">Logout</button>
 
     <script src="auth.js"></script>
     <script src="script2.js"></script>
-    
+    <script>
+        // Attach the logout function specifically to the ID
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if(confirm("Are you sure you want to exit the Brotherhood?")) {
+                try {
+                    await API.logout();
+                } catch (err) {
+                    localStorage.clear();
+                    location.href = 'index.html';
+                }
+            }
+        });
+    </script>
 </body>
 </html>
