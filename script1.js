@@ -160,4 +160,11 @@ document.addEventListener("DOMContentLoaded", () => {
     confirmBtn.disabled = false;
     confirmBtn.innerText = "Confirm";
             }
-});
+} catch (err) {
+            console.error("Signup error:", err);
+            showToast("Signup failed. Check connection.", "error");
+            confirmBtn.disabled = false;
+            confirmBtn.innerText = "Confirm";
+        }
+    }; // Close confirmBtn.onclick
+}); // Close DOMContentLoaded
