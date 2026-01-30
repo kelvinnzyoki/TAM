@@ -106,7 +106,7 @@ signupForm.addEventListener('submit', async (e) => {
                 
                 verifyModal.style.display = 'none';
                 document.getElementById('successOverlay').style.display = 'flex';
-                setTimeout(() => window.location.href = "/TAM/index.html", 2500);
+                setTimeout(() => window.location.replace("/TAM/index.html"), 2500);
             } else {
                 const data = await res.json();
                 alert(data.message || "Invalid Code.");
