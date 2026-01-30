@@ -115,7 +115,7 @@ async function saveAudit() {
     const egoRange = document.getElementById('egoRange');
 
     if (!victoryTextarea || !defeatTextarea) {
-        alert("Error: Page elements not found");
+        showToast("Error: Page elements not found");
         return;
     }
 
@@ -142,13 +142,13 @@ async function saveAudit() {
         });
 
         if (data.success) {
-            alert("✅ Audit Sealed Successfully");
+            showToast("✅ Audit Sealed Successfully");
         } else {
-            alert("Failed to save: " + (data.message || "Unknown error"));
+            showToast("Failed to save: " + (data.message || "Unknown error"));
         }
     } catch (err) {
         console.error("❌ Save failed:", err);
-        alert("Connection Error. Please try again.");
+        showToast("Connection Error. Please try again.");
     } finally {
         btn.disabled = false;
         btn.innerText = originalText;
