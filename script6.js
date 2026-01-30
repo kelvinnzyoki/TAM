@@ -100,16 +100,16 @@ recordBtn.addEventListener("click", async () => {
         });
 
         if (data.success) {
-            alert("✅ Squats Recorded!");
-            window.location.replace("/TAM/index2.html");
+            showToast("✅ Squats Recorded!");
+            
         } else {
-            alert("Sync Failed: " + (data.message || "Unknown error"));
+            showToast("Sync Failed: " + (data.message || "Unknown error"));
             recordBtn.disabled = false;
             recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
         console.error("Submission error:", error);
-        alert("Server connection failed. Please check your internet.");
+        showToast("Server connection failed. Please check your internet.");
         recordBtn.disabled = false;
         recordBtn.innerText = "Record & Go!";
     }
