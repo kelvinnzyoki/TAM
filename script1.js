@@ -11,20 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let countdown;
 
-    // 1. Initial Signup Submission (Triggers Email)
+    // 1. Initial Signup Submission
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const dob = document.getElementById('dob').value;
-    
-    if (!email || !username || !password || !dob) {
-        showToast("All fields required");
-        return;
-    }
-
-    console.log("📤 Sending signup request to:", `${SERVER_URL}/send-code`);
+    // ... other variables ...
 
     try {
         const res = await fetch(`${SERVER_URL}/send-code`, {
@@ -33,19 +24,17 @@ signupForm.addEventListener('submit', async (e) => {
             body: JSON.stringify({ email })
         });
 
-        console.log("📥 Response status:", res.status);
         const data = await res.json();
-        console.log("📥 Response data:", data);
 
         if (res.ok) {
             verifyModal.style.display = 'flex';
             startResendTimer();
         } else {
-            showToast(data.message || "Error sending code.");
+            showToast(data.message || "Error sending code.", "error");
         }
     } catch (err) {
         console.error("❌ Fetch error:", err);
-        showToast("All`Server connection failed: ${err.message}`);
+        showToast("Server connection failed.", "error"); // Fixed syntax here
     }
 });
 
@@ -78,40 +67,25 @@ signupForm.addEventListener('submit', async (e) => {
         if (res.ok) startResendTimer();
     };
 
-    // 4. Final Verification and Signup
-
-    confirmBtn.onclick = async () => {
-    const payload = {
-        email: document.getElementById('email').value,
-        code: verifyCodeInput.value,
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
-        dob: document.getElementById('dob').value
-    };
-    
-    confirmBtn.disabled = true;
-    confirmBtn.innerText = "Verifying...";
+// 4. Final Verification and Signup
+confirmBtn.onclick = async () => {
+    // ... payload construction ...
 
     try {
         const res = await fetch(`${SERVER_URL}/signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            credentials: 'include' // Added for cross-domain cookie support
         });
 
         const data = await res.json();
 
         if (res.ok && data.success) {
-            // Save non-sensitive info if needed
             localStorage.setItem("username", payload.username);
-            
             verifyModal.style.display = 'none';
-            
-            // Use your custom Toast!
+            // showToast handles redirect to index2.html
             showToast("🔥 ACCOUNT VERIFIED. WELCOME, ALPHA.", "success");
-            
-            // showToast handles the redirect to index2.html (Dashboard)
-            // after 2.5 seconds automatically!
         } else {
             showToast(data.message || "Invalid Code.", "error");
             confirmBtn.disabled = false;
@@ -123,7 +97,7 @@ signupForm.addEventListener('submit', async (e) => {
         confirmBtn.innerText = "Confirm";
     }
 };
-
+    
 
     
 });
