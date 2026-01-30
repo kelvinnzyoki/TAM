@@ -1,31 +1,32 @@
 async function fetchLeaderboard() {
-    const SERVER_URL = "https://cctamcc.site";
     const list = document.getElementById("leaderboardList");
 
     try {
-        const response = await fetch("https://cctamcc.site/leaderboard");
-        const result = await response.json();
+        // Use API.request to stay consistent with your other pages
+        const result = await API.request("/leaderboard");
 
         if (result.success) {
-            list.innerHTML = ""; // Clear loading text
+            list.innerHTML = ""; // Clear loading state
             
             result.data.forEach((user, index) => {
                 const item = document.createElement("div");
                 item.className = "rank-item";
                 
-                // Hide part of the email for privacy (e.g., k***@gmail.com)
-                const maskedEmail = user.email.split('@')[0].substring(0, 3) + "***";
+                // Add a special class for the top 3 performers
+                const crown = index === 0 ? "👑 " : "";
+                const topClass = index < 3 ? `top-${index + 1}` : "";
 
                 item.innerHTML = `
-                    <span class="rank-number">#${index + 1}</span>
-                    <span class="user-email">${maskedEmail}</span>
-                    <span class="user-score">${user.total_score}</span>
+                    <span class="rank-number ${topClass}">#${index + 1}</span>
+                    <span class="user-name">${crown}${user.username}</span>
+                    <span class="user-score">${user.total_score} pts</span>
                 `;
                 list.appendChild(item);
             });
         }
     } catch (error) {
-        list.innerHTML = "<p>Failed to load data</p>";
+        console.error("Leaderboard Error:", error);
+        list.innerHTML = "<p style='color: #ff4444;'>Failed to load Alpha rankings</p>";
     }
 }
 
