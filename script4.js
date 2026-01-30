@@ -99,7 +99,7 @@ recordBtn.addEventListener("click", async () => {
 
         if (data.success) {
             alert("✅ Alpha Progress Recorded!");
-            window.location.href = "/TAM/index2.html";
+            window.location.replace = "/TAM/index2.html";
         } else {
             alert("Error: " + (data.message || "Failed to sync"));
             recordBtn.disabled = false;
