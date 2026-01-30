@@ -52,17 +52,16 @@ const API = {
 };
 
 
-function showToast(message, redirect = true) {
+function showToast(message, type = "success", shouldRedirect = true) {
     const toast = document.getElementById("toast");
-    if (!toast) return; // Safety check
+    if (!toast) return;
 
     toast.innerText = message;
-    toast.classList.add("show");
+    toast.className = `show ${type}`;
     
-    // Hide after 3 seconds
     setTimeout(() => { 
-        toast.classList.remove("show");
-        if (redirect) {
+        toast.className = "";
+        if (type === "success" && shouldRedirect) {
             window.location.replace("index2.html"); 
         }
     }, 2500);
