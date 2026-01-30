@@ -1,3 +1,17 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const SERVER_URL = "https://cctamcc.site";
+    
+    const signupForm = document.getElementById('signupForm');
+    const verifyModal = document.getElementById('verifyModal');
+    const resendBtn = document.getElementById('resendBtn');
+    const timerText = document.getElementById('timerText');
+    const secondsSpan = document.getElementById('seconds');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const verifyCodeInput = document.getElementById('verifyCode');
+
+    let countdown;
+
+    
 
     // --- 2. SEND VERIFICATION CODE ---
     signupForm.addEventListener('submit', async (e) => {
