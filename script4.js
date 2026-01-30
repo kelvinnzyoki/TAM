@@ -98,7 +98,7 @@ recordBtn.addEventListener("click", async () => {
         });
 
         if (data.success) {
-            alert("✅ Alpha Progress Recorded!");
+            showToast("✅ Alpha Progress Recorded!");
             window.location.replace("/TAM/index2.html");
         } else {
             alert("Error: " + (data.message || "Failed to sync"));
@@ -107,7 +107,7 @@ recordBtn.addEventListener("click", async () => {
         }
     } catch (error) {
         console.error("Submission failed:", error);
-        alert("Server connection failed or session expired.");
+        showToast("Server connection failed or session expired.");
         recordBtn.disabled = false;
         recordBtn.innerText = "Record & Go!";
     }
