@@ -17,7 +17,7 @@ const API = {
         if (refreshed) {
           return API.request(endpoint, options); // Retry original request
         } else {
-          location.href = "/index.html"; // Refresh failed, go to login
+          location.href = "/TAM/index.html"; // Refresh failed, go to login
           return;
         }
       }
@@ -47,6 +47,6 @@ const API = {
       credentials: "include"
     });
     localStorage.clear();
-    location.href = "/index.html";
+    location.href = "/TAM/index.html";
   }
 };
