@@ -90,14 +90,14 @@ async function postAchievement() {
         });
 
         if (response.success) {
-            alert("✅ Victory Broadcasted!");
+            showToast("✅ Victory Broadcasted!");
             await loadArena(); // Refresh the feed
         } else {
-            alert("Failed: " + (response.message || "Unknown error"));
+            showToast("Failed: " + (response.message || "Unknown error"));
         }
     } catch (err) {
         console.error("Post error:", err);
-        alert("Failed to post victory. Please try again.");
+        showToast("Failed to post victory. Please try again.");
     }
 }
 
