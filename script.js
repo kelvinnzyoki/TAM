@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const password = document.getElementById("password").value.trim();
         
         if (!email || !password) {
-            alert("Email and password required");
+            showToast("Email and password required");
             return;
         }
 
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.replace("index2.html"); // Your smooth navigation
     }, 500);
             } else {
-                alert(data.message || "Login Failed");
+                showToast(data.message || "Login Failed");
                 submitBtn.innerText = "AUTHORIZE";
                 submitBtn.disabled = false;
             }
@@ -82,7 +82,24 @@ document.addEventListener("DOMContentLoaded", () => {
             submitBtn.disabled = false;
         }
     });
+
+
+    // Simple scroll effect for Navigation
+window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 50) {
+        nav.style.background = 'rgba(5, 5, 5, 0.95)';
+        nav.style.padding = '15px 0';
+    } else {
+        
+        nav.style.background = 'rgba(5, 5, 5, 0.8)';
+        nav.style.padding = '20px 0';
+    }
 });
+
+    
+});
+
 
 
 
