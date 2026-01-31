@@ -378,10 +378,29 @@ select {
 }
 
 /* Strength States */
-.weak { width: 25%; background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
-.medium { width: 50%; background: #fbbf24; box-shadow: 0 0 10px #fbbf24; }
-.strong { width: 75%; background: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
-.alpha { width: 100%; background: var(--primary); box-shadow: 0 0 15px var(--primary); }
+.weak { 
+    width: 25% !important;
+    background: #ff4d4d; 
+    box-shadow: 0 0 10px #ff4d4d; 
+}
+
+.medium { 
+    width: 50% !important; 
+    background: #fbbf24; 
+    box-shadow: 0 0 10px #fbbf24; 
+}
+
+.strong { 
+    width: 75% !important; 
+    background: #3b82f6; 
+    box-shadow: 0 0 10px #3b82f6; 
+}
+
+.alpha { 
+    width: 100%; 
+    background: var(--primary); 
+    box-shadow: 0 0 15px var(--primary); 
+}
 
 
 
