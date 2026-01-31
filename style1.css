@@ -20,6 +20,57 @@ body {
     overflow-x: hidden;
 }
 
+
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(400px);
+    transition: all 0.3s ease;
+    max-width: 350px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-success {
+    background: linear-gradient(135deg, #00c7b6, #00ff88);
+    border-left: 4px solid #00ff88;
+}
+
+.toast-error {
+    background: linear-gradient(135deg, #ff4d4d, #cc0000);
+    border-left: 4px solid #ff0000;
+}
+
+.toast-info {
+    background: linear-gradient(135deg, #4d9eff, #0066cc);
+    border-left: 4px solid #0066ff;
+}
+
+@media (max-width: 768px) {
+    .toast {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        font-size: 12px;
+    }
+}
+
 .bg-glow {
     position: fixed;
     top: -50px;
