@@ -54,11 +54,28 @@ document.addEventListener("DOMContentLoaded", () => {
         showToast("All fields are required", "error");
         return;
     }
+    function validatePassword(pass) {
+    const minLength = 8;
+    const hasUpper = /[A-Z]/.test(pass);
+    const hasLower = /[a-z]/.test(pass);
+    const hasNumber = /[0-9]/.test(pass);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(pass);
 
-    if (password.length < 8) {
-        showToast("Password must be at least 8 characters", "error");
-        return;
-    }
+    if (pass.length < minLength) return "Password must be at least 8 characters.";
+    if (!hasUpper) return "Password needs at least one uppercase letter.";
+    if (!hasLower) return "Password needs at least one lowercase letter.";
+    if (!hasNumber) return "Password needs at least one number.";
+    if (!hasSpecial) return "Password needs at least one special character (e.g., * ! @ #).";
+    
+    return null; // Means password is valid
+}
+
+
+const passwordError = validatePassword(password);
+if (passwordError) {
+    showToast(passwordError, "error");
+    return;
+}
 
     const submitBtn = signupForm.querySelector('button[type="submit"]');
     submitBtn.disabled = true;
@@ -76,10 +93,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (res.ok && data.success) {
             verifyModal.style.display = 'flex';
             startResendTimer();
-            showToast("✅ Verification code sent to your email", "success");
+            showToast(" Verification code sent to your email", "success");
         } else if (res.status === 409) {
-            // ✅ EMAIL ALREADY REGISTERED
-            showToast("⚠️ This email is already registered. Redirecting to login...", "error");
+            //  EMAIL ALREADY REGISTERED
+            showToast(" This email is already registered. Redirecting to login...", "error");
             setTimeout(() => {
                 window.location.href = "/TAM/index.html"; // Your login page
             }, 2500);
