@@ -20,7 +20,7 @@ confirmLogout.onclick = async () => {
     }
 }
 
-    // Your existing dashboard code...
+    
     loadDashboard();
 });
 
