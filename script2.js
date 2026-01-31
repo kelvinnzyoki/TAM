@@ -1,28 +1,58 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Identify all elements
+    const logoutBtn = document.getElementById('logoutBtn');
     const logoutModal = document.getElementById('logoutModal');
     const confirmLogout = document.getElementById('confirmLogout');
     const cancelLogout = document.getElementById('cancelLogout');
 
-logoutBtn.addEventListener('click', () => {
-    logoutModal.style.display = 'flex'; // Show the modal
-});
-
-cancelLogout.onclick = () => {
-    logoutModal.style.display = 'none'; // Hide if canceled
-};
-
-confirmLogout.onclick = async () => {
-    try {
-        await API.logout();
-    } catch (err) {
-        localStorage.clear();
-        window.location.replace("/TAM/index.html");
+    // 2. Open Modal when Header Logout is clicked
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            logoutModal.style.display = 'flex';
+        });
     }
-}
 
-    
+    // 3. Close Modal when Cancel is clicked
+    if (cancelLogout) {
+        cancelLogout.onclick = () => {
+            logoutModal.style.display = 'none';
+        };
+    }
+
+    // 4. Handle Final Logout
+    if (confirmLogout) {
+        confirmLogout.onclick = async () => {
+            try {
+                // Change UI to show it's working
+                confirmLogout.innerText = "TERMINATING...";
+                confirmLogout.disabled = true;
+
+                // Call your API
+                await API.logout(); 
+                
+                // Redirect on success
+                window.location.replace("/TAM/index.html");
+            } catch (err) {
+                console.error("Logout error:", err);
+                // Fallback: Clear local data and force redirect
+                localStorage.clear();
+                window.location.replace("/TAM/index.html");
+            }
+        };
+    }
+
+    // Close modal if user clicks outside the modal box
+    window.onclick = (event) => {
+        if (event.target == logoutModal) {
+            logoutModal.style.display = 'none';
+        }
+    };
+
+    // Initialize the rest of the dashboard
     loadDashboard();
 });
+
 
 async function loadDashboard() {
     const scoreDisplay = document.getElementById("totalScoreDisplay");
