@@ -9,15 +9,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmBtn = document.getElementById('confirmBtn');
     const verifyCodeInput = document.getElementById('verifyCode');
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-if (!emailPattern.test(email)) {
-    showToast("Invalid email format", "error");
-    return;
-}
-
     let countdown;
 
-    
+    // --- 1. TOAST NOTIFICATION SYSTEM ---
+    function showToast(message, type = "info") {
+        // Remove existing toast
+        const existingToast = document.querySelector('.toast');
+        if (existingToast) existingToast.remove();
+
+        // Create toast
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerText = message;
+        document.body.appendChild(toast);
+
+        // Animate
+        setTimeout(() => toast.classList.add('show'), 100);
+
+        // Auto-remove
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
 
     // --- 2. SEND VERIFICATION CODE ---
     signupForm.addEventListener('submit', async (e) => {
@@ -28,6 +42,13 @@ if (!emailPattern.test(email)) {
         const username = document.getElementById('username').value.trim();
         const dob = document.getElementById('dob').value;
         
+        // ✅ FIXED: Email validation INSIDE the function
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showToast("Invalid email format", "error");
+            return;
+        }
+
         // Validation
         if (!email || !username || !password || !dob) {
             showToast("All fields are required", "error");
@@ -64,7 +85,7 @@ if (!emailPattern.test(email)) {
             showToast("Server connection failed", "error");
         } finally {
             submitBtn.disabled = false;
-            submitBtn.innerText = "Send Code";
+            submitBtn.innerText = "INITIALIZE SYSTEM";
         }
     });
 
@@ -91,7 +112,7 @@ if (!emailPattern.test(email)) {
     resendBtn.onclick = async () => {
         const email = document.getElementById('email').value.trim();
         
-        resendBtn.disabled = false;
+        resendBtn.disabled = true;  // ✅ FIXED: Should be TRUE
         resendBtn.innerText = "Sending...";
 
         try {
@@ -107,12 +128,12 @@ if (!emailPattern.test(email)) {
             } else {
                 showToast("Failed to resend code", "error");
                 resendBtn.disabled = false;
-                resendBtn.innerText = "Resend Code";
+                resendBtn.innerText = "RESEND CODE";
             }
         } catch (err) {
             showToast("Connection failed", "error");
             resendBtn.disabled = false;
-            resendBtn.innerText = "Resend Code";
+            resendBtn.innerText = "RESEND CODE";
         }
     };
 
@@ -126,12 +147,12 @@ if (!emailPattern.test(email)) {
         }
 
         const payload = {
-    email: document.getElementById('email').value.trim(),
-    code: code,
-    username: document.getElementById('username').value.trim(),
-    password: document.getElementById('password').value.trim(),
-    dob: document.getElementById('dob').value  // ✅ Just sends "1998" as text
-};
+            email: document.getElementById('email').value.trim(),
+            code: code,
+            username: document.getElementById('username').value.trim(),
+            password: document.getElementById('password').value.trim(),
+            dob: document.getElementById('dob').value
+        };
 
         confirmBtn.disabled = true;
         confirmBtn.innerText = "Verifying...";
@@ -140,40 +161,50 @@ if (!emailPattern.test(email)) {
             const res = await fetch(`${SERVER_URL}/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                credentials: 'include', // ✅ CRITICAL for cookies
+                credentials: 'include',
                 body: JSON.stringify(payload)
             });
 
             const data = await res.json();
 
             if (res.ok && data.success) {
-    localStorage.setItem("username", payload.username);
-    showToast("🔥 ACCOUNT CREATED! WELCOME, ALPHA.", "success");
-    
-    setTimeout(() => {
-        window.location.href = "/TAM/index2.html";
-    }, 2500);
-    
-} else {
-    // Show specific error messages from server
-    const message = data.message || "";
+                localStorage.setItem("username", payload.username);
+                
+                // Hide modal, show success
+                verifyModal.style.display = 'none';
+                const successOverlay = document.getElementById('successOverlay');
+                if (successOverlay) {
+                    successOverlay.style.display = 'flex';
+                }
+                
+                showToast("🔥 ACCOUNT CREATED! WELCOME, ALPHA.", "success");
+                
+                setTimeout(() => {
+                    window.location.href = "/TAM/index2.html";
+                }, 2500);
+                
+            } else {
+                // Show specific error messages
+                const message = data.message || "";
 
-if (message.includes("already registered")) {
-    showToast("⚠️ Email already registered. Try logging in.", "error");
-} else if (message.includes("already taken")) {
-    showToast("⚠️ Username taken. Choose another.", "error");
-} else {
-    showToast(message || "Invalid verification code", "error");
-}
-    
-    confirmBtn.disabled = false;
-    confirmBtn.innerText = "Confirm";
+                if (message.includes("already registered")) {
+                    showToast("⚠️ Email already registered. Try logging in.", "error");
+                } else if (message.includes("already taken")) {
+                    showToast("⚠️ Username taken. Choose another.", "error");
+                } else {
+                    showToast(message || "Invalid verification code", "error");
+                }
+                
+                confirmBtn.disabled = false;
+                confirmBtn.innerText = "CONFIRM CODE";
             }
-} catch (err) {
+        } catch (err) {
             console.error("Signup error:", err);
             showToast("Signup failed. Check connection.", "error");
             confirmBtn.disabled = false;
-            confirmBtn.innerText = "Confirm";
+            confirmBtn.innerText = "CONFIRM CODE";
         }
-    }; // Close confirmBtn.onclick
-}); // Close DOMContentLoaded
+    };
+
+    console.log("✅ Signup page initialized");
+});
