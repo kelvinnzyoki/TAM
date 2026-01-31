@@ -45,6 +45,65 @@ document.addEventListener("DOMContentLoaded", () => {
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
         passwordInput.setAttribute('type', type);
         togglePassword.style.color = type === 'text' ? 'var(--primary)' : 'var(--text-secondary)';
+        
+    });
+
+
+
+    // --- LOGIC: PASSWORD STRENGTH METER ---
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthText = document.getElementById('strengthText');
+    const meterContainer = document.querySelector('.strength-meter');
+
+    passwordInput.addEventListener('input', () => {
+        const val = passwordInput.value;
+        
+        // Show/Hide meter container
+        if (val.length > 0) {
+            meterContainer.style.display = 'block';
+        } else {
+            meterContainer.style.display = 'none';
+            strengthText.innerText = '';
+            return;
+        }
+
+        // Calculate Score
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) score++;
+
+        // Reset classes
+        strengthBar.className = 'strength-bar';
+        
+        // Update UI based on score
+        switch (score) {
+            case 1:
+                strengthBar.classList.add('weak');
+                strengthText.innerText = 'Weak';
+                strengthText.style.color = '#ff4d4d';
+                break;
+            case 2:
+                strengthBar.classList.add('medium');
+                strengthText.innerText = 'Moderate';
+                strengthText.style.color = '#fbbf24';
+                break;
+            case 3:
+                strengthBar.classList.add('strong');
+                strengthText.innerText = 'Strong';
+                strengthText.style.color = '#3b82f6';
+                break;
+            case 4:
+                strengthBar.classList.add('alpha');
+                strengthText.innerText = 'Alpha Level';
+                strengthText.style.color = 'var(--primary)';
+                break;
+            default:
+                strengthBar.classList.add('weak');
+                strengthText.innerText = 'Too Short';
+                strengthText.style.color = '#ff4d4d';
+        }
     });
 
     // --- LOGIC: SEND CODE ---
