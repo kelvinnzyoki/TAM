@@ -353,5 +353,36 @@ select {
 }
 
 
+.strength-meter {
+    height: 4px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+    display: none; /* Hidden until user starts typing */
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.strength-text {
+    font-size: 11px;
+    margin-top: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Strength States */
+.weak { width: 25%; background: #ff4d4d; box-shadow: 0 0 10px #ff4d4d; }
+.medium { width: 50%; background: #fbbf24; box-shadow: 0 0 10px #fbbf24; }
+.strong { width: 75%; background: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
+.alpha { width: 100%; background: var(--primary); box-shadow: 0 0 15px var(--primary); }
+
+
 
 
