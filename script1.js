@@ -143,6 +143,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+
+// show/hide password 
+const togglePassword = document.getElementById('togglePassword');
+const passwordInput = document.getElementById('password');
+
+togglePassword.addEventListener('click', () => {
+    // Toggle the type attribute
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordInput.setAttribute('type', type);
+    
+    // Optional: Change icon color when active
+    togglePassword.style.color = type === 'text' ? 'var(--primary)' : 'var(--text-secondary)';
+});
+
     // --- 5. VERIFY CODE AND CREATE ACCOUNT ---
     confirmBtn.onclick = async () => {
         const code = verifyCodeInput.value.trim();
