@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
-            const confirmed = confirm("Are you sure you want to logout?");
+            const confirmed = showToast("Are you sure you want to logout?");
             if (!confirmed) return;
 
             try {
