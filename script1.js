@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const SERVER_URL = "https://cctamcc.site";
     
+    // UI Elements
     const signupForm = document.getElementById('signupForm');
     const verifyModal = document.getElementById('verifyModal');
     const resendBtn = document.getElementById('resendBtn');
@@ -8,117 +9,135 @@ document.addEventListener("DOMContentLoaded", () => {
     const secondsSpan = document.getElementById('seconds');
     const confirmBtn = document.getElementById('confirmBtn');
     const verifyCodeInput = document.getElementById('verifyCode');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
 
     let countdown;
 
-    // --- 1. TOAST NOTIFICATION SYSTEM ---
+    // --- HELPER: PASSWORD VALIDATION ---
+    function validatePassword(pass) {
+        const minLength = 8;
+        if (pass.length < minLength) return "Password must be at least 8 characters.";
+        if (!/[A-Z]/.test(pass)) return "Missing uppercase letter.";
+        if (!/[a-z]/.test(pass)) return "Missing lowercase letter.";
+        if (!/[0-9]/.test(pass)) return "Missing a number.";
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(pass)) return "Missing a special character.";
+        return null;
+    }
+
+    // --- HELPER: TOAST SYSTEM ---
     function showToast(message, type = "info") {
-        // Remove existing toast
         const existingToast = document.querySelector('.toast');
         if (existingToast) existingToast.remove();
-
-        // Create toast
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
         toast.innerText = message;
         document.body.appendChild(toast);
-
-        // Animate
         setTimeout(() => toast.classList.add('show'), 100);
-
-        // Auto-remove
         setTimeout(() => {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 300);
         }, 3000);
     }
 
-    // --- 2. SEND VERIFICATION CODE ---
+    // --- LOGIC: PASSWORD TOGGLE ---
+    togglePassword.addEventListener('click', () => {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.style.color = type === 'text' ? 'var(--primary)' : 'var(--text-secondary)';
+    });
+
+    // --- LOGIC: SEND CODE ---
     signupForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const dob = document.getElementById('dob').value;
-    
-    // Email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-        showToast("Invalid email format", "error");
-        return;
-    }
-
-    // Field validation
-    if (!email || !username || !password || !dob) {
-        showToast("All fields are required", "error");
-        return;
-    }
-    function validatePassword(pass) {
-    const minLength = 8;
-    const hasUpper = /[A-Z]/.test(pass);
-    const hasLower = /[a-z]/.test(pass);
-    const hasNumber = /[0-9]/.test(pass);
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(pass);
-
-    if (pass.length < minLength) return "Password must be at least 8 characters.";
-    if (!hasUpper) return "Password needs at least one uppercase letter.";
-    if (!hasLower) return "Password needs at least one lowercase letter.";
-    if (!hasNumber) return "Password needs at least one number.";
-    if (!hasSpecial) return "Password needs at least one special character (e.g., * ! @ #).";
-    
-    return null; // Means password is valid
-}
-
-
-const passwordError = validatePassword(password);
-if (passwordError) {
-    showToast(passwordError, "error");
-    return;
-}
-
-    const submitBtn = signupForm.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Sending Code...";
-
-    try {
-        const res = await fetch(`${SERVER_URL}/send-code`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-            verifyModal.style.display = 'flex';
-            startResendTimer();
-            showToast(" Verification code sent to your email", "success");
-        } else if (res.status === 409) {
-            //  EMAIL ALREADY REGISTERED
-            showToast(" This email is already registered. Redirecting to login...", "error");
-            setTimeout(() => {
-                window.location.href = "/TAM/index.html"; // Your login page
-            }, 2500);
-        } else {
-            showToast(data.message || "Error sending code", "error");
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const password = passwordInput.value.trim();
+        
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            showToast(passwordError, "error");
+            return;
         }
-    } catch (err) {
-        console.error("❌ Send code error:", err);
-        showToast("Server connection failed", "error");
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = "INITIALIZE SYSTEM";
-    }
-});
 
-    // --- 3. TIMER LOGIC ---
+        const submitBtn = signupForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.innerText = "SENDING...";
+
+        try {
+            const res = await fetch(`${SERVER_URL}/send-code`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                verifyModal.style.display = 'flex';
+                startResendTimer();
+                showToast("Verification code sent!", "success");
+            } else {
+                showToast(data.message || "Error", "error");
+            }
+        } catch (err) {
+            showToast("Server connection failed", "error");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "INITIALIZE SYSTEM";
+        }
+    });
+
+    // --- LOGIC: AUTO-SUBMIT VERIFICATION ---
+    verifyCodeInput.addEventListener('input', (e) => {
+        const val = e.target.value.replace(/\D/g, '');
+        e.target.value = val;
+        if (val.length === 6) {
+            setTimeout(() => confirmBtn.click(), 300);
+        }
+    });
+
+    // --- LOGIC: FINAL SIGNUP ---
+    confirmBtn.onclick = async () => {
+        const payload = {
+            email: document.getElementById('email').value.trim(),
+            code: verifyCodeInput.value.trim(),
+            username: document.getElementById('username').value.trim(),
+            password: passwordInput.value.trim(),
+            dob: document.getElementById('dob').value
+        };
+
+        confirmBtn.disabled = true;
+        confirmBtn.innerText = "VERIFYING...";
+
+        try {
+            const res = await fetch(`${SERVER_URL}/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            if (res.ok && data.success) {
+                localStorage.setItem("username", payload.username);
+                verifyModal.style.display = 'none';
+                showToast("🔥 WELCOME, ALPHA.", "success");
+                setTimeout(() => window.location.href = "/TAM/index2.html", 2000);
+            } else {
+                showToast(data.message || "Invalid code", "error");
+                confirmBtn.disabled = false;
+                confirmBtn.innerText = "CONFIRM CODE";
+            }
+        } catch (err) {
+            showToast("Connection lost", "error");
+            confirmBtn.disabled = false;
+        }
+    };
+
+    // --- LOGIC: TIMER ---
     function startResendTimer() {
         let timeLeft = 60;
-        secondsSpan.innerText = timeLeft;
         resendBtn.style.display = 'none';
         timerText.style.display = 'block';
-        
         clearInterval(countdown);
         countdown = setInterval(() => {
             timeLeft--;
@@ -130,173 +149,4 @@ if (passwordError) {
             }
         }, 1000);
     }
-
-    // --- 4. RESEND CODE ---
-    resendBtn.onclick = async () => {
-        const email = document.getElementById('email').value.trim();
-        
-        resendBtn.disabled = true;  // ✅ FIXED: Should be TRUE
-        resendBtn.innerText = "Sending...";
-
-        try {
-            const res = await fetch(`${SERVER_URL}/send-code`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-
-            if (res.ok) {
-                startResendTimer();
-                showToast("New code sent", "success");
-            } else {
-                showToast("Failed to resend code", "error");
-                resendBtn.disabled = false;
-                resendBtn.innerText = "RESEND CODE";
-            }
-        } catch (err) {
-            showToast("Connection failed", "error");
-            resendBtn.disabled = false;
-            resendBtn.innerText = "RESEND CODE";
-        }
-    };
-
-
-// show/hide password 
-const togglePassword = document.getElementById('togglePassword');
-const passwordInput = document.getElementById('password');
-
-togglePassword.addEventListener('click', () => {
-    // Toggle the type attribute
-    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-    passwordInput.setAttribute('type', type);
-    
-    // Optional: Change icon color when active
-    togglePassword.style.color = type === 'text' ? 'var(--primary)' : 'var(--text-secondary)';
-});
-
-    // --- 5. VERIFY CODE AND CREATE ACCOUNT ---
-    confirmBtn.onclick = async () => {
-        const code = verifyCodeInput.value.trim();
-        
-        if (!code || code.length !== 6) {
-            showToast("Please enter the 6-digit code", "error");
-            return;
-        }
-
-        const payload = {
-            email: document.getElementById('email').value.trim(),
-            code: code,
-            username: document.getElementById('username').value.trim(),
-            password: document.getElementById('password').value.trim(),
-            dob: document.getElementById('dob').value
-        };
-
-        confirmBtn.disabled = true;
-        confirmBtn.innerText = "Verifying...";
-
-        try {
-            const res = await fetch(`${SERVER_URL}/signup`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify(payload)
-            });
-
-            const data = await res.json();
-
-            if (res.ok && data.success) {
-                localStorage.setItem("username", payload.username);
-                
-                // Hide modal, show success
-                verifyModal.style.display = 'none';
-                const successOverlay = document.getElementById('successOverlay');
-                if (successOverlay) {
-                    successOverlay.style.display = 'flex';
-                }
-                
-                showToast("🔥 ACCOUNT CREATED! WELCOME, ALPHA.", "success");
-                
-                setTimeout(() => {
-                    window.location.href = "/TAM/index2.html";
-                }, 2500);
-                
-            } else {
-                // Show specific error messages
-                const message = data.message || "";
-
-                if (message.includes("already registered")) {
-                    showToast("⚠️ Email already registered. Try logging in.", "error");
-                } else if (message.includes("already taken")) {
-                    showToast("⚠️ Username taken. Choose another.", "error");
-                } else {
-                    showToast(message || "Invalid verification code", "error");
-                }
-                
-                confirmBtn.disabled = false;
-                confirmBtn.innerText = "CONFIRM CODE";
-            }
-        } catch (err) {
-            console.error("Signup error:", err);
-            showToast("Signup failed. Check connection.", "error");
-            confirmBtn.disabled = false;
-            confirmBtn.innerText = "CONFIRM CODE";
-        }
-    };
-
-    console.log("✅ Signup page initialized");
-
-
-    const passwordInput = document.getElementById('password');
-const strengthBar = document.getElementById('strengthBar');
-const strengthText = document.getElementById('strengthText');
-const meterContainer = document.querySelector('.strength-meter');
-
-passwordInput.addEventListener('input', () => {
-    const val = passwordInput.value;
-    
-    if (val.length > 0) {
-        meterContainer.style.display = 'block';
-    } else {
-        meterContainer.style.display = 'none';
-        strengthText.innerText = '';
-        return;
-    }
-
-    let score = 0;
-    if (val.length >= 8) score++;
-    if (/[A-Z]/.test(val)) score++;
-    if (/[0-9]/.test(val)) score++;
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) score++;
-
-    // Reset classes
-    strengthBar.className = 'strength-bar';
-    
-    switch (score) {
-        case 1:
-            strengthBar.classList.add('weak');
-            strengthText.innerText = 'Weak';
-            strengthText.style.color = '#ff4d4d';
-            break;
-        case 2:
-            strengthBar.classList.add('medium');
-            strengthText.innerText = 'Moderate';
-            strengthText.style.color = '#fbbf24';
-            break;
-        case 3:
-            strengthBar.classList.add('strong');
-            strengthText.innerText = 'Strong';
-            strengthText.style.color = '#3b82f6';
-            break;
-        case 4:
-            strengthBar.classList.add('alpha');
-            strengthText.innerText = 'Alpha Level';
-            strengthText.style.color = 'var(--primary)';
-            break;
-        default:
-            strengthBar.classList.add('weak');
-            strengthText.innerText = 'Too Short';
-            strengthText.style.color = '#ff4d4d';
-    }
-});
-    
 });
