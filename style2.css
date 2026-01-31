@@ -407,12 +407,13 @@ body {
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px); /* Blurs the dashboard behind the modal */
-    display: none; /* Controlled by JS */
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px); /* This is the "Alpha" secret sauce */
+    display: none;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    padding: 20px;
 }
 
 /* The Modal Box */
