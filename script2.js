@@ -1,21 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const logoutBtn = document.getElementById('logoutBtn');
-    
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', async () => {
-            const confirmed = confirm("Are you sure you want to logout?");
-            if (!confirmed) return;
+    const logoutModal = document.getElementById('logoutModal');
+    const confirmLogout = document.getElementById('confirmLogout');
+    const cancelLogout = document.getElementById('cancelLogout');
 
-            try {
-                showToast("Logging out...", "info");
-                await API.logout();
-            } catch (err) {
-                console.error("Logout error:", err);
-                localStorage.clear();
-                window.location.replace("/TAM/index.html");
-            }
-        });
+logoutBtn.addEventListener('click', () => {
+    logoutModal.style.display = 'flex'; // Show the modal
+});
+
+cancelLogout.onclick = () => {
+    logoutModal.style.display = 'none'; // Hide if canceled
+};
+
+confirmLogout.onclick = async () => {
+    try {
+        await API.logout();
+    } catch (err) {
+        localStorage.clear();
+        window.location.replace("/TAM/index.html");
     }
+}
 
     // Your existing dashboard code...
     loadDashboard();
