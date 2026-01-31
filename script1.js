@@ -35,59 +35,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- 2. SEND VERIFICATION CODE ---
     signupForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value.trim();
-        const username = document.getElementById('username').value.trim();
-        const dob = document.getElementById('dob').value;
-        
-        // ✅ FIXED: Email validation INSIDE the function
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            showToast("Invalid email format", "error");
-            return;
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const username = document.getElementById('username').value.trim();
+    const dob = document.getElementById('dob').value;
+    
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        showToast("Invalid email format", "error");
+        return;
+    }
+
+    // Field validation
+    if (!email || !username || !password || !dob) {
+        showToast("All fields are required", "error");
+        return;
+    }
+
+    if (password.length < 8) {
+        showToast("Password must be at least 8 characters", "error");
+        return;
+    }
+
+    const submitBtn = signupForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Sending Code...";
+
+    try {
+        const res = await fetch(`${SERVER_URL}/send-code`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            verifyModal.style.display = 'flex';
+            startResendTimer();
+            showToast("✅ Verification code sent to your email", "success");
+        } else if (res.status === 409) {
+            // ✅ EMAIL ALREADY REGISTERED
+            showToast("⚠️ This email is already registered. Redirecting to login...", "error");
+            setTimeout(() => {
+                window.location.href = "/TAM/index.html"; // Your login page
+            }, 2500);
+        } else {
+            showToast(data.message || "Error sending code", "error");
         }
-
-        // Validation
-        if (!email || !username || !password || !dob) {
-            showToast("All fields are required", "error");
-            return;
-        }
-
-        if (password.length < 8) {
-            showToast("Password must be at least 8 characters", "error");
-            return;
-        }
-
-        const submitBtn = signupForm.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.innerText = "Sending Code...";
-
-        try {
-            const res = await fetch(`${SERVER_URL}/send-code`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-
-            const data = await res.json();
-
-            if (res.ok && data.success) {
-                verifyModal.style.display = 'flex';
-                startResendTimer();
-                showToast("✅ Verification code sent to your email", "success");
-            } else {
-                showToast(data.message || "Error sending code", "error");
-            }
-        } catch (err) {
-            console.error("❌ Send code error:", err);
-            showToast("Server connection failed", "error");
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerText = "INITIALIZE SYSTEM";
-        }
-    });
+    } catch (err) {
+        console.error("❌ Send code error:", err);
+        showToast("Server connection failed", "error");
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = "INITIALIZE SYSTEM";
+    }
+});
 
     // --- 3. TIMER LOGIC ---
     function startResendTimer() {
