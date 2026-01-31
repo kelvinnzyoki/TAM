@@ -5,16 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TAM | Join Evolution</title>
     <link rel="stylesheet" href="style1.css">
-    
-    
 </head>
 
-    
-    
 <body>
-
-   <!-- <div id="toast"></div>-->
-    
     <div class="bg-glow"></div>
 
     <div class="content">
@@ -30,13 +23,15 @@
             <div class="input-group">
                 <input type="email" id="email" placeholder="Email" required>
             </div>
-            
 
             <div class="input-group">
                 <div class="password-wrapper">
                     <input type="password" id="password" placeholder="Create a strong password" required>
                     <span class="toggle-password" id="togglePassword">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
                     </span>
                 </div>
                 <div class="strength-meter">
@@ -60,34 +55,37 @@
 
             <button type="submit" id="signupBtn">INITIALIZE SYSTEM</button>
         </form>
-        
-        
-        
-        <div id="verifyModal" class="modal" style="display:none;">
+
+        <p class="login-link">Already a member? <a href="index0.html">Login here</a></p>
+    </div>
+
+    <div id="verifyModal" class="modal" style="display:none;">
         <div class="modal-content">
             <h2 class="highlight">VERIFY IDENTITY</h2>
             <div class="modal-body">
-    <p>Enter the 6-digit code sent to your email.</p>
-    <input type="text" 
-           id="verifyCode" 
-           maxlength="6" 
-           placeholder="000000" 
-           inputmode="numeric" 
-           autocomplete="one-time-code">
-        <div class="resend-container" style="margin-top: 15px;">
-        <p id="timerText">Resend code in <span id="seconds">60</span>s</p>
-        <button id="resendBtn" style="display:none;">RESEND CODE</button>
-            </div>
-    <button id="confirmBtn" class="btn-primary">Confirm</button>
+                <p>Enter the 6-digit code sent to your email.</p>
+                <input type="text" 
+                       id="verifyCode" 
+                       maxlength="6" 
+                       placeholder="000000" 
+                       inputmode="numeric" 
+                       autocomplete="one-time-code">
+                
+                <button id="confirmBtn" class="btn-primary" style="width: 100%; margin-top: 20px;">Confirm</button>
+
+                <div class="resend-container" style="margin-top: 15px;">
+                    <p id="timerText" style="font-size: 12px; color: #666;">
+                        Resend code in <span id="seconds">60</span>s
+                    </p>
+                    <button id="resendBtn" style="display:none; background:none; border:none; color:var(--primary); cursor:pointer; text-decoration:underline; font-family:'Orbitron';">
+                        RESEND CODE
+                    </button>
+                </div>
             </div>
         </div>
+    </div>
 
-
-
-        </div>
-
-
-        <div id="successOverlay" class="success-overlay" style="display:none;">
+    <div id="successOverlay" class="success-overlay" style="display:none;">
         <div class="success-content">
             <div class="checkmark-circle">
                 <div class="checkmark draw"></div>
@@ -95,17 +93,8 @@
             <h2 class="highlight">SYSTEM INITIALIZED</h2>
             <p>ACCESS GRANTED</p>
         </div>
-        </div>
-
-
-
-
-        
-
-        <p class="login-link">Already a member? <a href = "index0.html">Login here</a></p>
     </div>
-    
+
     <script src="script1.js"></script>
-    
 </body>
 </html>
