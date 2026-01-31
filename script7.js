@@ -102,7 +102,7 @@ recordBtn.addEventListener("click", async () => {
         // Your server returns { success: true } on success
         if (data.success) {
             showToast("✅ Steps Recorded!");
-            window.location.replace("/TAM/index2.html");
+            
         } else {
             showToast("Sync Failed: " + (data.message || "Please try again"));
             recordBtn.disabled = false;
