@@ -327,34 +327,50 @@ body {
     color: var(--text-secondary);
 }
 
-/* ===================== LOGOUT BUTTON ===================== */
+/* ===================== LOGOUT BUTTON (COMPACT) ===================== */
 .logout-btn {
-    padding: 10px 20px;
-    background: rgba(255, 77, 77, 0.1);
-    border: 1px solid var(--danger);
-    border-radius: 8px;
+    padding: 6px 12px; /* Reduced padding */
+    background: rgba(255, 77, 77, 0.08);
+    border: 1px solid rgba(255, 77, 77, 0.3);
+    border-radius: 6px;
     color: var(--danger);
     font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 11px; /* Smaller font */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    height: fit-content;
 }
 
 .logout-btn:hover {
     background: rgba(255, 77, 77, 0.2);
-    transform: translateY(-2px);
+    border-color: var(--danger);
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
 }
 
 .logout-btn svg {
-    transition: transform 0.3s ease;
+    width: 14px; /* Scaled down icon */
+    height: 14px;
+    transition: transform 0.2s ease;
 }
 
-.logout-btn:hover svg {
-    transform: translateX(3px);
+.logout-btn span {
+    /* Optional: hides text on very small screens to keep header clean */
+    display: inline-block;
+}
+
+@media (max-width: 480px) {
+    .logout-btn span {
+        display: none; /* Icon only on mobile to save space */
+    }
+    .logout-btn {
+        padding: 8px;
+    }
 }
 
 /* ===================== RESPONSIVE ===================== */
