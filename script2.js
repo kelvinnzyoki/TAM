@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
-            const confirmed = showToast("Are you sure you want to logout?");
+            const confirmed = confirm("Are you sure you want to logout?");
             if (!confirmed) return;
 
             try {
+                showToast("Logging out...", "info");
                 await API.logout();
             } catch (err) {
                 console.error("Logout error:", err);
