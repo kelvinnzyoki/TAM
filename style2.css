@@ -24,6 +24,215 @@ body {
     padding: 20px;
 }
 
+/* ===================== GLOBAL RESET & VARIABLES ===================== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap');
+
+:root {
+    --primary: #D4AF37;       /* Metallic Gold */
+    --primary-glow: rgba(212, 175, 55, 0.1);
+    --dark-bg: #050505;       /* Obsidian Black */
+    --card-bg: #0d0d0d;
+    --card-border: rgba(212, 175, 55, 0.15);
+    --text-main: #ffffff;
+    --text-dim: #888888;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ===================== BACKGROUND EFFECTS ===================== */
+/* Fixed background ensures no shifting on scroll */
+.bg-gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 0%, var(--primary-glow) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -2;
+}
+
+.bg-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ===================== HEADER SECTION ===================== */
+.dashboard-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(12px); /* Glassmorphism effect */
+    border-bottom: 1px solid var(--card-border);
+    padding: 15px 5%;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--primary);
+    text-shadow: 0 0 15px var(--primary-glow);
+}
+
+/* ===================== LAYOUT CONTAINERS ===================== */
+.dashboard-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: var(--primary);
+    letter-spacing: 2px;
+    margin: 40px 0 20px 0;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* Ensure the first section title doesn't have too much top margin */
+section:first-of-type .section-title {
+    margin-top: 0;
+}
+
+/* ===================== SCORE SECTION ===================== */
+.score-card {
+    background: linear-gradient(135deg, #0d0d0d 0%, #151515 100%);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 40px 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.score-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.score-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 60px;
+    font-weight: 900;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 15px;
+}
+
+.rank-badge {
+    background: var(--primary);
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* ===================== MODAL OVERLAY ===================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    backdrop-filter: blur(8px);
+    display: none; /* Controlled by JS */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+
+/* ===================== LOGOUT BUTTON ===================== */
+.logout-btn {
+    padding: 8px 16px;
+    background: rgba(255, 77, 77, 0.05); /* Very subtle red tint */
+    border: 1px solid rgba(255, 77, 77, 0.3); /* Dimmed red border */
+    border-radius: 6px;
+    color: #ff4d4d; /* Sharp red text */
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 77, 77, 0.15);
+    border-color: #ff4d4d;
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+    transform: translateY(-1px);
+}
+
+.logout-btn:active {
+    transform: scale(0.96);
+}
+
+.logout-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    transition: transform 0.3s ease;
+}
+
+.logout-btn:hover svg {
+    transform: translateX(2px); /* Subtle "exit" motion */
+}
+
+/* --- MOBILE OPTIMIZATION --- */
+@media (max-width: 480px) {
+    .logout-btn span {
+        display: none; /* Only show icon on very small screens to save header space */
+    }
+    .logout-btn {
+        padding: 8px 10px;
+    }
+}
+
 /* --- TRAINING TOOLS GRID FIX --- */
 .categories-grid {
     display: grid;
