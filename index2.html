@@ -52,82 +52,152 @@
         <section class="categories-section">
             <h2 class="section-title">Training Modules</h2>
             
-            <div class="categories-grid">
-                <!-- Primary Cards -->
-                <div class="category-card primary" onclick="location.href='index3.html'">
-                    <div class="card-glow"></div>
-                    <div class="card-icon">🚫</div>
-                    <h3 class="card-title">Addictions</h3>
-                    <p class="card-desc">Track sobriety</p>
-                </div>
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Dashboard</title>
+    
+    <link rel="stylesheet" href="style2.css">
+    <link rel="stylesheet" href="notf.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
 
-                <div class="category-card primary" onclick="location.href='index4.html'">
-                    <div class="card-glow"></div>
-                    <div class="card-icon">💪</div>
-                    <h3 class="card-title">Push-Ups</h3>
-                    <p class="card-desc">Upper strength</p>
-                </div>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
 
-                <div class="category-card primary" onclick="location.href='index5.html'">
-                    <div class="card-glow"></div>
-                    <div class="card-icon">🧘</div>
-                    <h3 class="card-title">Sit-Ups</h3>
-                    <p class="card-desc">Core power</p>
-                </div>
-
-                <div class="category-card primary" onclick="location.href='index6.html'">
-                    <div class="card-glow"></div>
-                    <div class="card-icon">🏋️</div>
-                    <h3 class="card-title">Squats</h3>
-                    <p class="card-desc">Leg endurance</p>
-                </div>
-
-                <div class="category-card primary" onclick="location.href='index7.html'">
-                    <div class="card-glow"></div>
-                    <div class="card-icon">🏃</div>
-                    <h3 class="card-title">Steps</h3>
-                    <p class="card-desc">Daily cardio</p>
-                </div>
-
-                <div class="category-card primary" onclick="location.href='mental.html'">
-                    <div class="card-glow"></div>
-                    <div class="card-icon">🧠</div>
-                    <h3 class="card-title">Mental</h3>
-                    <p class="card-desc">Mind audit</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Secondary Actions -->
-        <section class="actions-section">
-            <h2 class="section-title">System Tools</h2>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="logo">ALPHA</div>
+            <button id="logoutBtn" class="logout-btn">
+    <span class="logout-btn">LOGOUT</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M6 14H3C2.73478 14 2.48043 13.8946 2.29289 13.7071C2.10536 13.5196 2 13.2652 2 13V3C2 2.73478 2.10536 2.48043 2.29289 2.29289C2.48043 2.10536 2.73478 2 3 2H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11 11L14 8L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+            </button>
             
-            <div class="actions-grid">
-                <div class="action-card" onclick="location.href='readiness.html'">
-                    <div class="action-icon">⚡</div>
-                    <div class="action-content">
-                        <h3>Bio Status</h3>
-                        <p>Sleep, stress & hydration</p>
-                    </div>
-                </div>
+                
+                
+        </div>
+    </header>
 
-                <div class="action-card" onclick="location.href='arena.html'">
-                    <div class="action-icon">🌐</div>
-                    <div class="action-content">
-                        <h3>Arena</h3>
-                        <p>Community feed</p>
-                    </div>
-                </div>
-
-                <div class="action-card featured" onclick="location.href='rank.html'">
-                    <div class="action-icon">🏆</div>
-                    <div class="action-content">
-                        <h3>Rankings</h3>
-                        <p>Global leaderboard</p>
-                    </div>
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        
+        <!-- Score Section -->
+        <section class="score-section">
+            <div class="score-card">
+                <div class="score-label">Total Progress</div>
+                <div class="score-value" id="totalScoreDisplay">0</div>
+                <div class="score-meta">
+                    <span class="rank-badge">Warrior</span>
+                    <span class="rank-subtitle">Keep pushing forward</span>
                 </div>
             </div>
         </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <h2 class="section-title">Training Modules</h2>
+
+
+            <div class="categories-grid">
+    <div class="category-card primary" onclick="location.href='index3.html'">
+        <div class="card-glow"></div>
+        <div class="image-container">
+            <img src="addiction.png" alt="Addictions" class="module-img">
+        </div>
+        <h3 class="card-title">Addictions</h3>
+        <p class="card-desc">Track sobriety</p>
+    </div>
+
+    <div class="category-card primary" onclick="location.href='index4.html'">
+        <div class="card-glow"></div>
+        <div class="image-container">
+            <img src="pushups.png" alt="Push-ups" class="module-img">
+        </div>
+        <h3 class="card-title">Push-Ups</h3>
+        <p class="card-desc">Upper strength</p>
+    </div>
+
+    <div class="category-card primary" onclick="location.href='index5.html'">
+        <div class="card-glow"></div>
+        <div class="image-container">
+            <img src="situps.png" alt="Sit-ups" class="module-img">
+        </div>
+        <h3 class="card-title">Sit-Ups</h3>
+        <p class="card-desc">Core power</p>
+    </div>
+
+    <div class="category-card primary" onclick="location.href='index6.html'">
+        <div class="card-glow"></div>
+        <div class="image-container">
+            <img src="squats.png" alt="Squats" class="module-img">
+        </div>
+        <h3 class="card-title">Squats</h3>
+        <p class="card-desc">Leg endurance</p>
+    </div>
+
+    <div class="category-card primary" onclick="location.href='index7.html'">
+        <div class="card-glow"></div>
+        <div class="image-container">
+            <img src="steps.png" alt="Steps" class="module-img">
+        </div>
+        <h3 class="card-title">Steps</h3>
+        <p class="card-desc">Daily cardio</p>
+    </div>
+
+    <div class="category-card primary" onclick="location.href='mental.html'">
+        <div class="card-glow"></div>
+        <div class="image-container">
+            <img src="mental.png" alt="Mental" class="module-img">
+        </div>
+        <h3 class="card-title">Mental</h3>
+        <p class="card-desc">Mind audit</p>
+    </div>
+</div>
+
+<section class="actions-section">
+    <h2 class="section-title">System Tools</h2>
+    
+    <div class="actions-grid">
+        <div class="action-card" onclick="location.href='readiness.html'">
+            <div class="action-image-left">
+                <img src="bio-status.png" alt="Bio Status">
+            </div>
+            <div class="action-content">
+                <h3>Bio Status</h3>
+                <p>Sleep, stress & hydration</p>
+            </div>
+        </div>
+
+        <div class="action-card" onclick="location.href='arena.html'">
+            <div class="action-image-left">
+                <img src="arena.png" alt="Arena Feed">
+            </div>
+            <div class="action-content">
+                <h3>Arena</h3>
+                <p>Community feed</p>
+            </div>
+        </div>
+
+        <div class="action-card featured" onclick="location.href='rank.html'">
+            <div class="action-image-left">
+                <img src="rankings.png" alt="Leaderboard">
+            </div>
+            <div class="action-content">
+                <h3>Rankings</h3>
+                <p>Global leaderboard</p>
+            </div>
+        </div>
+    </div>
+</section>
 
     </main>
 
