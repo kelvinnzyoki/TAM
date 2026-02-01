@@ -1,9 +1,5 @@
 /* --- GLOBAL FIXES --- */
-:root {
-    --primary: #D4AF37;
-    --card-bg: #0d0d0d;
-    --card-border: rgba(212, 175, 55, 0.15);
-}
+
 
 * { 
     margin: 0; 
@@ -15,6 +11,10 @@ body {
     background: #050505;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden; /* Prevents side-scrolling */
+    background-color: var(--dark-bg);
+    color: var(--text-main);
+    min-height: 100vh;
+    position: relative;
 }
 
 .dashboard-main {
@@ -43,14 +43,6 @@ body {
     box-sizing: border-box;
 }
 
-body {
-    background-color: var(--dark-bg);
-    color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
-}
 
 /* ===================== BACKGROUND EFFECTS ===================== */
 /* Fixed background ensures no shifting on scroll */
@@ -427,4 +419,63 @@ section:first-of-type .section-title {
     background: #ff3333;
     box-shadow: 0 6px 20px rgba(255, 77, 77, 0.4);
     transform: translateY(-2px);
+}
+
+
+
+
+/* ===================== CARD TEXT STYLING ===================== */
+
+/* Primary Card Titles (Training Modules) */
+.card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary); /* Gold */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
+/* Primary Card Descriptions */
+.card-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #888888; /* Dimmed text for hierarchy */
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+/* System Tool Titles (Rectangular Cards) */
+.action-content h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+/* System Tool Descriptions */
+.action-content p {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #a0a0a0;
+    font-weight: 300;
+}
+
+/* ===================== HOVER STATES ===================== */
+.category-card:hover .card-title,
+.action-card:hover h3 {
+    color: #ffffff; /* Turns white on hover for better interaction feedback */
+    text-shadow: 0 0 15px var(--primary);
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .card-desc,
+.action-card:hover p {
+    color: #cccccc;
+    transition: all 0.3s ease;
 }
