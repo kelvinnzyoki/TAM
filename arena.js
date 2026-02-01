@@ -7,12 +7,12 @@ function renderFeed(feedData) {
     const container = document.getElementById('activityFeed');
     
     if (!feedData || feedData.length === 0) {
-        container.innerHTML = "<p style='text-align:center; color: #666;'>No victories yet today. Be the first.</p>";
+        container.innerHTML = "<p style='text-align:center; color: #666;'>No victories yet. Be the first.</p>";
         return;
     }
 
     container.innerHTML = feedData.map(item => {
-        const timeAgo = getTimeAgo(item.created_at); // Changed from updated_at
+        const timeAgo = getTimeAgo(item.created_at);
         const rank = getRank(item.total_score);
         
         return `
@@ -20,13 +20,14 @@ function renderFeed(feedData) {
                 <div class="avatar">${item.username.charAt(0).toUpperCase()}</div>
                 <div class="card-content">
                     <h4>${item.username} <span class="badge ${rank.toLowerCase()}">${rank}</span></h4>
-                    <p class="victory-text">"${item.victory_text}"</p>
+                    <p class="victory-text">"${item.post_text}"</p>
                     <p class="meta-text">${item.total_score} pts • ${timeAgo}</p>
                 </div>
             </div>
         `;
     }).join('');
 }
+
 
 // 2. Helper to determine Rank based on score
 function getRank(score) {
