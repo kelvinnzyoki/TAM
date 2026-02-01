@@ -1,97 +1,123 @@
-/* --- RESET & LAYOUT --- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; }
+/* --- GLOBAL FIXES --- */
+:root {
+    --primary: #D4AF37;
+    --card-bg: #0d0d0d;
+    --card-border: rgba(212, 175, 55, 0.15);
+}
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; /* Crucial: prevents padding from pushing width */
+}
+
+body {
+    background: #050505;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden; /* Prevents side-scrolling */
+}
 
 .dashboard-main {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 20px;
 }
 
-.section-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 14px;
-    color: #D4AF37;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-/* --- GRID FOR TRAINING MODULES --- */
-.module-group { margin-bottom: 50px; }
-
+/* --- TRAINING TOOLS GRID FIX --- */
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
+    /* Uses auto-fill to wrap cards naturally */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); 
+    gap: 15px;
+    margin-bottom: 40px;
 }
 
 .category-card {
-    background: #0d0d0d;
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
-    padding: 25px 15px;
+    padding: 20px 10px;
     text-align: center;
-    transition: 0.3s;
-    cursor: pointer;
+    height: auto; /* Ensures height grows with content */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.category-card:hover {
-    border-color: #D4AF37;
-    transform: translateY(-5px);
-}
-
+/* IMAGE FIX: Prevents images from spilling out */
 .image-circle {
-    width: 80px; height: 80px;
-    margin: 0 auto 15px auto;
+    width: 70px;  /* Slightly smaller for better mobile fit */
+    height: 70px;
+    margin-bottom: 12px;
     border-radius: 50%;
     overflow: hidden;
-    border: 2px solid rgba(212, 175, 55, 0.2);
+    border: 2px solid var(--primary);
+    flex-shrink: 0; /* Prevents circle from squishing */
 }
 
-.image-circle img { width: 100%; height: 100%; object-fit: cover; }
+.image-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-/* --- GRID FOR SYSTEM TOOLS (RECTANGLES) --- */
-.tools-group { margin-top: 20px; }
-
+/* --- SYSTEM TOOLS LIST FIX --- */
 .actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .action-card {
-    background: #0d0d0d;
-    border: 1px solid rgba(212, 175, 55, 0.1);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
-    padding: 15px;
-    display: flex; /* Horizontal Alignment */
+    padding: 12px 15px;
+    display: flex;
     align-items: center;
     gap: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.action-card:hover {
-    border-color: #D4AF37;
-    transform: translateX(5px);
+    width: 100%; /* Forces full width to prevent overlap */
 }
 
 .action-image-left {
-    width: 60px; height: 60px;
-    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
     overflow: hidden;
     flex-shrink: 0;
-    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
-.action-image-left img { width: 100%; height: 100%; object-fit: cover; }
-
-.action-content h3 { font-size: 16px; margin-bottom: 2px; }
-.action-content p { font-size: 12px; color: #888; }
-
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-    .categories-grid { grid-template-columns: repeat(2, 1fr); }
-    .actions-grid { grid-template-columns: 1fr; }
+.action-image-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
+
+.action-content h3 {
+    font-size: 14px;
+    color: var(--primary);
+    margin-bottom: 2px;
+}
+
+.action-content p {
+    font-size: 11px;
+    color: #888;
+}
+
+/* --- MOBILE SPECIFIC TWEAKS --- */
+@media (max-width: 480px) {
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cards per row on small phones */
+        gap: 10px;
+    }
+    
+    .category-card {
+        padding: 15px 5px;
+    }
+
+    .image-circle {
+        width: 60px;
+        height: 60px;
+    }
+    }
