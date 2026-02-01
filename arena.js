@@ -28,7 +28,6 @@ function renderFeed(feedData) {
     }).join('');
 }
 
-
 // 2. Helper to determine Rank based on score
 function getRank(score) {
     if (score > 100) return "LEGEND";
@@ -57,61 +56,115 @@ function getTimeAgo(timestamp) {
 
 // 4. Fetch feed data
 async function loadArena() {
+    const container = document.getElementById('activityFeed');
+    
     try {
+        console.log("🔄 Loading arena feed...");
         const data = await API.request("/feed");
         
-        if (data.success) {
+        console.log("📡 Feed response:", data);
+        
+        if (data && data.success) {
+            console.log("✅ Feed data received:", data.data);
             renderFeed(data.data);
-            console.log("✅ Arena feed loaded");
         } else {
-            console.error("Feed load failed:", data.message);
+            console.error("❌ Feed load failed:", data);
+            container.innerHTML = "<p style='color: #ff4d4d;'>Failed to load feed</p>";
         }
     } catch (err) {
         console.error("❌ Arena load error:", err);
-        const container = document.getElementById('activityFeed');
         container.innerHTML = "<p style='color: #ff4d4d;'>Failed to load feed. Please refresh.</p>";
     }
 }
 
 // 5. Open the modal
 function postAchievement() {
-    document.getElementById("victoryModal").style.display = "flex";
-    document.getElementById("victoryInput").focus();
+    console.log("🎯 Opening victory modal");
+    const modal = document.getElementById("victoryModal");
+    const input = document.getElementById("victoryInput");
+    
+    if (modal && input) {
+        modal.style.display = "flex";
+        input.focus();
+    } else {
+        console.error("❌ Modal elements not found");
+    }
 }
 
 // 6. Close the modal
 function closeVictoryModal() {
-    document.getElementById("victoryModal").style.display = "none";
-    document.getElementById("victoryInput").value = "";
+    console.log("❌ Closing victory modal");
+    const modal = document.getElementById("victoryModal");
+    const input = document.getElementById("victoryInput");
+    
+    if (modal) {
+        modal.style.display = "none";
+    }
+    if (input) {
+        input.value = "";
+    }
 }
 
 // 7. Submit to PUBLIC arena feed (NOT mental audit)
 async function submitVictory() {
     const input = document.getElementById("victoryInput");
-    const victoryText = input.value;
     
-    if (!victoryText || victoryText.trim() === "") {
-        showToast("⚠️ PLEASE ENTER A VICTORY", "error");
+    if (!input) {
+        console.error("❌ Input element not found");
+        return;
+    }
+    
+    const victoryText = input.value.trim();
+    
+    console.log("📤 Attempting to submit:", victoryText);
+    
+    if (!victoryText || victoryText === "") {
+        if (typeof showToast === 'function') {
+            showToast("⚠️ PLEASE ENTER A VICTORY", "error", false);
+        } else {
+            alert("Please enter a victory");
+        }
         return;
     }
 
     try {
-        // ✅ POST TO ARENA (public), NOT mental audit (private)
+        console.log("🚀 Posting to /arena/post...");
+        
         const response = await API.request("/arena/post", {
             method: "POST",
             body: JSON.stringify({
-                victory_text: victoryText.trim()
+                victory_text: victoryText
             })
         });
 
-        if (response.success) {
+        console.log("📥 Response received:", response);
+
+        if (response && response.success) {
+            console.log("✅ Victory posted successfully");
             closeVictoryModal();
-            showToast("🔥 VICTORY BROADCASTED", "success", false); 
-            await loadArena(); // Refresh the feed
+            
+            if (typeof showToast === 'function') {
+                showToast("🔥 VICTORY BROADCASTED", "success", false);
+            }
+            
+            // Reload feed
+            console.log("🔄 Reloading arena feed...");
+            await loadArena();
+        } else {
+            console.error("❌ Post failed:", response);
+            if (typeof showToast === 'function') {
+                showToast("❌ POST FAILED", "error", false);
+            } else {
+                alert("Failed to post");
+            }
         }
     } catch (err) {
-        console.error("Post error:", err);
-        showToast("❌ CONNECTION FAILED", "error");
+        console.error("❌ Post error:", err);
+        if (typeof showToast === 'function') {
+            showToast("❌ CONNECTION FAILED", "error", false);
+        } else {
+            alert("Connection failed");
+        }
     }
 }
 
@@ -119,3 +172,10 @@ async function submitVictory() {
 window.postAchievement = postAchievement;
 window.closeVictoryModal = closeVictoryModal;
 window.submitVictory = submitVictory;
+
+console.log("✅ Arena.js loaded successfully");
+console.log("Functions available:", {
+    postAchievement: typeof postAchievement,
+    closeVictoryModal: typeof closeVictoryModal,
+    submitVictory: typeof submitVictory
+});
