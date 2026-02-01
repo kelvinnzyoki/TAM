@@ -1,648 +1,97 @@
-/* ===================== VARIABLES ===================== */
-:root {
-    --primary: #00f2ff;
-    --primary-glow: rgba(239, 68, 68, 0.15);
-    --secondary: #dc2626;
-    --accent: #f87171;
-    --dark-bg: #050505;
-    --card-bg: #0d1111;
-    --card-border: #331a1a;
-    --text-primary: #ffffff;
-    --text-secondary: #fca5a5;
-    --danger: #ff4d4d;
-    --grid-color: rgba(0,242,255,0.03);
-    --primary-glow: rgba(0,242,255,0.1);
-  
-    
-    --spacing-xs: 8px;
-    --spacing-sm: 12px;
-    --spacing-md: 20px;
-    --spacing-lg: 32px;
-    --spacing-xl: 48px;
-    
-    --radius-sm: 12px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-}
+/* --- RESET & LAYOUT --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; }
 
-
-.card-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-    color: var(--text-primary);
-    text-transform: uppercase; 
-    letter-spacing: 2px;
-}
-
-
-.bg-gradient {
-    position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-    background: radial-gradient(circle at 50% 50%, var(--primary-glow) 0%, transparent 50%);
-    animation: rotate 30s linear infinite; pointer-events: none; z-index: 0;
-}
-
-.bg-grid {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-image: 
-        linear-gradient(var(--grid-color) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: var(--grid-size, 50px) var(--grid-size, 50px);
-    pointer-events: none; z-index: 0;
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* ===================== RESET & BASE ===================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    background: var(--dark-bg);
-    color: var(--text-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-    min-height: 100vh;
-    position: relative;
-}
-
-/* ===================== BACKGROUND EFFECTS ===================== */
-
-
-/* ===================== HEADER ===================== */
-.dashboard-header {
-    position: relative;
-    z-index: 10;
-    padding: var(--spacing-md) var(--spacing-lg);
-    background: rgba(19, 19, 26, 0.6);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--card-border);
-}
-
-.header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 24px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px var(--primary-glow);
-}
-
-/* ===================== MAIN CONTENT ===================== */
 .dashboard-main {
-    position: relative;
-    z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--spacing-xl) var(--spacing-md);
-}
-
-/* ===================== SCORE SECTION ===================== */
-.score-section {
-    margin-bottom: var(--spacing-xl);
-}
-
-.score-card {
-    background: linear-gradient(135deg, var(--card-bg) 0%, #1a1a2e 100%);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.score-card::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border-radius: var(--radius-lg);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.score-card:hover::before {
-    opacity: 0.1;
-}
-
-.score-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: var(--spacing-sm);
-}
-
-.score-value {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 72px;
-    font-weight: 900;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1;
-    margin-bottom: var(--spacing-md);
-    text-shadow: 0 0 40px var(--primary-glow);
-}
-
-.score-meta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-sm);
-    flex-wrap: wrap;
-}
-
-.rank-badge {
-    display: inline-block;
-    padding: 6px 16px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #000;
-}
-
-.rank-subtitle {
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-/* ===================== CATEGORIES SECTION ===================== */
-.categories-section {
-    margin-bottom: var(--spacing-xl);
+    padding: 40px 20px;
 }
 
 .section-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-size: 14px;
+    color: #D4AF37;
     letter-spacing: 2px;
-    color: var(--text-secondary);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 20px;
+    text-transform: uppercase;
 }
+
+/* --- GRID FOR TRAINING MODULES --- */
+.module-group { margin-bottom: 50px; }
 
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
 }
 
 .category-card {
-    position: relative;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-lg);
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-}
-
-
-
-/* CIRCLE IMAGE FIX for Primary Modules */
-.image-circle {
-    width: 90px;
-    height: 90px;
-    margin: 0 auto 15px auto;
-    border-radius: 50%;
-    overflow: hidden; /* This makes the image look "inside" the circle */
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    background: #000;
-    box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.2), 0 0 10px rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.image-circle img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures image fills the circle perfectly */
-    transition: transform 0.5s ease;
-}
-
-.category-card:hover .image-circle img {
-    transform: scale(1.1); /* Subtle zoom effect within the circle */
-}
-
-/* RECTANGLE IMAGE FIX for System Tools */
-.action-image-left {
-    width: 60px;
-    height: 60px;
-    flex-shrink: 0;
-    border-radius: 4px;
-    overflow: hidden;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    background: #000;
-}
-
-.action-image-left img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Alignment for the 4 System Tools */
-.actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 15px;
-}
-
-
-/* Container for Primary Grid Images */
-.image-container {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 15px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(212, 175, 55, 0.05);
-    border-radius: 50%;
+    background: #0d0d0d;
     border: 1px solid rgba(212, 175, 55, 0.1);
-    padding: 5px;
-}
-
-.module-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
-}
-
-/* Horizontal Card (System Tools) Image Alignment */
-.action-card {
-    display: flex !important; /* Forces side-by-side */
-    align-items: center;
-    gap: 20px;
-    padding: 15px 20px;
-    text-align: left;
-}
-
-.action-image-left {
-    flex-shrink: 0;
-    width: 60px; /* Reasonable size for horizontal cards */
-    height: 60px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.action-image-left img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.action-content h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: var(--primary);
-}
-
-.action-content p {
-    margin: 5px 0 0 0;
-    font-size: 0.85rem;
-    color: #888;
-}
-
-/* Highlighting the Featured Rankings Card */
-.action-card.featured {
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    background: linear-gradient(90deg, rgba(15,15,15,1) 0%, rgba(212,175,55,0.05) 100%);
-}
-
-.action-card.featured .action-image-left {
-    border-color: var(--primary);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-}
-
-.action-card.featured h3 {
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
-}
-
-/* Hover Effect for all Action Cards */
-.action-card {
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.action-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateX(5px); /* Subtle slide-in effect */
-}
-
-
-
-.card-glow {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.category-card:hover .card-glow {
-    opacity: 1;
+    border-radius: 12px;
+    padding: 25px 15px;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
 }
 
 .category-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--primary);
-    box-shadow: 0 8px 32px var(--primary-glow);
+    border-color: #D4AF37;
+    transform: translateY(-5px);
 }
 
-.category-card:active {
-    transform: translateY(-2px);
+.image-circle {
+    width: 80px; height: 80px;
+    margin: 0 auto 15px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(212, 175, 55, 0.2);
 }
 
-.card-icon {
-    font-size: 40px;
-    margin-bottom: var(--spacing-sm);
-    filter: grayscale(0.3);
-    transition: filter 0.3s ease;
-}
+.image-circle img { width: 100%; height: 100%; object-fit: cover; }
 
-.category-card:hover .card-icon {
-    filter: grayscale(0);
-}
-
-
-
-.card-desc {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 400;
-}
-
-/* ===================== ACTIONS SECTION ===================== */
-.actions-section {
-    margin-bottom: var(--spacing-xl);
-}
+/* --- GRID FOR SYSTEM TOOLS (RECTANGLES) --- */
+.tools-group { margin-top: 20px; }
 
 .actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
 }
 
 .action-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-md);
-    display: flex;
+    background: #0d0d0d;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex; /* Horizontal Alignment */
     align-items: center;
-    gap: var(--spacing-md);
+    gap: 15px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 
 .action-card:hover {
-    border-color: var(--primary);
-    transform: translateX(4px);
+    border-color: #D4AF37;
+    transform: translateX(5px);
 }
 
-.action-card.featured {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(0, 199, 182, 0.1));
-    border-color: var(--secondary);
-}
-
-.action-icon {
-    font-size: 32px;
-    width: 56px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-sm);
+.action-image-left {
+    width: 60px; height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
     flex-shrink: 0;
+    border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
-.action-content h3 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
+.action-image-left img { width: 100%; height: 100%; object-fit: cover; }
 
-.action-content p {
-    font-size: 13px;
-    color: var(--text-secondary);
-}
+.action-content h3 { font-size: 16px; margin-bottom: 2px; }
+.action-content p { font-size: 12px; color: #888; }
 
-/* ===================== LOGOUT BUTTON (COMPACT) ===================== */
-.logout-btn {
-    padding: 6px 12px; /* Reduced padding */
-    background: rgba(255, 77, 77, 0.08);
-    border: 1px solid rgba(255, 77, 77, 0.3);
-    border-radius: 6px;
-    color: var(--danger);
-    font-family: 'Inter', sans-serif;
-    font-size: 11px; /* Smaller font */
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    height: fit-content;
-}
-
-.logout-btn:hover {
-    background: rgba(255, 77, 77, 0.2);
-    border-color: var(--danger);
-    box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
-}
-
-.logout-btn svg {
-    width: 14px; /* Scaled down icon */
-    height: 14px;
-    transition: transform 0.2s ease;
-}
-
-.logout-btn span {
-    /* Optional: hides text on very small screens to keep header clean */
-    display: inline-block;
-}
-
-@media (max-width: 480px) {
-    .logout-btn span {
-        display: none; /* Icon only on mobile to save space */
-    }
-    .logout-btn {
-        padding: 8px;
-    }
-}
-
-/* ===================== RESPONSIVE ===================== */
+/* --- RESPONSIVE --- */
 @media (max-width: 768px) {
-    .dashboard-main {
-        padding: var(--spacing-lg) var(--spacing-md);
-    }
-    
-    .score-value {
-        font-size: 56px;
-    }
-    
-    .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-sm);
-    }
-    
-    .category-card {
-        padding: var(--spacing-md);
-    }
-    
-    .card-icon {
-        font-size: 32px;
-    }
-    
-    .actions-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .logo {
-        font-size: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .score-value {
-        font-size: 48px;
-    }
-    
-    .section-title {
-        font-size: 14px;
-    }
-}
-
-
-
-/* --- LOGOUT MODAL STYLING --- */
-
-/* The Modal Overlay */
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px); /* This is the "Alpha" secret sauce */
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 20px;
-}
-
-/* The Modal Box */
-.modal-content {
-    background: #111;
-    border: 1px solid #333;
-    padding: 30px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
-    animation: modalSlideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@keyframes modalSlideIn {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-content h3 {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--primary);
-    margin-bottom: 15px;
-    letter-spacing: 2px;
-}
-
-.modal-content p {
-    color: #888;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
-
-/* Modal Buttons Container */
-.modal-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
-
-/* Cancel Button */
-.btn-secondary {
-    background: transparent;
-    border: 1px solid #444;
-    color: #fff;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 12px;
-    transition: 0.3s;
-}
-
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: #666;
-}
-
-/* Logout Button */
-.btn-primary {
-    background: #ff4d4d; /* Red for destructive actions */
-    border: none;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    box-shadow: 0 0 15px rgba(255, 77, 77, 0.3);
-    transition: 0.3s;
-}
-
-.btn-primary:hover {
-    background: #ff3333;
-    box-shadow: 0 0 20px rgba(255, 77, 77, 0.5);
-    transform: translateY(-2px);
+    .categories-grid { grid-template-columns: repeat(2, 1fr); }
+    .actions-grid { grid-template-columns: 1fr; }
 }
