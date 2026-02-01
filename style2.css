@@ -227,6 +227,57 @@ body {
 
 
 
+/* CIRCLE IMAGE FIX for Primary Modules */
+.image-circle {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 15px auto;
+    border-radius: 50%;
+    overflow: hidden; /* This makes the image look "inside" the circle */
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    background: #000;
+    box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.2), 0 0 10px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image fills the circle perfectly */
+    transition: transform 0.5s ease;
+}
+
+.category-card:hover .image-circle img {
+    transform: scale(1.1); /* Subtle zoom effect within the circle */
+}
+
+/* RECTANGLE IMAGE FIX for System Tools */
+.action-image-left {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    background: #000;
+}
+
+.action-image-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Alignment for the 4 System Tools */
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+
 /* Container for Primary Grid Images */
 .image-container {
     width: 80px;
