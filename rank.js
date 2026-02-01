@@ -1,56 +1,88 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. PROTECTION LAYER: Check if user is authenticated
-    // Assuming API.checkAuth() exists in your auth.js
-    const user = await API.checkAuth(); 
-    
-    if (!user) {
-        // If not logged in, redirect to login page immediately
-        window.location.replace("/TAM/index.html");
-        return;
-    }
+    try {
+        // Check authentication
+        const user = await API.checkAuth(); 
+        
+        if (!user) {
+            window.location.replace("/TAM/index.html");
+            return;
+        }
 
-    // 2. LOAD LEADERBOARD if authenticated
-    fetchLeaderboard();
+        // Load leaderboard if authenticated
+        await fetchLeaderboard();
+    } catch (error) {
+        console.error("Auth check failed:", error);
+        window.location.replace("/TAM/index.html");
+    }
 });
 
 async function fetchLeaderboard() {
     const list = document.getElementById("leaderboardList");
 
     try {
-        // API.request handles the JWT header (Authorization: Bearer <token>)
-        // inside your auth.js logic.
         const result = await API.request("/leaderboard");
+        
+        console.log("Leaderboard API Response:", result); // DEBUG: See actual structure
 
-        if (result && result.success) {
-            list.innerHTML = ""; // Clear "Loading..." state
-            
-            result.data.forEach((user, index) => {
-                const item = document.createElement("div");
-                item.className = "rank-item";
-                
-                // Add special styling for top 3
-                const crown = index === 0 ? "👑 " : "";
-                const topClass = index < 3 ? `top-${index + 1}` : "";
-
-                item.innerHTML = `
-                    <div class="rank-info">
-                        <span class="rank-number ${topClass}">#${index + 1}</span>
-                        <span class="user-name">${crown}${user.username}</span>
-                    </div>
-                    <span class="user-score">${user.total_score} <small>pts</small></span>
-                `;
-                list.appendChild(item);
-            });
+        // Handle different possible response formats
+        let leaderboardData;
+        
+        if (result && result.success && result.data) {
+            // Format 1: {success: true, data: [...]}
+            leaderboardData = result.data;
+        } else if (Array.isArray(result)) {
+            // Format 2: Direct array [...]
+            leaderboardData = result;
+        } else if (result && Array.isArray(result.leaderboard)) {
+            // Format 3: {leaderboard: [...]}
+            leaderboardData = result.leaderboard;
         } else {
-            list.innerHTML = "<p>No operatives found in the database.</p>";
+            throw new Error("Unexpected API response format");
         }
+
+        // Check if we have data
+        if (!leaderboardData || leaderboardData.length === 0) {
+            list.innerHTML = "<p>No operatives found in the database.</p>";
+            return;
+        }
+
+        // Clear loading state
+        list.innerHTML = "";
+        
+        // Render leaderboard
+        leaderboardData.forEach((user, index) => {
+            const item = document.createElement("div");
+            item.className = "rank-item";
+            
+            // Add special styling for top 3
+            const crown = index === 0 ? "👑 " : "";
+            const topClass = index < 3 ? `top-${index + 1}` : "";
+
+            item.innerHTML = `
+                <div class="rank-info">
+                    <span class="rank-number ${topClass}">#${index + 1}</span>
+                    <span class="user-name">${crown}${user.username || 'Anonymous'}</span>
+                </div>
+                <span class="user-score">${user.total_score || 0} <small>pts</small></span>
+            `;
+            list.appendChild(item);
+        });
+
     } catch (error) {
-        console.error("Leaderboard Error:", error);
-        // Handle 401 Unauthorized specifically
-        if (error.message.includes("401")) {
-             window.location.replace("/TAM/index.html");
+        console.error("Leaderboard Error Details:", error);
+        
+        // Handle specific errors
+        if (error.message && error.message.includes("401")) {
+            window.location.replace("/TAM/index.html");
+        } else if (error.message && error.message.includes("403")) {
+            list.innerHTML = "<p style='color: #ff4d4d;'>Access Denied: Insufficient Permissions</p>";
         } else {
-            list.innerHTML = "<p style='color: var(--danger);'>Access Denied: Connection Failure</p>";
+            list.innerHTML = `
+                <p style='color: #ff4d4d;'>
+                    Connection Failure<br>
+                    <small style='opacity: 0.7;'>${error.message || 'Unknown error'}</small>
+                </p>
+            `;
         }
     }
 }
