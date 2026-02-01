@@ -20,7 +20,7 @@ function renderFeed(feedData) {
                 <div class="avatar">${item.username.charAt(0).toUpperCase()}</div>
                 <div class="card-content">
                     <h4>${item.username} <span class="badge ${rank.toLowerCase()}">${rank}</span></h4>
-                    <p class="victory-text">"${item.post_text}"</p>
+                    <p class="victory-text">${item.post_text}</p>
                     <p class="meta-text">${item.total_score} pts • ${timeAgo}</p>
                 </div>
             </div>
