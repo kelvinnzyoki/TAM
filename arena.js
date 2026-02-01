@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadArena();
 });
 
-// 1. Render the feed with victories
+// 1. Render the feed with public victories
 function renderFeed(feedData) {
     const container = document.getElementById('activityFeed');
     
@@ -12,7 +12,7 @@ function renderFeed(feedData) {
     }
 
     container.innerHTML = feedData.map(item => {
-        const timeAgo = getTimeAgo(item.updated_at);
+        const timeAgo = getTimeAgo(item.created_at); // Changed from updated_at
         const rank = getRank(item.total_score);
         
         return `
@@ -20,7 +20,7 @@ function renderFeed(feedData) {
                 <div class="avatar">${item.username.charAt(0).toUpperCase()}</div>
                 <div class="card-content">
                     <h4>${item.username} <span class="badge ${rank.toLowerCase()}">${rank}</span></h4>
-                    <p class="victory-text">"${item.victory}"</p>
+                    <p class="victory-text">"${item.victory_text}"</p>
                     <p class="meta-text">${item.total_score} pts • ${timeAgo}</p>
                 </div>
             </div>
@@ -72,49 +72,49 @@ async function loadArena() {
     }
 }
 
-// 5. Post a victory
-// 1. Open the modal instead of using prompt()
+// 5. Open the modal
 function postAchievement() {
     document.getElementById("victoryModal").style.display = "flex";
     document.getElementById("victoryInput").focus();
 }
 
-// 2. Close the modal
+// 6. Close the modal
 function closeVictoryModal() {
     document.getElementById("victoryModal").style.display = "none";
     document.getElementById("victoryInput").value = "";
 }
 
-// 3. The actual submission logic
+// 7. Submit to PUBLIC arena feed (NOT mental audit)
 async function submitVictory() {
     const input = document.getElementById("victoryInput");
-    const userAction = input.value;
+    const victoryText = input.value;
     
-    if (!userAction || userAction.trim() === "") {
+    if (!victoryText || victoryText.trim() === "") {
         showToast("⚠️ PLEASE ENTER A VICTORY", "error");
         return;
     }
 
     try {
-        const response = await API.request("/api/audit/save", {
+        // ✅ POST TO ARENA (public), NOT mental audit (private)
+        const response = await API.request("/arena/post", {
             method: "POST",
             body: JSON.stringify({
-                victory: userAction.trim(),
-                defeat: ""
+                victory_text: victoryText.trim()
             })
         });
 
         if (response.success) {
             closeVictoryModal();
-            // Use your showToast here! 
-            // Pass false for the second parameter so it doesn't redirect to index2.html
             showToast("🔥 VICTORY BROADCASTED", "success", false); 
             await loadArena(); // Refresh the feed
         }
     } catch (err) {
+        console.error("Post error:", err);
         showToast("❌ CONNECTION FAILED", "error");
     }
-    }
+}
 
-// Make postAchievement available globally for HTML onclick
+// Make functions available globally for HTML onclick
 window.postAchievement = postAchievement;
+window.closeVictoryModal = closeVictoryModal;
+window.submitVictory = submitVictory;
