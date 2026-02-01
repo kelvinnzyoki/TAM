@@ -3,47 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forge Your Legacy | Growth Tracker</title>
+    <title>TAM | Forge Your Legacy</title>
+    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="notf.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 </head>
 
-    
 <body>
-
     <div id="toast"></div>
     
-    <!-- Animated Background -->
-    <div class="glow-bg"></div>
-    <div class="glow-bg-secondary"></div>
-    <div class="grid-overlay"></div>
+    <div class="ambient-container">
+    <div class="noise-overlay"></div>
+    <div class="vignette"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="particle-canvas" id="particles"></div>
+</div>
 
-    <!-- Navigation -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <span class="logo-icon">▲</span>
-                TAM<span class="logo-dot">.</span>
-            </div>
-            <div class="nav-links">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#rankings" class="nav-link">Rankings</a>
-                <a href="#about" class="nav-link">About</a>
-                <button class="btn-secondary" onclick="location.href='index0.html'">
-                    <span>Sign In</span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
+    <header class="main-header">
+    <div class="header-container">
+        
+        <div class="tam-brand-container">
+            <a href="/" class="tam-logo">
+                <span class="t">T</span><span class="a">A</span><span class="m">M</span>
+                <div class="logo-accent"></div>
+            </a>
+            <span class="logo-tagline">ALPHA</span>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
+        <div class="header-actions">
+            <button class="btn-sign-in-small" onclick="location.replace('index0.html')">
+                <span>Sign In</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                    <polyline points="10 17 15 12 10 7"></polyline>
+                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+</header>
+
     <header class="hero">
         <div class="hero-content">
             <div class="badge-container">
@@ -60,233 +64,203 @@
             </h1>
             
             <p class="hero-description">
-                The ultimate discipline dashboard. Track your sobriety, crush your physical limits, 
-                and rise through the ranks from Novice to Legend.
+                The ultimate discipline platform. Track your sobriety, crush physical limits, 
+                and rise from nothing to Legend in our global ecosystem.
             </p>
             
             <div class="cta-group">
+              
                 <button class="btn-primary" onclick="location.href='index2.html'">
-                    <span>Enter Dashboard</span>
+                    <span>Check Dashboard</span>
                     <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
                 <button class="btn-outline" onclick="location.href='rank.html'">
-                    <span>View Global Ranks</span>
+                    <span>Global Rankings</span>
                 </button>
             </div>
 
-            <!-- Trust Indicators -->
             <div class="trust-indicators">
                 <div class="trust-item">
                     <div class="trust-number">10K+</div>
-                    <div class="trust-label">Active Users</div>
+                    <div class="trust-label">Alphas</div>
                 </div>
                 <div class="trust-divider"></div>
                 <div class="trust-item">
-                    <div class="trust-number">500K+</div>
-                    <div class="trust-label">Days Tracked</div>
-                </div>
-                <div class="trust-divider"></div>
-                <div class="trust-item">
-                    <div class="trust-number">98%</div>
-                    <div class="trust-label">Success Rate</div>
+                    <div class="trust-number">99%</div>
+                    <div class="trust-label">Consistency</div>
                 </div>
             </div>
         </div>
 
-        <!-- Hero Visual -->
         <div class="hero-visual">
             <div class="visual-container">
                 <div class="abstract-shape"></div>
                 
-                <!-- Floating Cards -->
                 <div class="stat-card-preview card-1">
-                    <div class="icon-circle fire">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2C12 2 7 6 7 11C7 13.7614 9.23858 16 12 16C14.7614 16 17 13.7614 17 11C17 6 12 2 12 2Z" fill="currentColor"/>
-                            <path d="M12 16C10.3431 16 9 17.3431 9 19C9 20.6569 10.3431 22 12 22C13.6569 22 15 20.6569 15 19C15 17.3431 13.6569 16 12 16Z" fill="currentColor" opacity="0.5"/>
-                        </svg>
-                    </div>
+                    <div class="icon-circle fire">🔥</div>
                     <div class="details">
-                        <p>Current Streak</p>
-                        <strong>47 Days</strong>
+                        <p>Sobriety</p>
+                        <strong>** Days</strong>
                     </div>
                 </div>
 
                 <div class="stat-card-preview card-2">
-                    <div class="icon-circle rank">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
-                        </svg>
-                    </div>
+                    <div class="icon-circle rank">🏆</div>
                     <div class="details">
-                        <p>Current Rank</p>
+                        <p>Status</p>
                         <strong>Warrior</strong>
                     </div>
                 </div>
 
                 <div class="stat-card-preview card-3">
-                    <div class="icon-circle progress">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor"/>
-                        </svg>
-                    </div>
+                    <div class="icon-circle progress">⚡</div>
                     <div class="details">
-                        <p>Total Progress</p>
-                        <strong>2,847 pts</strong>
+                        <p>Total Pts</p>
+                        <strong>100</strong>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Features Section -->
     <section id="features" class="features-section">
         <div class="section-header">
-            <span class="section-badge">Features</span>
-            <h2>Built for Warriors</h2>
-            <p class="section-description">Everything you need to transform your life and achieve legendary status</p>
+            <span class="section-badge">From Beta to Alpha</span>
+            <h2>Built for Discipline</h2>
+            <p class="section-description">Every step is designed to engineer discipline and track pure performance.</p>
         </div>
         
-        <div class="features-grid">
-            <div class="feat-card">
-                <div class="feat-icon-wrapper">
-                    <div class="feat-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
-                            <line x1="16" y1="8" x2="16" y2="24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            <line x1="8" y1="16" x2="24" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <h3>Addiction Tracking</h3>
-                <p>Real-time sobriety counters with high-stakes accountability and streak protection. Never lose sight of your progress.</p>
-                <div class="feat-link">
-                    Learn more
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                </div>
+        <section class="features-section">
+    <div class="features-grid">
+        
+        <div class="feat-card">
+            <div class="feat-image-container">
+                <img src="rank.webp" alt="Elite Ranking" class="feat-medallion">
+                <div class="medallion-glow"></div>
             </div>
-
-            <div class="feat-card feat-card-highlight">
-                <div class="feat-icon-wrapper">
-                    <div class="feat-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M16 4L18 10H24L19 14L21 20L16 16L11 20L13 14L8 10H14L16 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <h3>Physical Mastery</h3>
-                <p>Log every rep, set, and personal record. Watch your Total Progress Points climb as you shatter your limits daily.</p>
-                <div class="feat-link">
-                    Learn more
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="feat-card">
-                <div class="feat-icon-wrapper">
-                    <div class="feat-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                            <path d="M4 26L10 14L16 20L28 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="10" cy="14" r="2" fill="currentColor"/>
-                            <circle cx="16" cy="20" r="2" fill="currentColor"/>
-                            <circle cx="28" cy="6" r="2" fill="currentColor"/>
-                        </svg>
-                    </div>
-                </div>
-                <h3>Data Analytics</h3>
-                <p>Visualize your growth with deep-dive charts and insights into your daily discipline habits. See your evolution.</p>
-                <div class="feat-link">
-                    Learn more
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                </div>
-            </div>
+            <h3>Elite Ranking</h3>
+            <p>Ascend the global ranks. Compete with top-tier beneficiaries for the Alpha position.</p>
+            <span class="feat-link">View Leaderboard</span>
         </div>
 
-        <!-- Additional Features -->
-        <div class="sub-features">
-            <div class="sub-feat">
-                <div class="sub-feat-icon">🎯</div>
-                <h4>Goal Setting</h4>
-                <p>Set ambitious targets and crush them</p>
+        <div class="feat-card">
+            <div class="feat-image-container">
+                <img src="targets.webp" alt="Precise Targets" class="feat-medallion">
+                <div class="medallion-glow"></div>
             </div>
-            <div class="sub-feat">
-                <div class="sub-feat-icon">🏆</div>
-                <h4>Achievement System</h4>
-                <p>Unlock badges as you progress</p>
-            </div>
-            <div class="sub-feat">
-                <div class="sub-feat-icon">📱</div>
-                <h4>Mobile Ready</h4>
-                <p>Track progress anywhere, anytime</p>
-            </div>
-            <div class="sub-feat">
-                <div class="sub-feat-icon">🔒</div>
-                <h4>Private & Secure</h4>
-                <p>Your data stays yours, always</p>
-            </div>
+            <h3>Precise Targets</h3>
+            <p>Define your mission parameters with surgical accuracy. Track every win in real-time.</p>
+            <span class="feat-link">Set Objectives</span>
         </div>
-    </section>
 
-    <!-- CTA Section -->
+        <div class="feat-card">
+            <div class="feat-image-container">
+                <img src="physical.webp" alt="Physical Mastery" class="feat-medallion">
+                <div class="medallion-glow"></div>
+            </div>
+            <h3>Physical Exercise</h3>
+            <p>Push beyond biological limits. Track your training activities with the TAM system.</p>
+            <span class="feat-link">TAM Community</span>
+        </div>
+
+    </div>
+</section>
+
+        <section class="sub-features-section">
+    <div class="sub-grid">
+        
+        <div class="sub-card">
+            <div class="medallion-wrapper">
+                <img src="sobriety.webp" alt="Sobriety" class="medallion-img">
+            </div>
+            <h4>Sobriety Check</h4>
+            <p>Maintain your streak with smooth tracking.</p>
+        </div>
+
+        <div class="sub-card">
+            <div class="medallion-wrapper">
+                <img src="mental.webp" alt="Mental Audit" class="medallion-img">
+            </div>
+            <h4>Mental Audit</h4>
+            <p>Daily cognitive check-ins for peak performance.</p>
+        </div>
+
+        <div class="sub-card">
+            <div class="medallion-wrapper">
+                <img src="encrypted.webp" alt="Security" class="medallion-img">
+            </div>
+            <h4>Encrypted Data</h4>
+            <p>End-to-end security for your personal progress.</p>
+        </div>
+
+    </div>
+</section>
+
     <section class="cta-section">
         <div class="cta-content">
-            <h2>Ready to Begin Your Journey?</h2>
-            <p>Join thousands of warriors transforming their lives through discipline and commitment.</p>
-            <button class="btn-primary btn-large" onclick="location.href='index0.html'">
-                <span>Start Your Transformation</span>
-                <svg class="btn-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+            <h2>Ready to become an Alpha?</h2>
+            <p>Will you remain a spectator, or you will join the movement?</p>
+            <button class="btn-primary btn-large" onclick="location.replace('index0.html')">
+                <span>Initialize Transformation</span>
             </button>
         </div>
     </section>
+    
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <div class="logo">
-                    <span class="logo-icon">▲</span>
-                    TAM<span class="logo-dot">.</span>
-                </div>
-                <p>Forge your legacy, one day at a time.</p>
-            </div>
-            <div class="footer-links">
-                <div class="footer-col">
-                    <h5>Product</h5>
-                    <a href="#features">Features</a>
-                    <a href="#rankings">Rankings</a>
-                    <a href="#pricing">Pricing</a>
-                </div>
-                <div class="footer-col">
-                    <h5>Company</h5>
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
-                    <a href="#careers">Careers</a>
-                </div>
-                <div class="footer-col">
-                    <h5>Legal</h5>
-                    <a href="#privacy">Privacy</a>
-                    <a href="#terms">Terms</a>
-                    <a href="#security">Security</a>
-                </div>
+
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="status-badge">TAM ACTIVE</div>
+        <h1>MASTER YOUR LIFE: <br><span class="gold-text">UPGRADE EVERY LIFE</span></h1>
+        <p>Deploy the TAM Protocol to audit your mind, master your biology, and ascend the elite global ranking.</p>
+        
+        <div class="hero-btns">
+            <a href="#" class="btn-primary">START MISSION</a>
+            <a href="#" class="btn-secondary">VIEW RANKS</a>
+        </div>
+    </div>
+</section>    
+
+
+    
+
+   <footer class="site-footer">
+    <div class="footer-top-line"></div>
+    <div class="footer-container">
+        
+        <div class="footer-brand">
+            <h2 class="logo-text"><span>TAM COMMUNITY</span></h2>
+            <p>Advanced cognitive and physical optimization protocols for the modern man.</p>
+            <div class="system-status">
+                <span class="status-dot"></span> SYSTEM ONLINE
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 TAM. All rights reserved.</p>
+
+        <div class="footer-nav">
+            <div class="footer-col">
+                <h5>Protocols</h5>
+                <a href="#">Mental Audit</a>
+                <a href="#">Physical Mastery</a>
+                <a href="#">Sobriety Tracking</a>
+            </div>
+            <div class="footer-col">
+                <h5>Community</h5>
+                <a href="#">Leaderboards</a>
+                <a href="#">Elite Ranks</a>
+                <a href="#">Community</a>
+            </div>
         </div>
-    </footer>
 
+    </div>
 
+    <div class="footer-bottom">
+        <p>&copy; 2026 TAM COMMUNITY. ALL RIGHTS RESERVED. // ENCRYPTED CONNECTION.</p>
+    </div>
+</footer>
 
+    <script> scr="script.js"</script>
 </body>
-                        </html>
-                        
+                </html>                        
