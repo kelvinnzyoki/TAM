@@ -1,23 +1,20 @@
 const API = {
   async request(endpoint, options = {}) {
-    // 1. MUST use backticks (`) for template literals
-    // 2. Ensure a / exists between the site and the endpoint
     const url = `https://cctamcc.site/${endpoint.replace(/^\//, '')}`;
 
     try {
       const res = await fetch(url, {
-        credentials: "include", // Required for HttpOnly cookies
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         ...options
       });
 
-      // Handle 401 Unauthorized (Token Expired)
       if (res.status === 401) {
         const refreshed = await API.refreshToken();
         if (refreshed) {
-          return API.request(endpoint, options); // Retry original request
+          return API.request(endpoint, options);
         } else {
-          location.href = "/TAM/index.html"; // Refresh failed, go to login
+          location.href = "/TAM/index.html";
           return;
         }
       }
@@ -25,7 +22,7 @@ const API = {
       return await res.json();
     } catch (err) {
       console.error("Network or API Error:", err);
-      throw err; // This triggers the 'catch' in your score pages
+      throw err;
     }
   },
 
@@ -38,6 +35,40 @@ const API = {
       return res.ok;
     } catch (err) {
       return false;
+    }
+  },
+
+  // ✅ ADD THIS NEW METHOD
+  async checkAuth() {
+    try {
+      // Make a simple authenticated request to verify the user is logged in
+      const response = await fetch("https://cctamcc.site/total-score", {
+        credentials: "include"
+      });
+
+      // If we get 401, try refreshing the token
+      if (response.status === 401) {
+        const refreshed = await this.refreshToken();
+        if (!refreshed) {
+          return null; // Refresh failed, user needs to login
+        }
+        // Token refreshed successfully, verify again
+        const retryResponse = await fetch("https://cctamcc.site/total-score", {
+          credentials: "include"
+        });
+        return retryResponse.ok ? { authenticated: true } : null;
+      }
+
+      // If response is OK, user is authenticated
+      if (response.ok) {
+        return { authenticated: true };
+      }
+
+      return null;
+
+    } catch (error) {
+      console.error("Auth check failed:", error);
+      return null;
     }
   },
 
