@@ -160,6 +160,28 @@ section:first-of-type .section-title {
     text-transform: uppercase;
 }
 
+
+/* ===================== RANK SUBTITLE STYLING ===================== */
+.rank-subtitle {
+    display: block;                  /* Ensures it sits on its own line if needed */
+    font-family: 'Inter', sans-serif; /* Clean, highly legible font */
+    font-size: 13px;                 /* Slightly smaller than primary text */
+    font-weight: 400;                /* Normal weight for secondary info */
+    color: #888888;                  /* Dimmed grey to create visual hierarchy */
+    text-transform: uppercase;       /* Maintains the "System" feel */
+    letter-spacing: 1.5px;           /* Adds a touch of modern, tech-style airiness */
+    margin-top: 4px;                 /* Spacing from the rank-badge above it */
+    font-style: italic;              /* Optional: adds a "motivational" tone */
+    opacity: 0.8;                    /* Subtle blend into the background */
+}
+
+/* Optional: Slight glow if you want it to pop during hover */
+.score-card:hover .rank-subtitle {
+    color: #ffffff;
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+
 /* ===================== MODAL OVERLAY ===================== */
 .modal {
     position: fixed;
