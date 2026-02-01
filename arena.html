@@ -48,6 +48,30 @@
         <button class="back-btn" onclick="location.replace('index2.html')">Return to Hub</button>
     </div>
 
+
+
+        <!-- Modal for posting victory -->
+<div id="victoryModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>DECLARE VICTORY</h3>
+        <textarea 
+            id="victoryInput" 
+            placeholder="What did you accomplish today?"
+            maxlength="500"
+        ></textarea>
+        <div class="modal-actions">
+            <button onclick="closeVictoryModal()" class="btn-secondary">CANCEL</button>
+            <button onclick="submitVictory()" class="btn-primary">POST</button>
+        </div>
+    </div>
+</div>
+
+<!-- Button to open modal -->
+<button onclick="postAchievement()" class="post-btn">+ POST VICTORY</button>
+
+<!-- Feed container -->
+<div id="activityFeed"></div>
+
     <script src="auth.js"></script>
     <script src="arena.js"></script>
 </body>
