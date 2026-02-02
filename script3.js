@@ -1,9 +1,7 @@
-// Wait for the page to fully load before running any code
 document.addEventListener('DOMContentLoaded', () => {
     const recordBtn = document.getElementById('recordBtn');
     const scoreInputs = document.querySelectorAll('input[name="scoreGroup"]');
 
-    // Verify elements exist
     if (!recordBtn) {
         console.error("❌ Record button not found! Check your HTML.");
         return;
@@ -16,27 +14,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentScore = 0;
 
-    // Handle radio button selection
     scoreInputs.forEach(input => {
         input.addEventListener("change", () => {
             if (input.checked) {
-                currentScore = parseInt(input.getAttribute("data-score"));
+                currentScore = parseInt(input.getAttribute("data-score")) || 0;
                 recordBtn.disabled = false;
-                console.log("✅ Score selected:", currentScore); // Debug log
+                console.log("✅ Score selected:", currentScore);
             }
         });
     });
 
-    // Submit the score
     recordBtn.addEventListener('click', async function() {
         const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
-        
+
         if (!selectedInput) {
             showToast("Please select a score first");
             return;
         }
 
-        console.log("📤 Submitting score:", currentScore); // Debug log
+        console.log("📤 Submitting score:", currentScore);
 
         recordBtn.disabled = true;
         recordBtn.innerText = "Saving...";
@@ -50,11 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
             });
 
-            console.log("📥 Server response:", data); // Debug log
+            console.log("📥 Server response:", data);
 
             if (data.success) {
                 showToast("✅ Alpha Progress Recorded");
-                
             } else {
                 showToast(data.message || "Failed to record");
                 recordBtn.disabled = false;
