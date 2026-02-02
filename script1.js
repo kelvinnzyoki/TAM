@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const SERVER_URL = "https://cctamcc.site";
+    const SERVER_URL = "https://api.cctamcc.site";
     
     // UI Elements
     const signupForm = document.getElementById('signupForm');
