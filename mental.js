@@ -1,22 +1,30 @@
-// Wait for page to load completely
+// Debounce helper
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    // --- 1. GET ALL ELEMENTS (matching your HTML) ---
     const victoryTextarea = document.querySelector('.audit-card.victory textarea');
     const defeatTextarea = document.querySelector('.audit-card.defeat textarea');
     const focusRange = document.getElementById('focusRange');
     const egoRange = document.getElementById('egoRange');
     const chartCanvas = document.getElementById('performanceRadar');
 
-    // Verify critical elements exist
     if (!victoryTextarea || !defeatTextarea) {
         console.error("❌ Textareas not found!");
         return;
     }
 
-    // --- 2. INITIALIZE CHART ---
     let performanceChart = null;
-    
+
     if (chartCanvas) {
         const ctx = chartCanvas.getContext('2d');
         performanceChart = new Chart(ctx, {
@@ -25,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 labels: ['Discipline', 'Focus', 'Ego Control', 'Physical', 'Social'],
                 datasets: [{
                     label: 'Alpha Profile',
-                    data: [50, 50, 50, 50, 50], // Default values
+                    data: [50, 50, 50, 50, 50],
                     backgroundColor: 'rgba(0, 199, 182, 0.2)',
                     borderColor: '#00c7b6',
                     pointBackgroundColor: '#00c7b6',
@@ -37,20 +45,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     r: {
                         angleLines: { color: '#333' },
                         grid: { color: '#333' },
-                        pointLabels: { 
-                            color: '#00c7b6', 
-                            font: { family: 'Orbitron', size: 12 } 
+                        pointLabels: {
+                            color: '#00c7b6',
+                            font: { family: 'Orbitron', size: 12 }
                         },
                         suggestedMin: 0,
                         suggestedMax: 100,
-                        ticks: { 
+                        ticks: {
                             display: true,
                             color: '#666',
                             backdropColor: 'transparent'
                         }
                     }
                 },
-                plugins: { 
+                plugins: {
                     legend: { display: false }
                 },
                 responsive: true,
@@ -59,29 +67,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // --- 3. UPDATE CHART WHEN SLIDERS CHANGE ---
+    // Debounced chart updates
+    const updateChartDebounced = debounce(() => {
+        if (performanceChart) {
+            performanceChart.update('none'); // Disable animation for performance
+        }
+    }, 150);
+
     if (focusRange && egoRange && performanceChart) {
         focusRange.addEventListener('input', () => {
             performanceChart.data.datasets[0].data[1] = parseInt(focusRange.value);
-            performanceChart.update();
+            updateChartDebounced();
         });
 
         egoRange.addEventListener('input', () => {
             performanceChart.data.datasets[0].data[2] = parseInt(egoRange.value);
-            performanceChart.update();
+            updateChartDebounced();
         });
     }
 
-    // --- 4. LOAD AUDIT DATA FROM SERVER ---
+    // Load audit data
     async function loadAudit() {
         try {
             const data = await API.request("/api/audit/load");
-            
-            // Populate textareas
+
             victoryTextarea.value = data.victory || "";
             defeatTextarea.value = data.defeat || "";
 
-            // Update chart if server returns metrics
             if (performanceChart) {
                 if (data.focus !== undefined) {
                     focusRange.value = data.focus;
@@ -91,23 +103,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     egoRange.value = data.ego_control;
                     performanceChart.data.datasets[0].data[2] = data.ego_control;
                 }
-                performanceChart.update();
+                performanceChart.update('none');
             }
 
             console.log("✅ Audit loaded successfully");
         } catch (err) {
             console.error("❌ Load failed:", err);
-            // Don't show alert on load failure - let user start fresh
         }
     }
 
-    // Load existing data
     await loadAudit();
-
     console.log("✅ Mental audit page initialized");
 });
 
-// --- 5. GLOBAL SAVE FUNCTION (called by onclick in HTML) ---
+// Global save function
 async function saveAudit() {
     const victoryTextarea = document.querySelector('.audit-card.victory textarea');
     const defeatTextarea = document.querySelector('.audit-card.defeat textarea');
@@ -124,7 +133,6 @@ async function saveAudit() {
     const focus = focusRange ? parseInt(focusRange.value) : 50;
     const egoControl = egoRange ? parseInt(egoRange.value) : 50;
 
-    // Show loading state
     const btn = event.target;
     const originalText = btn.innerText;
     btn.disabled = true;
@@ -133,8 +141,8 @@ async function saveAudit() {
     try {
         const data = await API.request("/api/audit/save", {
             method: "POST",
-            body: JSON.stringify({ 
-                victory, 
+            body: JSON.stringify({
+                victory,
                 defeat,
                 focus,
                 ego_control: egoControl
@@ -155,4 +163,4 @@ async function saveAudit() {
         btn.disabled = false;
         btn.innerText = originalText;
     }
-        }
+}
