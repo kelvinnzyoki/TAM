@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Wait 0.5s, then hide and navigate
                 setTimeout(() => { 
                     toast.className = toast.className.replace("show", "");
-                    window.location.href = "index2.html";
+                    window.location.replace("index2.html");
                 }, 500);
             } else {
                 showToast(data.message || "Login Failed");
