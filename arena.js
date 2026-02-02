@@ -126,7 +126,7 @@ async function submitVictory() {
 
     if (!victoryText || victoryText === "") {
         if (typeof showToast === 'function') {
-            showToast("⚠️ PLEASE ENTER A VICTORY", "error", false);
+            showToast("⚠️ PLEASE ENTER A MESSAGE", "error", false);
         } else {
             showToast("Please enter a victory");
         }
@@ -150,7 +150,7 @@ async function submitVictory() {
             closeVictoryModal();
 
             if (typeof showToast === 'function') {
-                showToast("🔥 VICTORY BROADCASTED", "success", false);
+                showToast("🔥 messagge sent successfully", "success", false);
             }
 
             console.log("🔄 Reloading arena feed...");
