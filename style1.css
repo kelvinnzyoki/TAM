@@ -1,10 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-
 :root {
     --primary: #00c7b6;
     --bg-dark: #080808;
     --glass: rgba(26, 26, 26, 0.9);
+}
+
+/* ============= SMOOTH SCROLLING CORE ============= */
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -18,9 +30,12 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow-x: hidden;
+    /* GPU Acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-overflow-scrolling: touch;
 }
-
-
 
 /* Toast Notifications */
 .toast {
@@ -39,11 +54,13 @@ body {
     transition: all 0.3s ease;
     max-width: 350px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    /* GPU acceleration */
+    will-change: transform, opacity;
 }
 
 .toast.show {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) translateZ(0);
 }
 
 .toast-success {
@@ -71,6 +88,7 @@ body {
     }
 }
 
+/* Background Glow - GPU Optimized */
 .bg-glow {
     position: fixed;
     top: -50px;
@@ -81,6 +99,10 @@ body {
     filter: blur(150px);
     opacity: 0.15;
     z-index: -1;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .content {
@@ -88,6 +110,8 @@ body {
     max-width: 360px;
     text-align: center;
     padding: 20px;
+    /* GPU acceleration */
+    transform: translateZ(0);
 }
 
 .content, .modal-content {
@@ -102,6 +126,8 @@ h1 {
     line-height: 1.1;
     letter-spacing: 3px;
     margin-bottom: 10px;
+    /* GPU acceleration */
+    transform: translateZ(0);
 }
 
 .highlight {
@@ -116,7 +142,7 @@ h1 {
     margin-bottom: 40px;
 }
 
-/* Form Styling */
+/* Form Styling - Optimized */
 #signupForm {
     display: flex;
     flex-direction: column;
@@ -136,7 +162,9 @@ input, select {
     color: white;
     font-size: 14px;
     box-sizing: border-box;
-    transition: 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    /* Optimize for touch */
+    -webkit-tap-highlight-color: transparent;
 }
 
 input:focus, select:focus {
@@ -167,11 +195,19 @@ select {
     letter-spacing: 1px;
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(0, 199, 182, 0.3);
-    transition: 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
-#signupBtn:active {
-    transform: scale(0.97);
+#signupBtn:hover, .btn-primary:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 8px 20px rgba(0, 199, 182, 0.5);
+}
+
+#signupBtn:active, .btn-primary:active {
+    transform: scale(0.97) translateZ(0);
 }
 
 .login-link {
@@ -186,6 +222,7 @@ select {
     font-weight: bold;
 }
 
+/* Modal - GPU Optimized */
 .modal {
     position: fixed;
     inset: 0;
@@ -194,6 +231,15 @@ select {
     justify-content: center;
     align-items: center;
     z-index: 100;
+    backdrop-filter: blur(10px);
+    /* GPU acceleration */
+    transform: translateZ(0);
+}
+
+.modal-content {
+    /* GPU acceleration */
+    transform: translateZ(0);
+    contain: layout style paint;
 }
 
 #resendBtn {
@@ -214,7 +260,7 @@ select {
     color: var(--primary);
 }
 
-/* Success Animation */
+/* Success Animation - Optimized */
 .success-overlay {
     position: fixed;
     inset: 0;
@@ -224,10 +270,13 @@ select {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    /* GPU acceleration */
+    transform: translateZ(0);
 }
 
 .checkmark-circle {
-    width: 80px; height: 80px;
+    width: 80px; 
+    height: 80px;
     border: 3px solid var(--primary);
     border-radius: 50%;
     display: flex;
@@ -240,7 +289,8 @@ select {
 .checkmark:after {
     content: '';
     display: block;
-    width: 20px; height: 40px;
+    width: 20px; 
+    height: 40px;
     border-right: 4px solid var(--primary);
     border-top: 4px solid var(--primary);
     transform: scaleX(-1) rotate(135deg);
@@ -254,79 +304,7 @@ select {
     100% { height: 40px; width: 20px; }
 }
 
-
-
-/* --- RESPONSIVE LAYER --- */
-
-@media screen and (max-width: 480px) {
-    /* 1. Prevent clipping on small phones */
-    body {
-        padding: 20px 0;
-        align-items: flex-start; /* Start from top so user can scroll down to button */
-        overflow-y: auto;
-    }
-
-    .content {
-        width: 90%;
-        margin-top: 10vh; /* Better vertical positioning */
-    }
-
-    /* 2. Scale Typography */
-    h1 {
-        font-size: 26px;
-        letter-spacing: 2px;
-    }
-
-    .subtext {
-        margin-bottom: 25px;
-        font-size: 11px;
-    }
-
-    /* 3. Optimize Inputs for Touch */
-    input, select {
-        padding: 14px; /* Slightly shorter to save vertical space */
-        font-size: 16px; /* 16px prevents iOS from auto-zooming on focus */
-    }
-
-    /* 4. Verification Code Field */
-    #verifyCode {
-        font-size: 24px;
-        letter-spacing: 6px;
-        padding: 12px;
-    }
-
-    /* 5. Modal Adaptation */
-    .modal-content {
-        width: 95%;
-        padding: 30px 15px;
-    }
-}
-
-/* 6. Landscape Orientation Fix */
-@media screen and (max-height: 600px) and (orientation: landscape) {
-    body {
-        align-items: center;
-    }
-    .content {
-        margin-top: 20px;
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* Split form into two columns if screen is too wide but short */
-        gap: 20px;
-        max-width: 600px;
-    }
-    h1, .subtext { grid-column: span 2; }
-    #signupBtn { grid-column: span 2; }
-}
-
-/* 7. High-End Interaction (No-Hover Devices) */
-@media (hover: none) {
-    #signupBtn:active, .btn-primary:active {
-        background-color: #00ebd7;
-        box-shadow: 0 0 25px rgba(0, 199, 182, 0.5);
-    }
-}
-
-
+/* Password Strength - Optimized */
 .password-wrapper {
     position: relative;
     display: flex;
@@ -335,14 +313,14 @@ select {
 
 .password-wrapper input {
     width: 100%;
-    padding-right: 45px; /* Space for the icon */
+    padding-right: 45px;
 }
 
 .toggle-password {
     position: absolute;
     right: 15px;
     cursor: pointer;
-    color: var(--text-secondary);
+    color: #666;
     display: flex;
     align-items: center;
     transition: color 0.3s;
@@ -352,7 +330,6 @@ select {
     color: var(--primary);
 }
 
-
 .strength-meter {
     height: 4px;
     width: 100%;
@@ -360,7 +337,7 @@ select {
     border-radius: 2px;
     margin-top: 8px;
     overflow: hidden;
-    display: none; /* Hidden until user starts typing */
+    display: none;
 }
 
 .strength-bar {
@@ -402,6 +379,76 @@ select {
     box-shadow: 0 0 15px var(--primary); 
 }
 
+/* ============= RESPONSIVE LAYER ============= */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 20px 0;
+        align-items: flex-start;
+        overflow-y: auto;
+    }
 
+    .content {
+        width: 90%;
+        margin-top: 10vh;
+    }
 
+    h1 {
+        font-size: 26px;
+        letter-spacing: 2px;
+    }
 
+    .subtext {
+        margin-bottom: 25px;
+        font-size: 11px;
+    }
+
+    input, select {
+        padding: 14px;
+        font-size: 16px; /* Prevents iOS zoom */
+    }
+
+    #verifyCode {
+        font-size: 24px;
+        letter-spacing: 6px;
+        padding: 12px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 30px 15px;
+    }
+}
+
+/* Landscape Orientation Fix */
+@media screen and (max-height: 600px) and (orientation: landscape) {
+    body {
+        align-items: center;
+    }
+    .content {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        max-width: 600px;
+    }
+    h1, .subtext { grid-column: span 2; }
+    #signupBtn { grid-column: span 2; }
+}
+
+/* Touch Devices */
+@media (hover: none) {
+    #signupBtn:active, .btn-primary:active {
+        background-color: #00ebd7;
+        box-shadow: 0 0 25px rgba(0, 199, 182, 0.5);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    }
+    
