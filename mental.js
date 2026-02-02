@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Global save function
-async function saveAudit() {
+async function saveAudit(event) {
     const victoryTextarea = document.querySelector('.audit-card.victory textarea');
     const defeatTextarea = document.querySelector('.audit-card.defeat textarea');
     const focusRange = document.getElementById('focusRange');
