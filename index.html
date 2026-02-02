@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="gpu-accelerated">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,37 +16,37 @@
     <div id="toast"></div>
     
     <div class="ambient-container">
-    <div class="noise-overlay"></div>
-    <div class="vignette"></div>
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="particle-canvas" id="particles"></div>
-</div>
+        <div class="noise-overlay"></div>
+        <div class="vignette"></div>
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="particle-canvas" id="particles"></div>
+    </div>
 
     <header class="main-header">
-    <div class="header-container">
-        
-        <div class="tam-brand-container">
-            <a href="/" class="tam-logo">
-                <span class="t">T</span><span class="a">A</span><span class="m">M</span>
-                <div class="logo-accent"></div>
-            </a>
-            <span class="logo-tagline">ALPHA</span>
-        </div>
+        <div class="header-container">
+            
+            <div class="tam-brand-container">
+                <a href="/" class="tam-logo">
+                    <span class="t">T</span><span class="a">A</span><span class="m">M</span>
+                    <div class="logo-accent"></div>
+                </a>
+                <span class="logo-tagline">ALPHA</span>
+            </div>
 
-        <div class="header-actions">
-            <button class="btn-sign-in-small" onclick="location.href='index0.html'">
-                <span>Sign In</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
-                    <polyline points="10 17 15 12 10 7"></polyline>
-                    <line x1="15" y1="12" x2="3" y2="12"></line>
-                </svg>
-            </button>
-        </div>
+            <div class="header-actions">
+                <button class="btn-sign-in-small" onclick="location.href='index0.html'">
+                    <span>Sign In</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
 
-    </div>
-</header>
+        </div>
+    </header>
 
     <header class="hero">
         <div class="hero-content">
@@ -132,71 +132,70 @@
             <p class="section-description">Every step is designed to engineer discipline and track pure performance.</p>
         </div>
         
-        <section class="features-section">
-    <div class="features-grid">
-        
-        <div class="feat-card">
-            <div class="feat-image-container">
-                <img src="rank.webp" alt="Elite Ranking" class="feat-medallion">
-                <div class="medallion-glow"></div>
+        <div class="features-grid">
+            
+            <div class="feat-card">
+                <div class="feat-image-container">
+                    <img data-src="rank.webp" alt="Elite Ranking" class="feat-medallion lazy-load">
+                    <div class="medallion-glow"></div>
+                </div>
+                <h3>Elite Ranking</h3>
+                <p>Ascend the global ranks. Compete with top-tier beneficiaries for the Alpha position.</p>
+                <span class="feat-link">View Leaderboard</span>
             </div>
-            <h3>Elite Ranking</h3>
-            <p>Ascend the global ranks. Compete with top-tier beneficiaries for the Alpha position.</p>
-            <span class="feat-link">View Leaderboard</span>
-        </div>
 
-        <div class="feat-card">
-            <div class="feat-image-container">
-                <img src="targets.webp" alt="Precise Targets" class="feat-medallion">
-                <div class="medallion-glow"></div>
+            <div class="feat-card">
+                <div class="feat-image-container">
+                    <img data-src="targets.webp" alt="Precise Targets" class="feat-medallion lazy-load">
+                    <div class="medallion-glow"></div>
+                </div>
+                <h3>Precise Targets</h3>
+                <p>Define your mission parameters with surgical accuracy. Track every win in real-time.</p>
+                <span class="feat-link">Set Objectives</span>
             </div>
-            <h3>Precise Targets</h3>
-            <p>Define your mission parameters with surgical accuracy. Track every win in real-time.</p>
-            <span class="feat-link">Set Objectives</span>
-        </div>
 
-        <div class="feat-card">
-            <div class="feat-image-container">
-                <img src="physical.webp" alt="Physical Mastery" class="feat-medallion">
-                <div class="medallion-glow"></div>
+            <div class="feat-card">
+                <div class="feat-image-container">
+                    <img data-src="physical.webp" alt="Physical Mastery" class="feat-medallion lazy-load">
+                    <div class="medallion-glow"></div>
+                </div>
+                <h3>Physical Exercise</h3>
+                <p>Push beyond biological limits. Track your training activities with the TAM system.</p>
+                <span class="feat-link">TAM Community</span>
             </div>
-            <h3>Physical Exercise</h3>
-            <p>Push beyond biological limits. Track your training activities with the TAM system.</p>
-            <span class="feat-link">TAM Community</span>
+
         </div>
+    </section>
 
-    </div>
-</section>
-
-        <section class="sub-features-section">
-    <div class="sub-grid">
-        
-        <div class="sub-card">
-            <div class="medallion-wrapper">
-                <img src="sobriety.webp" alt="Sobriety" class="medallion-img">
+    <section class="sub-features-section">
+        <div class="sub-grid">
+            
+            <div class="sub-card">
+                <div class="medallion-wrapper">
+                    <img data-src="sobriety.webp" alt="Sobriety" class="medallion-img lazy-load">
+                </div>
+                <h4>Sobriety Check</h4>
+                <p>Maintain your streak with smooth tracking.</p>
             </div>
-            <h4>Sobriety Check</h4>
-            <p>Maintain your streak with smooth tracking.</p>
-        </div>
 
-        <div class="sub-card">
-            <div class="medallion-wrapper">
-                <img src="mental.webp" alt="Mental Audit" class="medallion-img">
+            <div class="sub-card">
+                <div class="medallion-wrapper">
+                    <img data-src="mental.webp" alt="Mental Audit" class="medallion-img lazy-load">
+                </div>
+                <h4>Mental Audit</h4>
+                <p>Daily cognitive check-ins for peak performance.</p>
             </div>
-            <h4>Mental Audit</h4>
-            <p>Daily cognitive check-ins for peak performance.</p>
-        </div>
 
-        <div class="sub-card">
-            <div class="medallion-wrapper">
-                <img src="encrypted.webp" alt="Security" class="medallion-img">
+            <div class="sub-card">
+                <div class="medallion-wrapper">
+                    <img data-src="encrypted.webp" alt="Security" class="medallion-img lazy-load">
+                </div>
+                <h4>Encrypted Data</h4>
+                <p>End-to-end security for your personal progress.</p>
             </div>
-            <h4>Encrypted Data</h4>
-            <p>End-to-end security for your personal progress.</p>
-        </div>
 
-    </div>
-</section>
+        </div>
+    </section>
 
     <section class="cta-section">
         <div class="cta-content">
@@ -207,60 +206,75 @@
             </button>
         </div>
     </section>
+
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="status-badge">TAM ACTIVE</div>
+            <h1>MASTER YOUR LIFE: <br><span class="gold-text">UPGRADE EVERY DAY</span></h1>
+            <p>Deploy the TAM Protocol to audit your mind, master your biology, and ascend the elite global ranking.</p>
+            
+            <div class="hero-btns">
+                <a href="#" class="btn-primary">START MISSION</a>
+                <a href="#" class="btn-secondary">VIEW RANKS</a>
+            </div>
+        </div>
+    </section>    
+
+    <footer class="site-footer">
+        <div class="footer-top-line"></div>
+        <div class="footer-container">
+            
+            <div class="footer-brand">
+                <h2 class="logo-text"><span>TAM COMMUNITY</span></h2>
+                <p>Advanced cognitive and physical optimization protocols for the modern man.</p>
+                <div class="system-status">
+                    <span class="status-dot"></span> SYSTEM ONLINE
+                </div>
+            </div>
+
+            <div class="footer-nav">
+                <div class="footer-col">
+                    <h5>Protocols</h5>
+                    <a href="#">Mental Audit</a>
+                    <a href="#">Physical Mastery</a>
+                    <a href="#">Sobriety Tracking</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Community</h5>
+                    <a href="#">Leaderboards</a>
+                    <a href="#">Elite Ranks</a>
+                    <a href="#">Community</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 TAM COMMUNITY. ALL RIGHTS RESERVED. // ENCRYPTED CONNECTION.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
     
-
-
-<section class="hero-section">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <div class="status-badge">TAM ACTIVE</div>
-        <h1>MASTER YOUR LIFE: <br><span class="gold-text">UPGRADE EVERY LIFE</span></h1>
-        <p>Deploy the TAM Protocol to audit your mind, master your biology, and ascend the elite global ranking.</p>
+    <!-- LAZY LOADING SCRIPT -->
+    <script>
+        // Lazy load images
+        const lazyImages = document.querySelectorAll('img[data-src]');
+        const imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    img.classList.add('loaded');
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, { rootMargin: '50px' });
         
-        <div class="hero-btns">
-            <a href="#" class="btn-primary">START MISSION</a>
-            <a href="#" class="btn-secondary">VIEW RANKS</a>
-        </div>
-    </div>
-</section>    
-
-
-    
-
-   <footer class="site-footer">
-    <div class="footer-top-line"></div>
-    <div class="footer-container">
-        
-        <div class="footer-brand">
-            <h2 class="logo-text"><span>TAM COMMUNITY</span></h2>
-            <p>Advanced cognitive and physical optimization protocols for the modern man.</p>
-            <div class="system-status">
-                <span class="status-dot"></span> SYSTEM ONLINE
-            </div>
-        </div>
-
-        <div class="footer-nav">
-            <div class="footer-col">
-                <h5>Protocols</h5>
-                <a href="#">Mental Audit</a>
-                <a href="#">Physical Mastery</a>
-                <a href="#">Sobriety Tracking</a>
-            </div>
-            <div class="footer-col">
-                <h5>Community</h5>
-                <a href="#">Leaderboards</a>
-                <a href="#">Elite Ranks</a>
-                <a href="#">Community</a>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2026 TAM COMMUNITY. ALL RIGHTS RESERVED. // ENCRYPTED CONNECTION.</p>
-    </div>
-</footer>
-
-    <script> scr="script.js"</script>
+        lazyImages.forEach(img => imageObserver.observe(img));
+    </script>
 </body>
-                </html>                        
+    </html>
+    
