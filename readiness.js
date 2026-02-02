@@ -1,7 +1,18 @@
-// Wait for DOM to load before running any code
+// Debounce helper
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Wait for DOM to load
 document.addEventListener('DOMContentLoaded', async () => {
-    
-    // --- 1. VERIFY ALL ELEMENTS EXIST ---
     const sleepInput = document.getElementById('sleepInput');
     const waterInput = document.getElementById('waterInput');
     const stressInput = document.getElementById('stressInput');
@@ -14,32 +25,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // --- 2. CALCULATE READINESS FUNCTION ---
+    // Calculate readiness
     function calculateReadiness() {
         const sleep = parseFloat(sleepInput.value) || 0;
         const hydration = parseInt(waterInput.value) || 0;
         const stress = parseInt(stressInput.value) || 5;
 
-        // Alpha Logic Calculation
-        // Sleep (40%), Hydration (30%), Stress (30%)
         let sleepScore = (sleep / 8) * 40;
-        if (sleepScore > 40) sleepScore = 40; // Cap at 8 hours
+        if (sleepScore > 40) sleepScore = 40;
 
         let hydrationScore = hydration === 2 ? 30 : (hydration === 1 ? 15 : 0);
-        let stressScore = (11 - stress) * 3; // Lower stress = higher score
+        let stressScore = (11 - stress) * 3;
 
         let total = Math.round(sleepScore + hydrationScore + stressScore);
         if (total > 100) total = 100;
         if (total < 0) total = 0;
 
-        // Update UI
         readinessScore.innerText = total;
 
-        // SVG Gauge Animation (Dasharray length is ~126)
         const dashValue = (total / 100) * 126;
         gaugeFill.style.strokeDasharray = `${dashValue}, 126`;
 
-        // Dynamic Colors
         if (total > 80) {
             gaugeFill.style.stroke = "#00ff88";
             readinessStatus.innerText = "PRIME STATUS: GO HARD";
@@ -55,12 +61,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- 3. ADD EVENT LISTENERS (Replace HTML oninput/onchange) ---
-    sleepInput.addEventListener('input', calculateReadiness);
-    waterInput.addEventListener('change', calculateReadiness);
-    stressInput.addEventListener('input', calculateReadiness);
+    // Debounced version for input events
+    const debouncedCalculate = debounce(calculateReadiness, 150);
 
-    // --- 4. LOAD DATA FROM SERVER ---
+    sleepInput.addEventListener('input', debouncedCalculate);
+    waterInput.addEventListener('change', calculateReadiness);
+    stressInput.addEventListener('input', debouncedCalculate);
+
+    // Load data from server
     async function loadRecoveryData() {
         try {
             const data = await API.request("/api/user/recovery");
@@ -73,18 +81,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (err) {
             console.error("❌ Failed to load recovery data:", err);
-            // Still calculate with defaults
             calculateReadiness();
         }
     }
 
-    // Load data on page load
     await loadRecoveryData();
-
     console.log("✅ Bio-Hub initialized successfully");
 });
 
-// --- 5. GLOBAL SAVE FUNCTION (for HTML onclick) ---
+// Global save function
 async function saveRecovery() {
     const sleepInput = document.getElementById('sleepInput');
     const waterInput = document.getElementById('waterInput');
@@ -105,9 +110,8 @@ async function saveRecovery() {
             method: "POST",
             body: JSON.stringify({ sleep, hydration, stress, score })
         });
-        
+
         if (data.success) {
-            
             if (typeof showToast === 'function') {
                 showToast("Data saved on your screen", "success", false);
             }
