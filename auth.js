@@ -1,6 +1,6 @@
 const API = {
   async request(endpoint, options = {}) {
-    const url = `https://cctamcc.site/${endpoint.replace(/^\//, '')}`;
+    const url = `https://api.cctamcc.site/${endpoint.replace(/^\//, '')}`;
 
     try {
       const res = await fetch(url, {
