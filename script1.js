@@ -1,85 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
     const SERVER_URL = "https://cctamcc.site";
-
-    const loginModal = document.getElementById("loginModal");
-    const loginBtn = document.getElementById("loginBtn");
-    const closeBtn = document.getElementById("closeBtn");
-    const loginForm = document.getElementById("loginForm");
-    const submitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
-
-    if (loginBtn) loginBtn.onclick = () => loginModal.style.display = "block";
-    if (closeBtn) closeBtn.onclick = () => loginModal.style.display = "none";
     
-    window.onclick = (e) => { 
-        if(e.target == loginModal) loginModal.style.display = "none"; 
-    };
+    // UI Elements
+    const signupForm = document.getElementById('signupForm');
+    const verifyModal = document.getElementById('verifyModal');
+    const resendBtn = document.getElementById('resendBtn');
+    const timerText = document.getElementById('timerText');
+    const secondsSpan = document.getElementById('seconds');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const verifyCodeInput = document.getElementById('verifyCode');
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
 
-    if (!loginForm) {
-        console.error("Login form not found!");
-        return;
-    }
-    
-    if (!submitBtn) {
-        console.error("Submit button not found!");
-        return;
-    }
+    let countdown;
 
-    function showToast(message) {
-        const toast = document.getElementById("toast");
-        toast.innerText = message;
-        toast.className = "show";
-    }
-    
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
-        
-        if (!email || !password) {
-            showToast("Email and password required");
-            return;
-        }
-
-        // Disable button and show loading state
-        submitBtn.disabled = true;
-        submitBtn.innerText = "AUTHORIZING...";
-
-        try {
-            const response = await fetch(`${SERVER_URL}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({ email, password })
-            });
-
-            const data = await response.json();
-
-            if (response.ok && data.success) {
-                submitBtn.innerText = "SUCCESS!";
-                localStorage.setItem("userEmail", email);
-                localStorage.setItem("username", data.user.username);
-                
-                // Wait 0.5s, then hide and navigate
-                setTimeout(() => { 
-                    toast.className = toast.className.replace("show", "");
-                    window.location.href = "index2.html";
-                }, 500);
-            } else {
-                showToast(data.message || "Login Failed");
-                submitBtn.innerText = "ENTER SYSTEM";
-                submitBtn.disabled = false;
-            }
-        } catch (err) {
-            console.error("Login error:", err);
-            showToast("Server Offline or Connection Failed. Please try later.");
-            submitBtn.innerText = "ENTER SYSTEM";
-            submitBtn.disabled = false;
-        }
-    });
-
-    // ============= OPTIMIZED SCROLL EFFECT =============
-    // Debounce function to prevent excessive function calls
+    // ============= HELPER: DEBOUNCE =============
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -92,95 +27,299 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // Throttle function for scroll events (more efficient)
-    function throttle(func, limit) {
-        let inThrottle;
-        return function(...args) {
-            if (!inThrottle) {
-                func.apply(this, args);
-                inThrottle = true;
-                setTimeout(() => inThrottle = false, limit);
-            }
-        };
+    // ============= HELPER: PASSWORD VALIDATION =============
+    function validatePassword(pass) {
+        const minLength = 8;
+        if (pass.length < minLength) return "Password must be at least 8 characters.";
+        if (!/[A-Z]/.test(pass)) return "Missing uppercase letter.";
+        if (!/[a-z]/.test(pass)) return "Missing lowercase letter.";
+        if (!/[0-9]/.test(pass)) return "Missing a number.";
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(pass)) return "Missing a special character.";
+        return null;
     }
 
-    // Optimized scroll handler with throttle
-    const nav = document.querySelector('nav');
-    
-    if (nav) {
-        let lastScrollY = 0;
-        let ticking = false;
-
-        const updateNav = (scrollY) => {
-            // Use requestAnimationFrame for smooth updates
-            if (scrollY > 50) {
-                nav.style.background = 'rgba(5, 5, 5, 0.95)';
-                nav.style.padding = '15px 0';
-            } else {
-                nav.style.background = 'rgba(5, 5, 5, 0.8)';
-                nav.style.padding = '20px 0';
-            }
-            ticking = false;
-        };
-
-        const onScroll = () => {
-            lastScrollY = window.scrollY;
-            
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    updateNav(lastScrollY);
-                });
-                ticking = true;
-            }
-        };
-
-        // Use passive event listener for better scroll performance
-        window.addEventListener('scroll', throttle(onScroll, 16), { passive: true });
+    // ============= HELPER: TOAST SYSTEM (OPTIMIZED) =============
+    function showToast(message, type = "info") {
+        const existingToast = document.querySelector('.toast');
+        if (existingToast) existingToast.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.innerText = message;
+        
+        // Use GPU-accelerated properties
+        toast.style.transform = 'translateZ(0)';
+        toast.style.willChange = 'transform, opacity';
+        
+        document.body.appendChild(toast);
+        
+        // Use requestAnimationFrame for smooth animation
+        requestAnimationFrame(() => {
+            setTimeout(() => toast.classList.add('show'), 100);
+        });
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
 
-    // ============= PERFORMANCE: DISABLE TRANSITIONS DURING SCROLL =============
-    let scrollTimer = null;
-    let isScrolling = false;
+    // ============= LOGIC: PASSWORD TOGGLE (OPTIMIZED) =============
+    if (togglePassword) {
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.style.color = type === 'text' ? 'var(--primary)' : 'var(--text-secondary)';
+        });
+    }
 
-    const handleScrollStart = () => {
-        if (!isScrolling) {
-            isScrolling = true;
-            document.body.classList.add('scrolling');
+    // ============= LOGIC: PASSWORD STRENGTH METER (DEBOUNCED) =============
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthText = document.getElementById('strengthText');
+    const meterContainer = document.querySelector('.strength-meter');
+
+    const updatePasswordStrength = debounce((val) => {
+        // Show/Hide meter container
+        if (val.length > 0) {
+            meterContainer.style.display = 'block';
+        } else {
+            meterContainer.style.display = 'none';
+            strengthText.innerText = '';
+            return;
         }
+
+        // Calculate Score
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) score++;
+
+        // Reset classes
+        strengthBar.className = 'strength-bar';
         
-        clearTimeout(scrollTimer);
-        
-        scrollTimer = setTimeout(() => {
-            isScrolling = false;
-            document.body.classList.remove('scrolling');
-        }, 150);
-    };
+        // Use requestAnimationFrame for smooth transition
+        requestAnimationFrame(() => {
+            // Update UI based on score
+            switch (score) {
+                case 1:
+                    strengthBar.classList.add('weak');
+                    strengthText.innerText = 'Weak';
+                    strengthText.style.color = '#ff4d4d';
+                    break;
+                case 2:
+                    strengthBar.classList.add('medium');
+                    strengthText.innerText = 'Moderate';
+                    strengthText.style.color = '#fbbf24';
+                    break;
+                case 3:
+                    strengthBar.classList.add('strong');
+                    strengthText.innerText = 'Strong';
+                    strengthText.style.color = '#3b82f6';
+                    break;
+                case 4:
+                    strengthBar.classList.add('alpha');
+                    strengthText.innerText = 'Alpha Level';
+                    strengthText.style.color = 'var(--primary)';
+                    break;
+                default:
+                    strengthBar.classList.add('weak');
+                    strengthText.innerText = 'Too Short';
+                    strengthText.style.color = '#ff4d4d';
+            }
+        });
+    }, 150); // Debounce by 150ms
 
-    window.addEventListener('scroll', throttle(handleScrollStart, 10), { passive: true });
+    if (passwordInput) {
+        passwordInput.addEventListener('input', (e) => {
+            updatePasswordStrength(e.target.value);
+        });
+    }
 
-    // ============= FORM VALIDATION FEEDBACK =============
-    const emailInput = document.getElementById("email");
-    const passwordInputField = document.getElementById("password");
+    // ============= LOGIC: SEND CODE (WITH LOADING STATE) =============
+    if (signupForm) {
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = passwordInput.value.trim();
+            
+            const passwordError = validatePassword(password);
+            if (passwordError) {
+                showToast(passwordError, "error");
+                return;
+            }
 
-    if (emailInput) {
-        emailInput.addEventListener('blur', () => {
-            const email = emailInput.value.trim();
-            if (email && !email.includes('@')) {
-                emailInput.style.borderColor = '#ff4d4d';
-            } else {
-                emailInput.style.borderColor = '';
+            const submitBtn = signupForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "SENDING...";
+
+            try {
+                const res = await fetch(`${SERVER_URL}/send-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    verifyModal.style.display = 'flex';
+                    startResendTimer();
+                    showToast("Verification code sent!", "success");
+                    
+                    // Auto-focus verification input
+                    setTimeout(() => {
+                        if (verifyCodeInput) verifyCodeInput.focus();
+                    }, 300);
+                } else {
+                    showToast(data.message || "Error sending code", "error");
+                }
+            } catch (err) {
+                console.error("Send code error:", err);
+                showToast("Server connection failed", "error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "INITIALIZE SYSTEM";
             }
         });
     }
 
-    if (passwordInputField) {
-        passwordInputField.addEventListener('input', debounce(() => {
-            if (passwordInputField.value.length > 0 && passwordInputField.value.length < 6) {
-                passwordInputField.style.borderColor = '#fbbf24';
-            } else {
-                passwordInputField.style.borderColor = '';
+    // ============= LOGIC: AUTO-SUBMIT VERIFICATION (OPTIMIZED) =============
+    if (verifyCodeInput) {
+        verifyCodeInput.addEventListener('input', (e) => {
+            const val = e.target.value.replace(/\D/g, '');
+            e.target.value = val;
+            
+            // Auto-submit when 6 digits entered
+            if (val.length === 6) {
+                setTimeout(() => {
+                    if (confirmBtn) confirmBtn.click();
+                }, 300);
             }
-        }, 300));
+        });
     }
-});
+
+    // ============= LOGIC: FINAL SIGNUP (WITH ERROR HANDLING) =============
+    if (confirmBtn) {
+        confirmBtn.onclick = async () => {
+            const payload = {
+                email: document.getElementById('email').value.trim(),
+                code: verifyCodeInput.value.trim(),
+                username: document.getElementById('username').value.trim(),
+                password: passwordInput.value.trim(),
+                dob: document.getElementById('dob').value
+            };
+
+            // Validation
+            if (!payload.code || payload.code.length !== 6) {
+                showToast("Please enter the 6-digit code", "error");
+                return;
+            }
+
+            confirmBtn.disabled = true;
+            confirmBtn.innerText = "VERIFYING...";
+
+            try {
+                const res = await fetch(`${SERVER_URL}/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
                 
+                if (res.ok && data.success) {
+                    localStorage.setItem("username", payload.username);
+                    verifyModal.style.display = 'none';
+                    
+                    // Show success overlay
+                    const successOverlay = document.getElementById('successOverlay');
+                    if (successOverlay) {
+                        successOverlay.style.display = 'flex';
+                    }
+                    
+                    showToast("🔥 WELCOME, ALPHA.", "success");
+                    
+                    // Navigate after animation
+                    setTimeout(() => {
+                        window.location.href = "index2.html";
+                    }, 2000);
+                } else {
+                    showToast(data.message || "Invalid code", "error");
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerText = "Confirm";
+                    
+                    // Clear input for retry
+                    verifyCodeInput.value = '';
+                    verifyCodeInput.focus();
+                }
+            } catch (err) {
+                console.error("Signup error:", err);
+                showToast("Connection lost. Please try again.", "error");
+                confirmBtn.disabled = false;
+                confirmBtn.innerText = "Confirm";
+            }
+        };
+    }
+
+    // ============= LOGIC: RESEND TIMER (OPTIMIZED) =============
+    function startResendTimer() {
+        let timeLeft = 60;
+        
+        if (resendBtn) resendBtn.style.display = 'none';
+        if (timerText) timerText.style.display = 'block';
+        
+        clearInterval(countdown);
+        
+        countdown = setInterval(() => {
+            timeLeft--;
+            if (secondsSpan) secondsSpan.innerText = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                if (timerText) timerText.style.display = 'none';
+                if (resendBtn) resendBtn.style.display = 'inline-block';
+            }
+        }, 1000);
+    }
+
+    // ============= LOGIC: RESEND CODE =============
+    if (resendBtn) {
+        resendBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value.trim();
+            
+            resendBtn.disabled = true;
+            resendBtn.innerText = 'SENDING...';
+
+            try {
+                const res = await fetch(`${SERVER_URL}/send-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await res.json();
+                
+                if (res.ok) {
+                    startResendTimer();
+                    showToast("New code sent!", "success");
+                } else {
+                    showToast(data.message || "Failed to resend", "error");
+                    resendBtn.disabled = false;
+                    resendBtn.innerText = 'RESEND CODE';
+                }
+            } catch (err) {
+                console.error("Resend error:", err);
+                showToast("Connection failed", "error");
+                resendBtn.disabled = false;
+                resendBtn.innerText = 'RESEND CODE';
+            }
+        });
+    }
+
+    // ============= PERFORMANCE: CLEANUP ON PAGE UNLOAD =============
+    window.addEventListener('beforeunload', () => {
+        if (countdown) clearInterval(countdown);
+    });
+});
+            
