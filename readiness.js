@@ -107,7 +107,10 @@ async function saveRecovery() {
         });
         
         if (data.success) {
-            showToast("✅ Recovery Data Synced");
+            
+            if (typeof showToast === 'function') {
+                showToast("Data saved on your screen", "success", false);
+            }
         } else {
             showToast("Failed: " + (data.message || "Unknown error"));
         }
