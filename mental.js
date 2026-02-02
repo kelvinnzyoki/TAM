@@ -142,7 +142,9 @@ async function saveAudit() {
         });
 
         if (data.success) {
-            showToast("✅ Audit Sealed Successfully");
+            if (typeof showToast === 'function') {
+                showToast("🔥 Data saved on your screen", "success", false);
+            }
         } else {
             showToast("Failed to save: " + (data.message || "Unknown error"));
         }
