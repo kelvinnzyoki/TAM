@@ -9,6 +9,19 @@
     --text-dim: #a0a0a0;
 }
 
+/* ============= SMOOTH SCROLLING OPTIMIZATION ============= */
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -20,11 +33,16 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    /* GPU Acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-overflow-scrolling: touch;
     /* Subtle texture */
     background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 80%);
 }
 
-/* Background Glow Effect - Adjusted for Gold */
+/* Background Glow Effect - Adjusted for Gold + GPU Optimized */
 .bg-glow {
     position: fixed;
     top: 50%;
@@ -35,7 +53,10 @@ body {
     filter: blur(180px);
     opacity: 0.1;
     z-index: -1;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) translateZ(0);
+    /* GPU Acceleration */
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .main-wrapper {
@@ -43,6 +64,8 @@ body {
     width: 90%;
     max-width: 400px;
     z-index: 1;
+    /* GPU Acceleration */
+    transform: translateZ(0);
 }
 
 /* Glitch Typography - TAM Logo Style */
@@ -56,6 +79,9 @@ body {
     -webkit-background-clip: text;
     background-clip: text;
     text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    /* GPU Acceleration */
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .hero p {
@@ -68,7 +94,7 @@ body {
     opacity: 0.8;
 }
 
-/* Button Styling - Machined Look */
+/* Button Styling - Machined Look + Optimized */
 .container {
     display: flex;
     flex-direction: column;
@@ -77,15 +103,21 @@ body {
 
 button {
     padding: 16px;
-    border-radius: 4px; /* Sharper edges for expert look */
+    border-radius: 4px;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                box-shadow 0.3s cubic-bezier(0.165, 0.84, 0.44, 1),
+                background 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
     border: none;
     letter-spacing: 2px;
     text-transform: uppercase;
+    /* GPU Acceleration */
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .btn-primary {
@@ -96,8 +128,12 @@ button {
 
 .btn-primary:hover {
     background: var(--primary-bright);
-    transform: translateY(-2px);
+    transform: translateY(-2px) translateZ(0);
     box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0) translateZ(0);
 }
 
 .btn-secondary {
@@ -112,7 +148,7 @@ button {
     background: rgba(212, 175, 55, 0.05);
 }
 
-/* Modal Styling - Deep Obsidian Glass */
+/* Modal Styling - Deep Obsidian Glass + Optimized */
 .modal {
     display: none;
     position: fixed;
@@ -123,6 +159,8 @@ button {
     height: 100%;
     background-color: rgba(0,0,0,0.9);
     backdrop-filter: blur(12px);
+    /* GPU Acceleration */
+    transform: translateZ(0);
 }
 
 .modal-content {
@@ -135,6 +173,10 @@ button {
     border-radius: 8px;
     position: relative;
     box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    /* GPU Acceleration */
+    transform: translateZ(0);
+    will-change: transform;
+    contain: layout style paint;
 }
 
 .modal-title {
@@ -150,16 +192,18 @@ button {
     top: 20px;
     font-size: 24px;
     color: var(--text-dim);
-    transition: 0.3s;
+    transition: color 0.3s, transform 0.3s;
     cursor: pointer;
+    /* GPU Acceleration */
+    transform: translateZ(0);
 }
 
 #closeBtn:hover {
     color: white;
-    transform: rotate(90deg);
+    transform: rotate(90deg) translateZ(0);
 }
 
-/* Form Inputs - Minimalist Tech */
+/* Form Inputs - Minimalist Tech + Optimized */
 input {
     width: 100%;
     padding: 14px;
@@ -170,7 +214,9 @@ input {
     color: white;
     box-sizing: border-box;
     font-family: 'Space Grotesk', sans-serif;
-    transition: 0.3s;
+    transition: border-color 0.3s, background 0.3s;
+    /* Optimize for touch */
+    -webkit-tap-highlight-color: transparent;
 }
 
 input:focus {
@@ -186,9 +232,36 @@ input:focus {
     margin-top: 10px;
 }
 
+/* Performance Optimization Classes */
+.gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Disable transitions during scroll (if modal opens) */
+.scrolling * {
+    transition: none !important;
+}
+
 /* Responsive Scaling */
 @media screen and (max-width: 480px) {
-    .hero h1 { font-size: 60px; }
-    .hero p { letter-spacing: 3px; }
-    .modal-content { padding: 40px 25px; }
+    .hero h1 { 
+        font-size: 60px; 
+    }
+    .hero p { 
+        letter-spacing: 3px; 
+    }
+    .modal-content { 
+        padding: 40px 25px; 
+    }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
