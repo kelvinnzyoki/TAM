@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-
-
 :root {
     --primary: #00c7b6;
     --bg-dark: #080808;
     --card-bg: #1a1a1a;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
@@ -17,6 +19,7 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    overscroll-behavior: none;
 }
 
 .bg-glow {
@@ -29,6 +32,8 @@ body {
     filter: blur(150px);
     opacity: 0.1;
     z-index: -1;
+    will-change: transform;
+    pointer-events: none;
 }
 
 .container {
@@ -36,6 +41,7 @@ body {
     max-width: 400px;
     padding: 40px 0;
     text-align: center;
+    contain: layout style;
 }
 
 h1 {
@@ -68,7 +74,8 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transition: 0.3s ease;
+    transition: border-color 0.2s ease;
+    contain: layout style paint;
 }
 
 .label-number {
@@ -85,7 +92,9 @@ h1 {
     height: 55px;
 }
 
-.checkbox-container input { display: none; }
+.checkbox-container input {
+    display: none;
+}
 
 .custom-check {
     width: 100%;
@@ -95,7 +104,8 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    will-change: border-color, background-color;
 }
 
 .tick {
@@ -105,15 +115,17 @@ h1 {
     border-width: 0 4px 4px 0;
     transform: rotate(45deg);
     opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .checkbox-container input:checked + .custom-check {
     border-color: var(--primary);
     background: rgba(0, 199, 182, 0.1);
-    box-shadow: 0 0 15px rgba(0, 199, 182, 0.3);
 }
 
-.checkbox-container input:checked + .custom-check .tick { opacity: 1; }
+.checkbox-container input:checked + .custom-check .tick {
+    opacity: 1;
+}
 
 .points {
     margin-top: 12px;
@@ -139,7 +151,6 @@ h1 {
     font-family: 'Orbitron', sans-serif;
     font-size: 24px;
     text-align: center;
-
 }
 
 .other-input:focus {
@@ -158,32 +169,32 @@ h1 {
     background: var(--primary);
     color: black;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform 0.1s ease;
     letter-spacing: 1px;
+    will-change: transform;
 }
 
 .record-btn:disabled {
     background: #2a2a2a;
     color: #555;
-    }
+    cursor: not-allowed;
+}
 
-
-
-
-/* --- QUANTITATIVE TRACKER V2 RESPONSIVE LAYER --- */
+.record-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
 
 @media screen and (max-width: 480px) {
     .container {
         padding: 25px 0;
-        width: 94%; /* Slightly wider for small devices */
+        width: 94%;
     }
 
     h1 {
-        font-size: 20px; /* Scaled down to prevent letter-spacing overflow */
+        font-size: 20px;
         letter-spacing: 3px;
     }
 
-    /* 1. Grid Tightening */
     .stats-grid {
         gap: 10px;
         margin-bottom: 20px;
@@ -197,14 +208,13 @@ h1 {
         font-size: 18px;
     }
 
-    /* 2. Interactive Element Scaling */
     .checkbox-container {
         width: 50px;
         height: 50px;
     }
 
     .other-input {
-        width: 70px; /* Slightly narrower for mobile keyboards */
+        width: 70px;
         height: 55px;
         font-size: 22px;
     }
@@ -215,7 +225,6 @@ h1 {
     }
 }
 
-/* 3. Landscape & Short Screen Fix */
 @media screen and (max-height: 600px) {
     .container {
         padding-top: 15px;
@@ -229,20 +238,8 @@ h1 {
     }
 }
 
-/* 4. Desktop Polish (Expert UX) */
 @media screen and (min-width: 768px) {
     .container {
         max-width: 450px;
-    }
-
-    .grid-item:hover {
-        border-color: var(--primary);
-        box-shadow: inset 0 0 10px rgba(0, 199, 182, 0.1);
-        transform: scale(1.03);
-    }
-
-    .record-btn:hover:not(:disabled) {
-        filter: brightness(1.2);
-        box-shadow: 0 0 25px rgba(0, 199, 182, 0.4);
     }
 }
