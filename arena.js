@@ -122,7 +122,7 @@ async function submitVictory() {
         if (typeof showToast === 'function') {
             showToast("⚠️ PLEASE ENTER A VICTORY", "error", false);
         } else {
-            alert("Please enter a victory");
+            showToast("Please enter a victory");
         }
         return;
     }
@@ -155,7 +155,7 @@ async function submitVictory() {
             if (typeof showToast === 'function') {
                 showToast("❌ POST FAILED", "error", false);
             } else {
-                alert("Failed to post");
+                showToast("Failed to post");
             }
         }
     } catch (err) {
@@ -163,7 +163,7 @@ async function submitVictory() {
         if (typeof showToast === 'function') {
             showToast("❌ CONNECTION FAILED", "error", false);
         } else {
-            alert("Connection failed");
+            showToast("Connection failed");
         }
     }
 }
