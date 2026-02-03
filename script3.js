@@ -25,43 +25,41 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     recordBtn.addEventListener('click', async function() {
-        const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
+    if (recordBtn.disabled && recordBtn.innerText === "Saving...") return;
 
-        if (!selectedInput) {
-            showToast("Please select a score first");
-            return;
-        }
+    recordBtn.disabled = true;
+    recordBtn.innerText = "Saving...";
 
-        console.log("📤 Submitting score:", currentScore);
+    try {
+        const data = await API.request("/addictions", { // or /pushups, etc.
+            method: 'POST',
+            body: JSON.stringify({
+                score: Number(currentScore),
+                date: new Date().toISOString().split('T')[0]
+            })
+        });
 
-        recordBtn.disabled = true;
-        recordBtn.innerText = "Saving...";
-
-        try {
-            const data = await API.request("/addictions", {
-                method: 'POST',
-                body: JSON.stringify({
-                    score: Number(currentScore),
-                    date: new Date().toISOString().split('T')[0]
-                })
-            });
-
-            console.log("📥 Server response:", data);
-
-            if (data.success) {
-                showToast("✅ Alpha Progress Recorded");
-            } else {
-                showToast(data.message || "Failed to record");
-                recordBtn.disabled = false;
-                recordBtn.innerText = "Record & Go!";
-            }
-        } catch (error) {
-            console.error("❌ Submission error:", error);
-            showToast('Server error. Please try again.');
-            recordBtn.disabled = false;
+        if (data.success) {
+            showToast("✅ Alpha Progress Recorded");
+            
+            // --- EXPERT FIX START ---
+            // Reset the UI so the user knows they can record again
             recordBtn.innerText = "Record & Go!";
+            recordBtn.disabled = false;
+            
+            // Clear selections (optional but recommended)
+            scoreInputs.forEach(input => input.checked = false);
+            // --- EXPERT FIX END ---
+            
+        } else {
+            showToast(data.message || "Failed to record", "error");
         }
-    });
-
-    console.log("✅ Addictions page initialized successfully");
+    } catch (error) {
+        console.error("❌ Submission error:", error);
+        showToast('Server error. Please try again.', 'error');
+    } finally {
+        // This ensures the button is ALWAYS clickable again if something goes wrong
+        recordBtn.disabled = false;
+        recordBtn.innerText = "Record & Go!";
+    }
 });
