@@ -17,9 +17,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     const focusRange = document.getElementById('focusRange');
     const egoRange = document.getElementById('egoRange');
     const chartCanvas = document.getElementById('performanceRadar');
+    const saveBtn = document.querySelector('.record-btn'); // ← ADD THIS
 
     if (!victoryTextarea || !defeatTextarea) {
         console.error("❌ Textareas not found!");
+        return;
+    }
+
+    if (!saveBtn) {
+        console.error("❌ Save button not found!");
         return;
     }
 
@@ -70,18 +76,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Debounced chart updates
     const updateChartDebounced = debounce(() => {
         if (performanceChart) {
-            performanceChart.update('none'); // Disable animation for performance
+            performanceChart.update('none');
         }
     }, 150);
 
     if (focusRange && egoRange && performanceChart) {
         focusRange.addEventListener('input', () => {
-            performanceChart.data.datasets[0].data[1] = parseInt(focusRange.value);
+            const focusValue = parseInt(focusRange.value);
+            console.log("📊 Focus changed to:", focusValue); // Debug log
+            performanceChart.data.datasets[0].data[1] = focusValue;
             updateChartDebounced();
         });
 
         egoRange.addEventListener('input', () => {
-            performanceChart.data.datasets[0].data[2] = parseInt(egoRange.value);
+            const egoValue = parseInt(egoRange.value);
+            console.log("📊 Ego Control changed to:", egoValue); // Debug log
+            performanceChart.data.datasets[0].data[2] = egoValue;
             updateChartDebounced();
         });
     }
@@ -113,54 +123,57 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     await loadAudit();
-    console.log("✅ Mental audit page initialized");
-});
 
-// Global save function
-async function saveAudit(event) {
-    const victoryTextarea = document.querySelector('.audit-card.victory textarea');
-    const defeatTextarea = document.querySelector('.audit-card.defeat textarea');
-    const focusRange = document.getElementById('focusRange');
-    const egoRange = document.getElementById('egoRange');
+    // ========================================
+    // CRITICAL FIX: ATTACH SAVE BUTTON LISTENER
+    // ========================================
+    saveBtn.addEventListener('click', async function(event) {
+        // Prevent double-clicks
+        if (saveBtn.disabled && saveBtn.innerText === "Syncing...") return;
 
-    if (!victoryTextarea || !defeatTextarea) {
-        showToast("Error: Page elements not found");
-        return;
-    }
+        const victory = victoryTextarea.value.trim();
+        const defeat = defeatTextarea.value.trim();
+        const focus = focusRange ? parseInt(focusRange.value) : 50;
+        const egoControl = egoRange ? parseInt(egoRange.value) : 50;
 
-    const victory = victoryTextarea.value.trim();
-    const defeat = defeatTextarea.value.trim();
-    const focus = focusRange ? parseInt(focusRange.value) : 50;
-    const egoControl = egoRange ? parseInt(egoRange.value) : 50;
+        console.log("📤 Saving audit data:", { victory, defeat, focus, egoControl }); // Debug log
 
-    const btn = event.target;
-    const originalText = btn.innerText;
-    btn.disabled = true;
-    btn.innerText = "Syncing...";
+        const originalText = saveBtn.innerText;
+        saveBtn.disabled = true;
+        saveBtn.innerText = "Syncing...";
 
-    try {
-        const data = await API.request("/api/audit/save", {
-            method: "POST",
-            body: JSON.stringify({
-                victory,
-                defeat,
-                focus,
-                ego_control: egoControl
-            })
-        });
+        try {
+            const data = await API.request("/api/audit/save", {
+                method: "POST",
+                body: JSON.stringify({
+                    victory,
+                    defeat,
+                    focus,
+                    ego_control: egoControl
+                })
+            });
 
-        if (data.success) {
-            if (typeof showToast === 'function') {
-                showToast("🔥 Data saved on your screen", "success", false);
+            console.log("📥 Server response:", data); // Debug log
+
+            if (data.success) {
+                showToast("🔥 Audit Sealed Successfully");
+                
+                // Optional: Navigate back after delay
+                setTimeout(() => {
+                    window.location.replace('index2.html');
+                }, 1000);
+            } else {
+                showToast("Failed to save: " + (data.message || "Unknown error"));
+                saveBtn.disabled = false;
+                saveBtn.innerText = originalText;
             }
-        } else {
-            showToast("Failed to save: " + (data.message || "Unknown error"));
+        } catch (err) {
+            console.error("❌ Save failed:", err);
+            showToast("Connection Error. Please try again.");
+            saveBtn.disabled = false;
+            saveBtn.innerText = originalText;
         }
-    } catch (err) {
-        console.error("❌ Save failed:", err);
-        showToast("Connection Error. Please try again.");
-    } finally {
-        btn.disabled = false;
-        btn.innerText = originalText;
-    }
-}
+    });
+
+    console.log("✅ Mental audit page initialized with save listener attached");
+});
