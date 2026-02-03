@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     // Navigate after animation
                     setTimeout(() => {
-                        window.location.href = "index2.html";
+                        window.location.replace("index2.html");
                     }, 2000);
                 } else {
                     showToast(data.message || "Invalid code", "error");
