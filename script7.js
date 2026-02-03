@@ -100,13 +100,16 @@ if (otherInput) {
 
 // Submit to Backend
 recordBtn.addEventListener('click', async function() {
+    // Prevent double-clicks
     if (recordBtn.disabled && recordBtn.innerText === "Saving...") return;
+
+    console.log("📤 Submitting steps score:", currentScore);
 
     recordBtn.disabled = true;
     recordBtn.innerText = "Saving...";
 
     try {
-        const data = await API.request("/steps", { // or /pushups, etc.
+        const data = await API.request("/steps", {
             method: 'POST',
             body: JSON.stringify({
                 score: Number(currentScore),
@@ -114,26 +117,30 @@ recordBtn.addEventListener('click', async function() {
             })
         });
 
+        console.log("📥 Server response:", data);
+
         if (data.success) {
             showToast("✅ Alpha Progress Recorded");
             
-            // --- EXPERT FIX START ---
-            // Reset the UI so the user knows they can record again
+            // Reset UI
             recordBtn.innerText = "Record & Go!";
             recordBtn.disabled = false;
             
-            // Clear selections (optional but recommended)
-            scoreInputs.forEach(input => input.checked = false);
-            // --- EXPERT FIX END ---
-            
+            // Clear selections - FIX: Use 'boxes' not 'scoreInputs'
+            boxes.forEach(id => {
+                const box = document.getElementById(id);
+                if (box) box.checked = false;
+            });
+            if (otherInput) otherInput.value = "";
+            currentScore = 0;
         } else {
-            showToast(data.message || "Failed to record", "error");
+            showToast(data.message || "Failed to record");
+            recordBtn.disabled = false;
+            recordBtn.innerText = "Record & Go!";
         }
     } catch (error) {
         console.error("❌ Submission error:", error);
-        showToast('Server error. Please try again.', 'error');
-    } finally {
-        // This ensures the button is ALWAYS clickable again if something goes wrong
+        showToast('Server error. Please try again.');
         recordBtn.disabled = false;
         recordBtn.innerText = "Record & Go!";
     }
