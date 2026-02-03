@@ -93,33 +93,41 @@ if (otherInput) {
 }
 
 // Submit to Backend
-recordBtn.addEventListener("click", async () => {
-    if (recordBtn.disabled) return;
-
-    const payload = {
-        date: new Date().toISOString().split('T')[0],
-        score: Number(currentScore)
-    };
+recordBtn.addEventListener('click', async function() {
+    if (recordBtn.disabled && recordBtn.innerText === "Saving...") return;
 
     recordBtn.disabled = true;
-    recordBtn.innerText = "Syncing...";
+    recordBtn.innerText = "Saving...";
 
     try {
-        const data = await API.request("/squats", {
-            method: "POST",
-            body: JSON.stringify(payload)
+        const data = await API.request("/squats", { // or /pushups, etc.
+            method: 'POST',
+            body: JSON.stringify({
+                score: Number(currentScore),
+                date: new Date().toISOString().split('T')[0]
+            })
         });
 
         if (data.success) {
-            showToast("✅ Squats Recorded!");
-        } else {
-            showToast("Sync Failed: " + (data.message || "Unknown error"));
-            recordBtn.disabled = false;
+            showToast("✅ Alpha Progress Recorded");
+            
+            // --- EXPERT FIX START ---
+            // Reset the UI so the user knows they can record again
             recordBtn.innerText = "Record & Go!";
+            recordBtn.disabled = false;
+            
+            // Clear selections (optional but recommended)
+            scoreInputs.forEach(input => input.checked = false);
+            // --- EXPERT FIX END ---
+            
+        } else {
+            showToast(data.message || "Failed to record", "error");
         }
     } catch (error) {
-        console.error("Submission error:", error);
-        showToast("Server connection failed. Please check your internet.");
+        console.error("❌ Submission error:", error);
+        showToast('Server error. Please try again.', 'error');
+    } finally {
+        // This ensures the button is ALWAYS clickable again if something goes wrong
         recordBtn.disabled = false;
         recordBtn.innerText = "Record & Go!";
     }
