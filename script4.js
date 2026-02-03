@@ -93,34 +93,44 @@ if (otherInput) {
 }
 
 // Submit to Backend
-recordBtn.addEventListener("click", async () => {
-    if (recordBtn.disabled) return;
 
-    const payload = {
-        date: new Date().toISOString(),
-        score: Number(currentScore)
-    };
+recordBtn.addEventListener('click', async function() {
+    if (recordBtn.disabled && recordBtn.innerText === "Saving...") return;
 
     recordBtn.disabled = true;
     recordBtn.innerText = "Saving...";
 
     try {
-        const data = await API.request("/pushups", {
-            method: "POST",
-            body: JSON.stringify(payload)
+        const data = await API.request("/pushups", { // or /pushups, etc.
+            method: 'POST',
+            body: JSON.stringify({
+                score: Number(currentScore),
+                date: new Date().toISOString().split('T')[0]
+            })
         });
 
         if (data.success) {
-            showToast("✅ Alpha Progress Recorded!");
-        } else {
-            showToast("Error: " + (data.message || "Failed to sync"));
-            recordBtn.disabled = false;
+            showToast("✅ Alpha Progress Recorded");
+            
+            // --- EXPERT FIX START ---
+            // Reset the UI so the user knows they can record again
             recordBtn.innerText = "Record & Go!";
+            recordBtn.disabled = false;
+            
+            // Clear selections (optional but recommended)
+            scoreInputs.forEach(input => input.checked = false);
+            // --- EXPERT FIX END ---
+            
+        } else {
+            showToast(data.message || "Failed to record", "error");
         }
     } catch (error) {
-        console.error("Submission failed:", error);
-        showToast("Server connection failed or session expired.");
+        console.error("❌ Submission error:", error);
+        showToast('Server error. Please try again.', 'error');
+    } finally {
+        // This ensures the button is ALWAYS clickable again if something goes wrong
         recordBtn.disabled = false;
         recordBtn.innerText = "Record & Go!";
     }
 });
+
