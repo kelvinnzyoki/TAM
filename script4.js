@@ -4,7 +4,6 @@ const recordBtn = document.getElementById("recordBtn");
 
 let currentScore = 0;
 
-// Debounce helper
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -17,7 +16,6 @@ function debounce(func, wait) {
     };
 }
 
-// Handle Checkbox Logic
 boxes.forEach(id => {
     const box = document.getElementById(id);
     if (!box) return;
@@ -39,7 +37,6 @@ boxes.forEach(id => {
     });
 });
 
-// Handle "Other" Input Logic with debouncing
 const handleOtherInput = debounce(() => {
     const score = parseInt(otherInput.value);
 
@@ -92,9 +89,7 @@ if (otherInput) {
     otherInput.addEventListener("input", handleOtherInput);
 }
 
-// Submit to Backend
 recordBtn.addEventListener('click', async function() {
-    // Prevent double-clicks
     if (recordBtn.disabled && recordBtn.innerText === "Saving...") return;
 
     console.log("📤 Submitting push-ups score:", currentScore);
@@ -116,17 +111,10 @@ recordBtn.addEventListener('click', async function() {
         if (data.success) {
             showToast("✅ Alpha Progress Recorded");
             
-            // Reset UI
-            recordBtn.innerText = "Record & Go!";
-            recordBtn.disabled = false;
-            
-            // Clear selections - FIX: Use 'boxes' not 'scoreInputs'
-            boxes.forEach(id => {
-                const box = document.getElementById(id);
-                if (box) box.checked = false;
-            });
-            if (otherInput) otherInput.value = "";
-            currentScore = 0;
+            // Navigate back after short delay
+            setTimeout(() => {
+                window.location.replace('index2.html');
+            }, 1000);
         } else {
             showToast(data.message || "Failed to record");
             recordBtn.disabled = false;
