@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     recordBtn.addEventListener('click', async function() {
-        // Prevent double-clicks
         if (recordBtn.disabled && recordBtn.innerText === "Saving...") return;
 
         const selectedInput = document.querySelector('input[name="scoreGroup"]:checked');
@@ -54,13 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.success) {
                 showToast("✅ Alpha Progress Recorded");
                 
-                // Reset UI
-                recordBtn.innerText = "Record & Go!";
-                recordBtn.disabled = false;
-                
-                // Clear selections
-                scoreInputs.forEach(input => input.checked = false);
-                currentScore = 0;
+                // Navigate back after short delay
+                setTimeout(() => {
+                    window.location.replace('index2.html');
+                }, 1000);
             } else {
                 showToast(data.message || "Failed to record");
                 recordBtn.disabled = false;
