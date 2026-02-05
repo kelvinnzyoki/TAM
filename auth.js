@@ -245,3 +245,35 @@ if (typeof window !== 'undefined') {
     window.API = API;
     window.showToast = showToast;
   }
+
+
+
+
+
+    async checkSession() {
+        try {
+            const data = await this.request("/me");
+            if (data && data.success) {
+                // Store user info in memory or update UI
+                console.log("Active session found for:", data.user.username);
+                return data.user;
+            }
+        } catch (err) {
+            console.log("No active session.");
+            return null;
+        }
+    };
+
+// Auto-run on all pages
+document.addEventListener("DOMContentLoaded", () => {
+    API.checkSession().then(user => {
+        if (user) {
+            // Logic to hide Login buttons or redirect to Dashboard
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.innerText = "GO TO DASHBOARD";
+                loginBtn.onclick = () => window.location.replace("index2.html");
+            }
+        }
+    });
+});
