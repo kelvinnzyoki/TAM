@@ -7,6 +7,33 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("loginForm");
     const submitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
 
+    // SESSION CHECK ON LOAD 
+    try {
+        const checkRes = await fetch(`${SERVER_URL}/me`, { 
+            credentials: "include" 
+        });
+        const checkData = await checkRes.json();
+
+        if (checkRes.ok && checkData.success) {
+            // If already logged in, redirect them away from the login page/modal
+            console.log("User already authenticated as:", checkData.user.username);
+            
+            // Optional: Show a message and redirect
+            // showToast(`Welcome back, ${checkData.user.username}! Redirecting...`);
+            // setTimeout(() => window.location.replace("index2.html"), 1500);
+            
+            // Or simply hide the login button and show a "Go to Dashboard" button instead
+            if (loginBtn) {
+                loginBtn.innerText = "DASHBOARD";
+                loginBtn.onclick = () => window.location.href = "index2.html";
+            }
+        }
+    } catch (err) {
+        console.log("No active session found.");
+    }
+
+    
+
     if (loginBtn) loginBtn.onclick = () => loginModal.style.display = "block";
     if (closeBtn) closeBtn.onclick = () => loginModal.style.display = "none";
     
