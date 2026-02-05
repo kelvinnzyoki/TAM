@@ -9,23 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // SESSION CHECK ON LOAD 
     try {
-        const checkRes = await fetch(`${SERVER_URL}/me`, { 
-            credentials: "include" 
-        });
+        const checkRes = await fetch(`${SERVER_URL}/me`, { credentials: "include" });
         const checkData = await checkRes.json();
-
         if (checkRes.ok && checkData.success) {
-            // If already logged in, redirect them away from the login page/modal
-            console.log("User already authenticated as:", checkData.user.username);
-            
-            // Optional: Show a message and redirect
-            // showToast(`Welcome back, ${checkData.user.username}! Redirecting...`);
-            // setTimeout(() => window.location.replace("index2.html"), 1500);
-            
-            // Or simply hide the login button and show a "Go to Dashboard" button instead
             if (loginBtn) {
                 loginBtn.innerText = "DASHBOARD";
-                loginBtn.onclick = () => window.location.href = "index2.html";
+                loginBtn.onclick = () => window.location.replace("index2.html");
             }
         }
     } catch (err) {
@@ -57,6 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
         toast.className = "show";
     }
     
+   
+    
+    
+    
     loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         
@@ -73,29 +66,19 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.innerText = "AUTHORIZING...";
 
         try {
-            const response = await fetch(`${SERVER_URL}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({ email, password })
-            });
-
+            const response = await fetch(`${SERVER_URL}/login`, { /* options */ });
             const data = await response.json();
 
             if (response.ok && data.success) {
                 submitBtn.innerText = "SUCCESS!";
-                localStorage.setItem("userEmail", email);
                 localStorage.setItem("username", data.user.username);
                 
-                // Wait 0.5s, then hide and navigate
                 setTimeout(() => { 
-                    toast.className = toast.className.replace("show", "");
+                    // 2. FIX: Reference the element directly instead of 'toast'
+                    const toastElement = document.getElementById("toast");
+                    if (toastElement) toastElement.className = ""; 
                     window.location.replace("index2.html");
                 }, 500);
-            } else {
-                showToast(data.message || "Login Failed");
-                submitBtn.innerText = "ENTER SYSTEM";
-                submitBtn.disabled = false;
             }
         } catch (err) {
             console.error("Login error:", err);
