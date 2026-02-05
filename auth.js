@@ -82,6 +82,7 @@ const API = {
      */
     async checkAuth() {
         try {
+            // Try to fetch user data - if successful, user is authenticated
             const response = await fetch(`${API_BASE_URL}/total-score`, {
                 credentials: "include",
                 headers: { "Content-Type": "application/json" }
@@ -89,10 +90,12 @@ const API = {
 
             // If we get 401, try refreshing the token
             if (response.status === 401) {
+                console.log("Access token expired, trying refresh...");
                 const refreshed = await this.refreshToken();
                 
                 if (!refreshed) {
-                    return null; // Refresh failed, user needs to login
+                    console.log("Refresh failed - user needs to login");
+                    return null;
                 }
                 
                 // Token refreshed successfully, verify again
@@ -101,18 +104,54 @@ const API = {
                     headers: { "Content-Type": "application/json" }
                 });
                 
-                return retryResponse.ok ? { authenticated: true } : null;
+                if (retryResponse.ok) {
+                    console.log("✅ User authenticated after refresh");
+                    return { authenticated: true };
+                } else {
+                    return null;
+                }
             }
 
             // If response is OK, user is authenticated
             if (response.ok) {
+                console.log("✅ User authenticated");
                 return { authenticated: true };
             }
 
+            console.log("User not authenticated");
             return null;
 
         } catch (error) {
             console.error("Auth check failed:", error);
+            return null;
+        }
+    },
+
+    /**
+     * Check session and get user info
+     * @returns {Object|null} - User data or null
+     */
+    async checkSession() {
+        try {
+            // First verify authentication
+            const authStatus = await this.checkAuth();
+            
+            if (!authStatus || !authStatus.authenticated) {
+                return null;
+            }
+
+            // Get username from localStorage (set during login)
+            const username = localStorage.getItem("username");
+            
+            if (username) {
+                return { username, authenticated: true };
+            }
+
+            // If no username in localStorage but authenticated, return basic info
+            return { authenticated: true };
+            
+        } catch (err) {
+            console.log("No active session:", err);
             return null;
         }
     },
@@ -127,6 +166,8 @@ const API = {
                 credentials: "include",
                 headers: { "Content-Type": "application/json" }
             });
+            
+            console.log("✅ Logout successful");
         } catch (err) {
             console.error("Logout error:", err);
         } finally {
@@ -156,6 +197,7 @@ const API = {
                 throw new Error(data.message || "Login failed");
             }
 
+            console.log("✅ Login successful");
             return data;
         } catch (err) {
             console.error("Login error:", err);
@@ -182,6 +224,7 @@ const API = {
                 throw new Error(data.message || "Signup failed");
             }
 
+            console.log("✅ Signup successful");
             return data;
         } catch (err) {
             console.error("Signup error:", err);
@@ -208,6 +251,7 @@ const API = {
                 throw new Error(data.message || "Failed to send code");
             }
 
+            console.log("✅ Verification code sent");
             return data;
         } catch (err) {
             console.error("Send code error:", err);
@@ -240,40 +284,48 @@ function showToast(message, type = "success", shouldRedirect = false) {
     }, 2500);
 }
 
+// ============= AUTO SESSION CHECK ON PAGE LOAD =============
+// This runs on every page to check if user is logged in
+document.addEventListener("DOMContentLoaded", async () => {
+    console.log("🔍 Checking session...");
+    
+    const user = await API.checkSession();
+    
+    if (user && user.authenticated) {
+        console.log("✅ Active session found:", user.username || "User");
+        
+        // Update login button to show dashboard link
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn) {
+            loginBtn.innerText = "DASHBOARD";
+            loginBtn.onclick = (e) => {
+                e.preventDefault();
+                window.location.replace("index2.html");
+            };
+        }
+        
+        // If on login page (index0.html), redirect to dashboard
+        if (window.location.pathname.includes('index0.html')) {
+            console.log("Already logged in, redirecting to dashboard...");
+            setTimeout(() => {
+                window.location.replace("index2.html");
+            }, 500);
+        }
+    } else {
+        console.log("No active session");
+        
+        // If on protected page (index2.html) and not logged in, redirect to login
+        if (window.location.pathname.includes('index2.html')) {
+            console.log("Not authenticated, redirecting to login...");
+            setTimeout(() => {
+                window.location.replace("index0.html");
+            }, 500);
+        }
+    }
+});
+
 // Export for use in other scripts
 if (typeof window !== 'undefined') {
     window.API = API;
     window.showToast = showToast;
-  }
-
-
-
-
-
-    async checkSession() {
-        try {
-            const data = await this.request("/me");
-            if (data && data.success) {
-                // Store user info in memory or update UI
-                console.log("Active session found for:", data.user.username);
-                return data.user;
-            }
-        } catch (err) {
-            console.log("No active session.");
-            return null;
-        }
-    };
-
-// Auto-run on all pages
-document.addEventListener("DOMContentLoaded", () => {
-    API.checkSession().then(user => {
-        if (user) {
-            // Logic to hide Login buttons or redirect to Dashboard
-            const loginBtn = document.getElementById('loginBtn');
-            if (loginBtn) {
-                loginBtn.innerText = "GO TO DASHBOARD";
-                loginBtn.onclick = () => window.location.replace("index2.html");
-            }
-        }
-    });
-});
+}
