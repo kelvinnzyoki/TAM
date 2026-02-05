@@ -16,49 +16,36 @@
             <p class="subtext">BEGIN YOUR PROTOCOL</p>
         </header>
 
-        <form id="signupForm">
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Username" required>
-                <div id="usernameError" class="username-feedback error"></div>
-                <div id="usernameSuccess" class="username-feedback success"></div>
-            </div>
-                
-            </div>
-            <div class="input-group">
-                <input type="email" id="email" placeholder="Email" required>
-            </div>
+<form id="signupForm">
+    <div class="input-group">
+        <input type="email" id="email" placeholder="Email Address" required>
+    </div>
 
-            <div class="input-group">
-                <div class="password-wrapper">
-                    <input type="password" id="password" placeholder="Create a strong password" required>
-                    <span class="toggle-password" id="togglePassword">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </span>
-                </div>
-                <div class="strength-meter">
-                    <div class="strength-bar" id="strengthBar"></div>
-                </div>
-                <p class="strength-text" id="strengthText"></p>
-            </div>
-            
-            <div class="input-group">
-                <select id="dob" required>
-                    <option value="" disabled selected>Select Birth Year</option>
-                    <option value="1998">1998</option>
-                    <option value="1999">1999</option>
-                    <option value="2000">2000</option>
-                    <option value="2001">2001</option>
-                    <option value="2002">2002</option>
-                    <option value="2003">2003</option>
-                    <option value="2004">2004</option>
-                </select>
-            </div>
+    <div class="input-group">
+        <input type="text" id="username" placeholder="Choose a unique username" required>
+        <!-- Username validation feedback -->
+        <div id="usernameError" class="username-feedback error"></div>
+        <div id="usernameSuccess" class="username-feedback success"></div>
+    </div>
 
-            <button type="submit" id="signupBtn">INITIALIZE SYSTEM</button>
-        </form>
+    <div class="password-wrapper">
+        <input type="password" id="password" placeholder="Password" required>
+        <span class="toggle-password" id="togglePassword">👁️</span>
+    </div>
+
+    <!-- Password Strength Meter -->
+    <div class="strength-meter">
+        <div class="strength-bar" id="strengthBar"></div>
+    </div>
+    <div class="strength-text" id="strengthText"></div>
+
+    <div class="input-group">
+        <input type="date" id="dob" required>
+    </div>
+
+    <button type="submit" id="signupBtn">INITIALIZE SYSTEM</button>
+</form>
+
 
         <p class="login-link">Already a member? <a href="index0.html">Login here</a></p>
     </div>
