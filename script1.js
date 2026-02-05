@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const verifyCodeInput = document.getElementById('verifyCode');
     const passwordInput = document.getElementById('password');
     const togglePassword = document.getElementById('togglePassword');
+    const usernameInput = document.getElementById('username');
 
     let countdown;
 
@@ -38,6 +39,98 @@ document.addEventListener("DOMContentLoaded", () => {
         return null;
     }
 
+    // ============= NEW: USERNAME VALIDATION =============
+    function validateUsername(username) {
+        if (!username || username.length < 3) {
+            return "Username must be at least 3 characters.";
+        }
+        if (username.length > 20) {
+            return "Username must be 20 characters or less.";
+        }
+        if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+            return "Username can only contain letters, numbers, and underscores.";
+        }
+        return null;
+    }
+
+    // ============= NEW: CHECK USERNAME AVAILABILITY =============
+    async function checkUsernameAvailability(username) {
+        try {
+            const res = await fetch(`${SERVER_URL}/check-username`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username })
+            });
+            
+            const data = await res.json();
+            return data.available; // true if available, false if taken
+        } catch (err) {
+            console.error("Username check error:", err);
+            return null; // null means error checking
+        }
+    }
+
+    // ============= NEW: LIVE USERNAME VALIDATION (DEBOUNCED) =============
+    const checkUsernameDebounced = debounce(async (username) => {
+        const usernameError = document.getElementById('usernameError');
+        const usernameSuccess = document.getElementById('usernameSuccess');
+        
+        // Reset indicators
+        if (usernameError) usernameError.style.display = 'none';
+        if (usernameSuccess) usernameSuccess.style.display = 'none';
+        
+        // Validate format first
+        const formatError = validateUsername(username);
+        if (formatError) {
+            if (usernameError) {
+                usernameError.textContent = formatError;
+                usernameError.style.display = 'block';
+            }
+            usernameInput.style.borderColor = '#ff4d4d';
+            return;
+        }
+        
+        // Check availability
+        const available = await checkUsernameAvailability(username);
+        
+        if (available === null) {
+            // Error checking - show neutral
+            usernameInput.style.borderColor = '';
+            return;
+        }
+        
+        if (!available) {
+            if (usernameError) {
+                usernameError.textContent = '❌ Username already taken';
+                usernameError.style.display = 'block';
+            }
+            usernameInput.style.borderColor = '#ff4d4d';
+        } else {
+            if (usernameSuccess) {
+                usernameSuccess.textContent = '✅ Username available';
+                usernameSuccess.style.display = 'block';
+            }
+            usernameInput.style.borderColor = 'var(--primary)';
+        }
+    }, 500);
+
+    // Attach username input listener
+    if (usernameInput) {
+        usernameInput.addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            if (val.length > 0) {
+                checkUsernameDebounced(val);
+            } else {
+                // Clear indicators when empty
+                const usernameError = document.getElementById('usernameError');
+                const usernameSuccess = document.getElementById('usernameSuccess');
+                if (usernameError) usernameError.style.display = 'none';
+                if (usernameSuccess) usernameSuccess.style.display = 'none';
+                usernameInput.style.borderColor = '';
+            }
+        });
+    }
+
     // ============= HELPER: TOAST SYSTEM (OPTIMIZED) =============
     function showToast(message, type = "info") {
         const existingToast = document.querySelector('.toast');
@@ -47,13 +140,11 @@ document.addEventListener("DOMContentLoaded", () => {
         toast.className = `toast toast-${type}`;
         toast.innerText = message;
         
-        // Use GPU-accelerated properties
         toast.style.transform = 'translateZ(0)';
         toast.style.willChange = 'transform, opacity';
         
         document.body.appendChild(toast);
         
-        // Use requestAnimationFrame for smooth animation
         requestAnimationFrame(() => {
             setTimeout(() => toast.classList.add('show'), 100);
         });
@@ -79,7 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const meterContainer = document.querySelector('.strength-meter');
 
     const updatePasswordStrength = debounce((val) => {
-        // Show/Hide meter container
         if (val.length > 0) {
             meterContainer.style.display = 'block';
         } else {
@@ -88,19 +178,15 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Calculate Score
         let score = 0;
         if (val.length >= 8) score++;
         if (/[A-Z]/.test(val)) score++;
         if (/[0-9]/.test(val)) score++;
         if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) score++;
 
-        // Reset classes
         strengthBar.className = 'strength-bar';
         
-        // Use requestAnimationFrame for smooth transition
         requestAnimationFrame(() => {
-            // Update UI based on score
             switch (score) {
                 case 1:
                     strengthBar.classList.add('weak');
@@ -128,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     strengthText.style.color = '#ff4d4d';
             }
         });
-    }, 150); // Debounce by 150ms
+    }, 150);
 
     if (passwordInput) {
         passwordInput.addEventListener('input', (e) => {
@@ -136,16 +222,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ============= LOGIC: SEND CODE (WITH LOADING STATE) =============
+    // ============= LOGIC: SEND CODE (WITH VALIDATION) =============
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const email = document.getElementById('email').value.trim();
+            const username = usernameInput.value.trim();
             const password = passwordInput.value.trim();
             
+            // Validate username
+            const usernameError = validateUsername(username);
+            if (usernameError) {
+                showToast(usernameError, "error");
+                usernameInput.focus();
+                return;
+            }
+            
+            // Check username availability one final time
+            const available = await checkUsernameAvailability(username);
+            if (available === false) {
+                showToast("Username is already taken. Please choose another.", "error");
+                usernameInput.focus();
+                return;
+            }
+            
+            // Validate password
             const passwordError = validatePassword(password);
             if (passwordError) {
                 showToast(passwordError, "error");
+                passwordInput.focus();
                 return;
             }
 
@@ -166,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     startResendTimer();
                     showToast("Verification code sent!", "success");
                     
-                    // Auto-focus verification input
                     setTimeout(() => {
                         if (verifyCodeInput) verifyCodeInput.focus();
                     }, 300);
@@ -189,7 +294,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const val = e.target.value.replace(/\D/g, '');
             e.target.value = val;
             
-            // Auto-submit when 6 digits entered
             if (val.length === 6) {
                 setTimeout(() => {
                     if (confirmBtn) confirmBtn.click();
@@ -204,12 +308,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const payload = {
                 email: document.getElementById('email').value.trim(),
                 code: verifyCodeInput.value.trim(),
-                username: document.getElementById('username').value.trim(),
+                username: usernameInput.value.trim(),
                 password: passwordInput.value.trim(),
                 dob: document.getElementById('dob').value
             };
 
-            // Validation
             if (!payload.code || payload.code.length !== 6) {
                 showToast("Please enter the 6-digit code", "error");
                 return;
@@ -232,7 +335,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem("username", payload.username);
                     verifyModal.style.display = 'none';
                     
-                    // Show success overlay
                     const successOverlay = document.getElementById('successOverlay');
                     if (successOverlay) {
                         successOverlay.style.display = 'flex';
@@ -240,7 +342,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     
                     showToast("🔥 WELCOME, ALPHA.", "success");
                     
-                    // Navigate after animation
                     setTimeout(() => {
                         window.location.replace("index2.html");
                     }, 2000);
@@ -249,7 +350,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     confirmBtn.disabled = false;
                     confirmBtn.innerText = "Confirm";
                     
-                    // Clear input for retry
                     verifyCodeInput.value = '';
                     verifyCodeInput.focus();
                 }
@@ -322,4 +422,3 @@ document.addEventListener("DOMContentLoaded", () => {
         if (countdown) clearInterval(countdown);
     });
 });
-            
