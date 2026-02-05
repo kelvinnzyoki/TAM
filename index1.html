@@ -16,36 +16,38 @@
             <p class="subtext">BEGIN YOUR PROTOCOL</p>
         </header>
 
-<form id="signupForm">
-    <div class="input-group">
-        <input type="email" id="email" placeholder="Email Address" required>
-    </div>
+        <form id="signupForm">
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email Address" required>
+            </div>
 
-    <div class="input-group">
-        <input type="text" id="username" placeholder="Choose a unique username" required>
-        <!-- Username validation feedback -->
-        <div id="usernameError" class="username-feedback error"></div>
-        <div id="usernameSuccess" class="username-feedback success"></div>
-    </div>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Choose a unique username" required>
+                <!-- Username validation feedback -->
+                <div id="usernameError" class="username-feedback error" style="display: none; color: #ff4d4d; font-size: 0.85rem; margin-top: 5px;"></div>
+                <div id="usernameSuccess" class="username-feedback success" style="display: none; color: #22c55e; font-size: 0.85rem; margin-top: 5px;"></div>
+            </div>
 
-    <div class="password-wrapper">
-        <input type="password" id="password" placeholder="Password" required>
-        <span class="toggle-password" id="togglePassword">👁️</span>
-    </div>
+            <!-- ✅ FIXED: Added input-group wrapper for password -->
+            <div class="input-group">
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="Password" required>
+                    <span class="toggle-password" id="togglePassword">👁️</span>
+                </div>
 
-    <!-- Password Strength Meter -->
-    <div class="strength-meter">
-        <div class="strength-bar" id="strengthBar"></div>
-    </div>
-    <div class="strength-text" id="strengthText"></div>
+                <!-- Password Strength Meter -->
+                <div class="strength-meter" style="margin-top: 8px; display: none;">
+                    <div class="strength-bar" id="strengthBar"></div>
+                </div>
+                <div class="strength-text" id="strengthText" style="font-size: 0.85rem; margin-top: 5px;"></div>
+            </div>
 
-    <div class="input-group">
-        <input type="date" id="dob" required>
-    </div>
+            <div class="input-group">
+                <input type="date" id="dob" required>
+            </div>
 
-    <button type="submit" id="signupBtn">INITIALIZE SYSTEM</button>
-</form>
-
+            <button type="submit" id="signupBtn">INITIALIZE SYSTEM</button>
+        </form>
 
         <p class="login-link">Already a member? <a href="index0.html">Login here</a></p>
     </div>
@@ -86,6 +88,8 @@
         </div>
     </div>
 
+    <!-- Toast notification container -->
+    <div id="toast"></div>
     
     <script src="auth.js"></script>
     <script src="script1.js"></script>
