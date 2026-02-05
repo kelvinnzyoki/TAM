@@ -70,66 +70,69 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ============= NEW: LIVE USERNAME VALIDATION (DEBOUNCED) =============
-    const checkUsernameDebounced = debounce(async (username) => {
-        const usernameError = document.getElementById('usernameError');
-        const usernameSuccess = document.getElementById('usernameSuccess');
-        
-        // Reset indicators
-        if (usernameError) usernameError.style.display = 'none';
-        if (usernameSuccess) usernameSuccess.style.display = 'none';
-        
-        // Validate format first
-        const formatError = validateUsername(username);
-        if (formatError) {
-            if (usernameError) {
-                usernameError.textContent = formatError;
-                usernameError.style.display = 'block';
-            }
-            usernameInput.style.borderColor = '#ff4d4d';
-            return;
+    // ============= NEW: LIVE USERNAME VALIDATION (ENHANCED) =============
+const checkUsernameDebounced = debounce(async (username) => {
+    const usernameError = document.getElementById('usernameError');
+    const usernameSuccess = document.getElementById('usernameSuccess');
+    
+    // Reset indicators
+    if (usernameError) usernameError.style.display = 'none';
+    if (usernameSuccess) usernameSuccess.style.display = 'none';
+    
+    // Remove validation classes
+    usernameInput.classList.remove('valid', 'invalid');
+    
+    // Validate format first
+    const formatError = validateUsername(username);
+    if (formatError) {
+        if (usernameError) {
+            usernameError.textContent = formatError;
+            usernameError.style.display = 'block';
         }
-        
-        // Check availability
-        const available = await checkUsernameAvailability(username);
-        
-        if (available === null) {
-            // Error checking - show neutral
-            usernameInput.style.borderColor = '';
-            return;
-        }
-        
-        if (!available) {
-            if (usernameError) {
-                usernameError.textContent = '❌ Username already taken';
-                usernameError.style.display = 'block';
-            }
-            usernameInput.style.borderColor = '#ff4d4d';
-        } else {
-            if (usernameSuccess) {
-                usernameSuccess.textContent = '✅ Username available';
-                usernameSuccess.style.display = 'block';
-            }
-            usernameInput.style.borderColor = 'var(--primary)';
-        }
-    }, 500);
-
-    // Attach username input listener
-    if (usernameInput) {
-        usernameInput.addEventListener('input', (e) => {
-            const val = e.target.value.trim();
-            if (val.length > 0) {
-                checkUsernameDebounced(val);
-            } else {
-                // Clear indicators when empty
-                const usernameError = document.getElementById('usernameError');
-                const usernameSuccess = document.getElementById('usernameSuccess');
-                if (usernameError) usernameError.style.display = 'none';
-                if (usernameSuccess) usernameSuccess.style.display = 'none';
-                usernameInput.style.borderColor = '';
-            }
-        });
+        usernameInput.classList.add('invalid');
+        return;
     }
+    
+    // Check availability
+    const available = await checkUsernameAvailability(username);
+    
+    if (available === null) {
+        // Error checking - show neutral
+        usernameInput.classList.remove('valid', 'invalid');
+        return;
+    }
+    
+    if (!available) {
+        if (usernameError) {
+            usernameError.textContent = '❌ Username already taken';
+            usernameError.style.display = 'block';
+        }
+        usernameInput.classList.add('invalid');
+    } else {
+        if (usernameSuccess) {
+            usernameSuccess.textContent = '✅ Username available';
+            usernameSuccess.style.display = 'block';
+        }
+        usernameInput.classList.add('valid');
+    }
+}, 500);
+
+// Attach username input listener
+if (usernameInput) {
+    usernameInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        if (val.length > 0) {
+            checkUsernameDebounced(val);
+        } else {
+            // Clear indicators when empty
+            const usernameError = document.getElementById('usernameError');
+            const usernameSuccess = document.getElementById('usernameSuccess');
+            if (usernameError) usernameError.style.display = 'none';
+            if (usernameSuccess) usernameSuccess.style.display = 'none';
+            usernameInput.classList.remove('valid', 'invalid');
+        }
+    });
+}
 
     // ============= HELPER: TOAST SYSTEM (OPTIMIZED) =============
     function showToast(message, type = "info") {
