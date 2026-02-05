@@ -173,6 +173,88 @@ input:focus, select:focus {
     box-shadow: 0 0 10px rgba(0, 199, 182, 0.2);
 }
 
+
+
+
+/* ============= USERNAME VALIDATION FEEDBACK ============= */
+.username-feedback {
+    display: none;
+    font-size: 0.75rem;
+    margin-top: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    will-change: opacity, transform;
+}
+
+.username-feedback.error {
+    color: #ff4d4d;
+    background: rgba(255, 77, 77, 0.08);
+    border-left: 3px solid #ff4d4d;
+    animation: slideInError 0.3s ease;
+}
+
+.username-feedback.success {
+    color: var(--primary);
+    background: rgba(0, 199, 182, 0.08);
+    border-left: 3px solid var(--primary);
+    animation: slideInSuccess 0.3s ease;
+}
+
+/* Smooth Slide-In Animations */
+@keyframes slideInError {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInSuccess {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Input Border Colors on Validation */
+#username.valid {
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(0, 199, 182, 0.2);
+}
+
+#username.invalid {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+}
+
+/* Mobile Optimization */
+@media screen and (max-width: 480px) {
+    .username-feedback {
+        font-size: 0.7rem;
+        padding: 5px 8px;
+        margin-top: 5px;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .username-feedback {
+        animation: none;
+    }
+}
+
 /* Specific styling for the Year dropdown */
 select {
     appearance: none;
