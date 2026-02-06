@@ -28,15 +28,8 @@ function calculateDiscipline(social, focus, egoControl, physical) {
         (egoControl * weights.egoControl) +
         (physical * weights.physical);
     
-    // Map from 0-100 range to 40-60 range for discipline
-    const minDiscipline = 0;
-    const maxDiscipline = 100;
-    const disciplineRange = maxDiscipline - minDiscipline;
-    
-    // Scale the weighted average to the 40-60 range
-    const disciplineLevel = minDiscipline + (weightedSum / 100) * disciplineRange;
-    
-    return Math.round(disciplineLevel);
+    // Return discipline level on 0-100 scale
+    return Math.round(weightedSum);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -118,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const egoValue = parseInt(egoRange.value);
         const physicalValue = parseInt(physicalRange.value);
         
-        // Calculate discipline based on all four metrics
+        // Calculate discipline based on all four metrics (0-100 scale)
         const disciplineValue = calculateDiscipline(socialValue, focusValue, egoValue, physicalValue);
         
         // Update display values
