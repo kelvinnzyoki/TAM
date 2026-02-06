@@ -29,8 +29,8 @@ function calculateDiscipline(social, focus, egoControl, physical) {
         (physical * weights.physical);
     
     // Map from 0-100 range to 40-60 range for discipline
-    const minDiscipline = 40;
-    const maxDiscipline = 60;
+    const minDiscipline = 0;
+    const maxDiscipline = 100;
     const disciplineRange = maxDiscipline - minDiscipline;
     
     // Scale the weighted average to the 40-60 range
