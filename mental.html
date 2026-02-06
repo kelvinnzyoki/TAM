@@ -5,16 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stoic Audit | Mental Performance</title>
     <link rel="stylesheet" href="mental.css">
-    
     <link rel="stylesheet" href="notf.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-    
 <body>
-
     <div id="toast"></div>
-    
     <div class="bg-glow"></div>
 
     <div class="container">
@@ -42,10 +38,26 @@
             <div class="metric-input">
                 <label>Focus Level</label>
                 <input type="range" min="1" max="100" value="50" class="slider" id="focusRange">
+                <span class="metric-value" id="focusValue">50</span>
             </div>
             <div class="metric-input">
                 <label>Ego Control</label>
                 <input type="range" min="1" max="100" value="50" class="slider" id="egoRange">
+                <span class="metric-value" id="egoValue">50</span>
+            </div>
+            <div class="metric-input">
+                <label>Socialism</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="socialRange">
+                <span class="metric-value" id="socialValue">50</span>
+            </div>
+            <div class="metric-input">
+                <label>Physical Fitness</label>
+                <input type="range" min="1" max="100" value="50" class="slider" id="physicalRange">
+                <span class="metric-value" id="physicalValue">50</span>
+            </div>
+            <div class="metric-input discipline-display">
+                <label>Discipline Level</label>
+                <span class="discipline-value" id="disciplineValue">50</span>
             </div>
         </div>
 
@@ -53,8 +65,7 @@
         <button class="back-btn" onclick="window.location.replace('index2.html')">Return to Hub</button>
     </div>
 
-        <script src="auth.js"></script>
+    <script src="auth.js"></script>
     <script src="mental.js"></script>
-
 </body>
 </html>
