@@ -11,13 +11,51 @@ function debounce(func, wait) {
     };
 }
 
+// Calculate discipline level based on all four metrics
+function calculateDiscipline(social, focus, egoControl, physical) {
+    // Weighted average calculation
+    // You can adjust these weights based on importance
+    const weights = {
+        social: 0.25,      // 25%
+        focus: 0.25,       // 25%
+        egoControl: 0.25,  // 25%
+        physical: 0.25     // 25%
+    };
+    
+    const weightedSum = 
+        (social * weights.social) +
+        (focus * weights.focus) +
+        (egoControl * weights.egoControl) +
+        (physical * weights.physical);
+    
+    // Map from 0-100 range to 40-60 range for discipline
+    const minDiscipline = 40;
+    const maxDiscipline = 60;
+    const disciplineRange = maxDiscipline - minDiscipline;
+    
+    // Scale the weighted average to the 40-60 range
+    const disciplineLevel = minDiscipline + (weightedSum / 100) * disciplineRange;
+    
+    return Math.round(disciplineLevel);
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const victoryTextarea = document.querySelector('.audit-card.victory textarea');
     const defeatTextarea = document.querySelector('.audit-card.defeat textarea');
+    
     const focusRange = document.getElementById('focusRange');
     const egoRange = document.getElementById('egoRange');
+    const socialRange = document.getElementById('socialRange');
+    const physicalRange = document.getElementById('physicalRange');
+    
+    const focusValueDisplay = document.getElementById('focusValue');
+    const egoValueDisplay = document.getElementById('egoValue');
+    const socialValueDisplay = document.getElementById('socialValue');
+    const physicalValueDisplay = document.getElementById('physicalValue');
+    const disciplineValueDisplay = document.getElementById('disciplineValue');
+    
     const chartCanvas = document.getElementById('performanceRadar');
-    const saveBtn = document.querySelector('.record-btn'); // ← ADD THIS
+    const saveBtn = document.querySelector('.record-btn');
 
     if (!victoryTextarea || !defeatTextarea) {
         console.error("❌ Textareas not found!");
@@ -36,7 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         performanceChart = new Chart(ctx, {
             type: 'radar',
             data: {
-                labels: ['Discipline', 'Focus', 'Ego Control', 'Physical', 'Social'],
+                labels: ['Discipline', 'Social', 'Focus', 'Ego Control', 'Physical'],
                 datasets: [{
                     label: 'Alpha Profile',
                     data: [50, 50, 50, 50, 50],
@@ -73,27 +111,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Debounced chart updates
-    const updateChartDebounced = debounce(() => {
+    // Function to update all values and recalculate discipline
+    function updateAllMetrics() {
+        const socialValue = parseInt(socialRange.value);
+        const focusValue = parseInt(focusRange.value);
+        const egoValue = parseInt(egoRange.value);
+        const physicalValue = parseInt(physicalRange.value);
+        
+        // Calculate discipline based on all four metrics
+        const disciplineValue = calculateDiscipline(socialValue, focusValue, egoValue, physicalValue);
+        
+        // Update display values
+        socialValueDisplay.textContent = socialValue;
+        focusValueDisplay.textContent = focusValue;
+        egoValueDisplay.textContent = egoValue;
+        physicalValueDisplay.textContent = physicalValue;
+        disciplineValueDisplay.textContent = disciplineValue;
+        
+        // Update chart
         if (performanceChart) {
+            performanceChart.data.datasets[0].data = [
+                disciplineValue,  // Index 0: Discipline
+                socialValue,      // Index 1: Social
+                focusValue,       // Index 2: Focus
+                egoValue,         // Index 3: Ego Control
+                physicalValue     // Index 4: Physical
+            ];
             performanceChart.update('none');
         }
-    }, 150);
+        
+        console.log("📊 Metrics updated:", { social: socialValue, focus: focusValue, ego: egoValue, physical: physicalValue, discipline: disciplineValue });
+    }
 
-    if (focusRange && egoRange && performanceChart) {
-        focusRange.addEventListener('input', () => {
-            const focusValue = parseInt(focusRange.value);
-            console.log("📊 Focus changed to:", focusValue); // Debug log
-            performanceChart.data.datasets[0].data[1] = focusValue;
-            updateChartDebounced();
-        });
+    // Debounced chart updates
+    const updateChartDebounced = debounce(updateAllMetrics, 150);
 
-        egoRange.addEventListener('input', () => {
-            const egoValue = parseInt(egoRange.value);
-            console.log("📊 Ego Control changed to:", egoValue); // Debug log
-            performanceChart.data.datasets[0].data[2] = egoValue;
-            updateChartDebounced();
-        });
+    // Add event listeners to all range inputs
+    if (socialRange) {
+        socialRange.addEventListener('input', updateChartDebounced);
+    }
+    
+    if (focusRange) {
+        focusRange.addEventListener('input', updateChartDebounced);
+    }
+
+    if (egoRange) {
+        egoRange.addEventListener('input', updateChartDebounced);
+    }
+    
+    if (physicalRange) {
+        physicalRange.addEventListener('input', updateChartDebounced);
     }
 
     // Load audit data
@@ -105,15 +172,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             defeatTextarea.value = data.defeat || "";
 
             if (performanceChart) {
+                if (data.social !== undefined) {
+                    socialRange.value = data.social;
+                }
                 if (data.focus !== undefined) {
                     focusRange.value = data.focus;
-                    performanceChart.data.datasets[0].data[1] = data.focus;
                 }
                 if (data.ego_control !== undefined) {
                     egoRange.value = data.ego_control;
-                    performanceChart.data.datasets[0].data[2] = data.ego_control;
                 }
-                performanceChart.update('none');
+                if (data.physical !== undefined) {
+                    physicalRange.value = data.physical;
+                }
+                
+                // Update all metrics after loading
+                updateAllMetrics();
             }
 
             console.log("✅ Audit loaded successfully");
@@ -124,19 +197,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     await loadAudit();
 
-    // ========================================
-    // CRITICAL FIX: ATTACH SAVE BUTTON LISTENER
-    // ========================================
+    // Save button listener
     saveBtn.addEventListener('click', async function(event) {
         // Prevent double-clicks
         if (saveBtn.disabled && saveBtn.innerText === "Syncing...") return;
 
         const victory = victoryTextarea.value.trim();
         const defeat = defeatTextarea.value.trim();
+        const social = socialRange ? parseInt(socialRange.value) : 50;
         const focus = focusRange ? parseInt(focusRange.value) : 50;
         const egoControl = egoRange ? parseInt(egoRange.value) : 50;
+        const physical = physicalRange ? parseInt(physicalRange.value) : 50;
+        const discipline = calculateDiscipline(social, focus, egoControl, physical);
 
-        console.log("📤 Saving audit data:", { victory, defeat, focus, egoControl }); // Debug log
+        console.log("📤 Saving audit data:", { victory, defeat, social, focus, egoControl, physical, discipline });
 
         const originalText = saveBtn.innerText;
         saveBtn.disabled = true;
@@ -148,17 +222,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 body: JSON.stringify({
                     victory,
                     defeat,
+                    social,
                     focus,
-                    ego_control: egoControl
+                    ego_control: egoControl,
+                    physical,
+                    discipline
                 })
             });
 
-            console.log("📥 Server response:", data); // Debug log
+            console.log("📥 Server response:", data);
 
             if (data.success) {
                 showToast("🔥 Audit Sealed Successfully");
                 
-                // Optional: Navigate back after delay
                 setTimeout(() => {
                     window.location.replace('index2.html');
                 }, 1000);
@@ -175,5 +251,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    console.log("✅ Mental audit page initialized with save listener attached");
+    console.log("✅ Mental audit page initialized with all metrics");
 });
